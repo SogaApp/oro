@@ -51,7 +51,8 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 		    ->leftJoin("c.cargoRel","cargoRel")
 		    ->leftJoin("c.categoriaRel","categoriaRel")
 		    ->leftJoin("c.clienteRel","clienteRel")
-		    ->leftJoin("c.prioridadRel","prioridadRel");
+		    ->leftJoin("c.prioridadRel","prioridadRel")
+	        ->where("c.codigoClienteFk =  {$codigoCliente}");
 
 	    return $qb->getQuery()->getResult();
     }

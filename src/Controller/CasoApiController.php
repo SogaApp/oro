@@ -12,19 +12,17 @@ use App\Entity\Caso;
 class CasoApiController extends FOSRestController {
 
 	/**
-	 * @Rest\Get("/api/caso/lista/{codigoCliente}/{codigoCaso}", requirements={"codigoCaso" = "\d+","codigoCliente" = "\d+"}, defaults={"codigoCaso" = 0,"codigoCliente" = 0} )
+	 * @Rest\Get("/api/caso/lista/{codigoCliente}", requirements={"codigoCliente" = "\d+"}, defaults={"codigoCliente" = 0} )
 	 */
 
 	// listar los casos de un cliente al logueo
-	public function lista( Request $request, $codigoCaso, $codigoCliente ) {
+	public function lista( Request $request, $codigoCliente ) {
 
 		set_time_limit(0);
         ini_set("memory_limit", -1);
 
-		if($codigoCaso == 0){
+		if($codigoCliente != 0){
 			$restresult = $this->getDoctrine()->getRepository('App:Caso')->listarPorEmpresa($codigoCliente);
-		} else {
-			$restresult = $this->getDoctrine()->getRepository('App:Caso')->listarPorCaso($codigoCaso);
 		}
 
 		if ($restresult === null) {
