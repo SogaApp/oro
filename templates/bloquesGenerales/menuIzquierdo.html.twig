@@ -1,0 +1,153 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="left side-menu">
+    <div class="sidebar-inner slimscrollleft">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <ul>
+                <li class="menu-title">Principal</li>
+
+
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect active"><i class="glyphicon glyphicon-phone-alt"></i> <span> Gestión Llamadas </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+
+                        <li class="has_sub">
+                            <a href="{{ path('listadoLlamadas') }}" class="waves-effect">
+                                <i class="mdi mdi-phone-incoming"></i>
+                                {#<span class="label label-success pull-right">2</span>#}
+                                <span> Listar Llamadas</span>
+                            </a>
+                        </li>
+                        {#<li class="has_sub">#}
+                            {#<a href="{{ path('registrarLlamada') }}" class="waves-effect">#}
+                                {#<i class="mdi mdi-phone-incoming"></i>#}
+                                {#<span class="label label-success pull-right">2</span>#}
+                                {#<span> Nueva Llamada</span>#}
+                            {#</a>#}
+                        {#</li>#}
+                        <li class="has_sub">
+                            <a href="{{ path('listadoLlamadasUsuario') }}" class="waves-effect">
+                                <i class="mdi mdi-phone-classic"></i>
+                                {#<span class="label label-success pull-right">2</span>#}
+                                <span> Mis Llamadas</span>
+                            </a>
+                        </li>
+                        <li class="has_sub">
+                            <a href="{{ path('listadoLlamadasReporte') }}" class="waves-effect">
+                                <i class="glyphicon glyphicon-time"></i>
+                                <span>Histórico</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect active"><i class="glyphicon glyphicon-th-list"></i> <span> Tareas </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+
+                        <li class="has_sub">
+                            <a href="{{ path('listaTareaGeneral') }}" class="waves-effect">
+                                <i class="glyphicon glyphicon-th-large"></i>
+                                <span> Listar tareas</span>
+                            </a>
+                        </li>
+                        <li class="has_sub">
+                            <a href="{{ path('listaTareaUsuario') }}" class="waves-effect">
+                                <i class="glyphicon glyphicon-th"></i>
+                                <span> Mis tareas</span>
+                            </a>
+                        </li>
+                        <li class="has_sub">
+                            <a href="{{ path('listaTareaHistorico') }}" class="waves-effect">
+                                <i class="glyphicon glyphicon-time"></i>
+                                <span>Histórico</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span> Casos (Incidencias) </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ path('listadoCasos') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Listado General</span>
+                            </a></li>
+                        <li><a href="{{ path('registrarCaso') }}">
+                                <i class="glyphicon glyphicon-inbox"></i>
+                                <span>Nuevo Caso</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Admin UI </span> <span class="menu-arrow"></span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#">Sweet Alert</a></li>#}
+                        {#<li><a href="#">Widgets</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {#<li>#}
+                    {#<a href="#" class="waves-effect"><i class="mdi mdi-calendar"></i><span> Calendar </span></a>#}
+                {#</li>#}
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-email"></i><span> Email </span> <span class="menu-arrow"></span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#"> Inbox</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Icons </span> <span class="menu-arrow"></span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#">Glyphicons</a></li>#}
+                        {#<li><a href="#">Colored Icons</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-diamond"></i><span class="label label-info pull-right">New</span> <span> Forms </span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#">Form Elements</a></li>#}
+                        {#<li><a href="#">Form Advanced</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted"></i> <span> Tables </span> <span class="menu-arrow"></span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#">Basic Tables</a></li>#}
+                        {#<li><a href="#">Tables Layouts</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+                {#<li class="menu-title">Extra</li>#}
+
+                {#<li class="has_sub">#}
+                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-arc"></i><span> Charts </span> <span class="menu-arrow"></span></a>#}
+                    {#<ul class="list-unstyled">#}
+                        {#<li><a href="#">Flot Chart</a></li>#}
+                        {#<li><a href="#">Morris Chart</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+        <div class="clearfix"></div>
+
+        <div class="help-box">
+            <h5 class="text-muted m-t-0">¿Soporte?</h5>
+            <p class=""><span class="text-custom">Correo:</span> <br/> desarrollo4@appsoga.com</p>
+            <p class="m-b-0"><span class="text-custom">Teléfono:</span> <br/> (+57) 304 559 9915</p>
+        </div>
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->

@@ -51,7 +51,7 @@ class CasoController extends Controller
             return $this->redirect($this->generateUrl('listadoCasos'));
         }
 
-        return $this->render('App:Caso:nuevo.html.twig',
+        return $this->render('Caso/nuevo.html.twig',
             array(
                 'form' => $form->createView(),
             ));
@@ -133,7 +133,7 @@ class CasoController extends Controller
             return $this->redirect($this->generateUrl('listadoCasos'));
         }
 
-        return $this->render('App:Caso:listar.html.twig', [
+        return $this->render('Caso/listar.html.twig', [
             'casos' => $arCaso,
             'form' => $form->createView(),
             'formFiltro' => $formFiltro->createView ()

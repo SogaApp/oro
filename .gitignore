@@ -4,6 +4,8 @@
 /public/bundles/
 /var/
 /vendor/
+composer.lock
+.idea
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###

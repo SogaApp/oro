@@ -61,7 +61,7 @@ class TareaController extends Controller
             return $this->redirect($this->generateUrl('listaTareaGeneral'));
         }
 
-        return $this->render('App:Tarea:crear.html.twig',
+        return $this->render('Tarea/crear.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -128,7 +128,7 @@ class TareaController extends Controller
         }
 
         $arTarea = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1),20);
-        return $this->render('App:Tarea:listar.html.twig', [
+        return $this->render('Tarea/listar.html.twig', [
             'tareas' => $arTarea,
             'sinTerminar' => $sinTerminar,
             'sinAsignar' => $sinAsignar,
@@ -186,7 +186,7 @@ class TareaController extends Controller
         }
 
 
-        return $this->render('App:Tarea:listarUsuario.html.twig', [
+        return $this->render('Tarea/listarUsuario.html.twig', [
             'tareas' => $arTarea,
             'sinTerminar' => $sinTerminar,
             'sinVerificar' => $sinVerificar,
@@ -222,7 +222,7 @@ class TareaController extends Controller
             echo "<script>window.opener.location.reload();window.close()</script>";
         }
 
-        return $this->render('App:Tarea:comentario.html.twig', [
+        return $this->render('Tarea/comentario.html.twig', [
             'form' => $form->createView(),
         ]);
 
@@ -239,7 +239,7 @@ class TareaController extends Controller
         $arTarea = $em->getRepository('App:Tarea')->findBy(array('estadoVerificado' => true), array('fechaRegistro' => 'DESC'));
 
         // en index pagina con datos generales de la app
-        return $this->render('App:Tarea:listarHistorico.html.twig', [
+        return $this->render('Tarea/listarHistorico.html.twig', [
             'tareas' => $arTarea,
         ]);
     }

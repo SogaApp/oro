@@ -55,7 +55,7 @@ class AdminController extends Controller
                     return $this->redirect($this->generateUrl('listaUsuario'));
                 }
 
-                return $this->render('App:Admin:editarUsuario.html.twig', [
+                return $this->render('Admin/editarUsuario.html.twig', [
                     'usuarios' => $arUsuario,
                     'form' => $form->createView()
                 ]);
@@ -73,7 +73,7 @@ class AdminController extends Controller
                 return $this->redirect($this->generateUrl('listaUsuario'));
             }
 
-            return $this->render('App:Admin:crearUsuario.html.twig',
+            return $this->render('Admin/crearUsuario.html.twig',
                 array(
                     'form' => $form->createView(),
 
@@ -92,7 +92,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arUsuarios = $em->getRepository('App:Usuario')->findAll(); // consulta todas las llamdas por fecha descendente
         // en index pagina con datos generales de la app
-        return $this->render('App:Admin:listaUsuario.html.twig', [
+        return $this->render('Admin/listaUsuario.html.twig', [
             'usuarios' => $arUsuarios,
         ]);
     }
@@ -130,7 +130,7 @@ class AdminController extends Controller
                     return $this->redirect($url);
                 }
 
-                return $this->render('App:Admin:editarUsuario.html.twig', [
+                return $this->render('Admin/editarUsuario.html.twig', [
                     'clientes' => $arCliente,
                     'form' => $form->createView()
                 ]);
@@ -148,7 +148,7 @@ class AdminController extends Controller
                 return $this->redirect($this->generateUrl('listaCliente'));
             }
 
-            return $this->render('App:Admin:crearCliente.html.twig',
+            return $this->render('Admin/crearCliente.html.twig',
                 array(
                     'form' => $form->createView(),
 
@@ -170,7 +170,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arClientes = $em->getRepository('App:Cliente')->findAll(); // consulta todas las llamdas por fecha descendente
         // en index pagina con datos generales de la app
-        return $this->render('App:Admin:listaCliente.html.twig', [
+        return $this->render('Admin/listaCliente.html.twig', [
             'clientes' => $arClientes,
         ]);
     }
@@ -207,7 +207,7 @@ class AdminController extends Controller
                     return $this->redirect($this->generateUrl('listaCategoria'));
                 }
 
-                return $this->render('App:Admin:editarUsuario.html.twig', [
+                return $this->render('Admin/editarUsuario.html.twig', [
                     'categorias' => $arCategoria,
                     'form' => $form->createView()
                 ]);
@@ -225,7 +225,7 @@ class AdminController extends Controller
                 return $this->redirect($this->generateUrl('listaCategoria'));
             }
 
-            return $this->render('App:Admin:crearCategoria.html.twig',
+            return $this->render('Admin/crearCategoria.html.twig',
                 array(
                     'form' => $form->createView(),
 
@@ -245,7 +245,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arCategorias = $em->getRepository('App:LlamadaCategoria')->findAll(); // consulta todas las llamdas por fecha descendente
         // en index pagina con datos generales de la app
-        return $this->render('App:Admin:listaCategoria.html.twig', [
+        return $this->render('Admin/listaCategoria.html.twig', [
             'categorias' => $arCategorias,
         ]);
     }
@@ -277,7 +277,7 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('listaModulo'));
         }
 
-        return $this->render('App:Admin:crearModulo.html.twig',
+        return $this->render('Admin/crearModulo.html.twig',
             array(
                 'form' => $form->createView(),
             ));
@@ -294,7 +294,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arModulos = $em->getRepository('App:Modulo')->findAll(); // consulta todas las llamdas por fecha descendente
         // en index pagina con datos generales de la app
-        return $this->render('App:Admin:listaModulo.html.twig', [
+        return $this->render('Admin/listaModulo.html.twig', [
             'modulos' => $arModulos,
         ]);
     }
