@@ -34,7 +34,7 @@ class CasoApiController extends FOSRestController {
 	}
 
 	/**
-	 * @Rest\Post("/api/nuevo/casos")
+	 * @Rest\Post("/api/caso/nuevo")
 	 */
 	// crear nuevo caso de un cliente
 	public function nuevo( Request $request) {
