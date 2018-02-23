@@ -19,4 +19,19 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
         return $dql;
     }
+
+    public function listarPorEmpresa($codigoCliente){
+
+	    $em = $this->getEntityManager();
+	    $qb = $em->createQueryBuilder();
+	    $qb->from("App:Caso", "c")
+	       ->select("c.codigoCasoPk")
+	       ->addSelect("c.asunto")
+	       ->addSelect("c.codigoAreaFk")
+	       ->addSelect("c.codigoCargoFk")
+		   ->addSelect("c.codigoClienteFk")
+		   ->addSelect("c.codigoPrioridadFk")
+	       ->addSelect("c.codigoCategoriaCasoFk");
+	    return $qb->getQuery()->getResult();
+    }
 }
