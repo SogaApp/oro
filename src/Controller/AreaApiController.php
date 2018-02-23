@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AreaApiController extends FOSRestController {
 
 	/**
-	 * @Rest\Get("/api/lista/area")
+	 * @Rest\Get("/api/area/lista")
 	 */
 	public function lista( Request $request) {
 		

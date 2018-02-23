@@ -24,7 +24,7 @@ class CasoApiController extends FOSRestController {
 		if($codigoCaso == 0){
 			$restresult = $this->getDoctrine()->getRepository('App:Caso')->listarPorEmpresa($codigoCliente);
 		} else {
-			$restresult = $this->getDoctrine()->getRepository('App:Caso')->findBy(array('codigoClienteFk' => $codigoCliente,'codigoCasoPk' => $codigoCaso));
+			$restresult = $this->getDoctrine()->getRepository('App:Caso')->listarPorCaso($codigoCaso);
 		}
 
 		if ($restresult === null) {

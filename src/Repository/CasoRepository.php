@@ -53,4 +53,39 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
 	    return $qb->getQuery()->getResult();
     }
+
+	public function listarPorCaso($codigoCaso){
+
+		$em = $this->getEntityManager();
+		$qb = $em->createQueryBuilder();
+		$qb->from("App:Caso", "c")
+		   ->select("c.codigoCasoPk")
+		   ->addSelect("c.asunto")
+		   ->addSelect("c.contacto")
+		   ->addSelect("c.correo")
+		   ->addSelect("c.descripcion")
+		   ->addSelect("c.telefono")
+		   ->addSelect("c.solucion")
+		   ->addSelect("c.soporte")
+		   ->addSelect("c.extension")
+		   ->addSelect("c.estadoAtendido")
+		   ->addSelect("c.estadoSolucionado")
+		   ->addSelect("c.usuario")
+		   ->addSelect("c.fechaRegistro")
+		   ->addSelect("c.fechaGestion")
+		   ->addSelect("c.fechaSolucion")
+		   ->addSelect("areaRel.nombre")
+		   ->addSelect("cargoRel.nombre as cargo" )
+		   ->addSelect("categoriaRel.nombre as categoria")
+		   ->addSelect("clienteRel.nombreComercial as empresa")
+		   ->addSelect("prioridadRel.nombre as prioridad")
+		   ->leftJoin("c.areaRel","areaRel")
+		   ->leftJoin("c.cargoRel","cargoRel")
+		   ->leftJoin("c.categoriaRel","categoriaRel")
+		   ->leftJoin("c.clienteRel","clienteRel")
+		   ->leftJoin("c.prioridadRel","prioridadRel")
+		   ->where("c.codigoCasoPk = {$codigoCaso}");
+
+		return $qb->getQuery()->getResult();
+	}
 }
