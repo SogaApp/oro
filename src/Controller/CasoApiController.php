@@ -12,7 +12,7 @@ use App\Entity\Caso;
 class CasoApiController extends FOSRestController {
 
 	/**
-	 * @Rest\Get("/api/casos/lista/{codigoCliente}/{codigoCaso}", requirements={"codigoCaso" = "\d+","codigoCliente" = "\d+"}, defaults={"codigoCaso" = 0,"codigoCliente" = 0} )
+	 * @Rest\Get("/api/caso/lista/{codigoCliente}/{codigoCaso}", requirements={"codigoCaso" = "\d+","codigoCliente" = "\d+"}, defaults={"codigoCaso" = 0,"codigoCliente" = 0} )
 	 */
 
 	// listar los casos de un cliente al logueo
