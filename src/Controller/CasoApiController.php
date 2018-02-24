@@ -66,7 +66,7 @@ class CasoApiController extends FOSRestController
   /*
    * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
    * $boolEstado = 0 == false
-   * $boolEstado = 0 == true
+   * $boolEstado = 1 == true
    * Lista los casos de un cliente filtrados por el estado de Atendido
    */
   public function listaAtendidos(Request $request, $intCodigoCliente, $boolEstado)
@@ -91,7 +91,7 @@ class CasoApiController extends FOSRestController
   /*
    * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
    * $boolEstado = 0 == false
-   * $boolEstado = 0 == true
+   * $boolEstado = 1 == true
    * Lista los casos de un cliente filtrados por el estado de Solucionado
    */
   public function listaSolucionados(Request $request, $intCodigoCliente, $boolEstado)
