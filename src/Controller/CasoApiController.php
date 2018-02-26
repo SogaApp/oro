@@ -50,7 +50,7 @@ class CasoApiController extends FOSRestController
     set_time_limit(0);
     ini_set("memory_limit", -1);
 
-    if ($intCodigoCliente != 0 && $intCodigoCaso != 0) {
+    if ($intCodigoCaso != 0) {
       $jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->listarPorCaso($intCodigoCliente, $intCodigoCaso);
     }
 
@@ -75,7 +75,7 @@ class CasoApiController extends FOSRestController
     set_time_limit(0);
     ini_set("memory_limit", -1);
 
-    if ($intCodigoCliente != 0 && $boolEstado <= 1 && $boolEstado > -1) {
+    if ($boolEstado <= 1 && $boolEstado > -1) {
       $jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->listarPorEstadoAtendido($intCodigoCliente, $boolEstado);
     }
 
@@ -100,7 +100,7 @@ class CasoApiController extends FOSRestController
     set_time_limit(0);
     ini_set("memory_limit", -1);
 
-    if ($intCodigoCliente != 0 && $boolEstado <= 1 && $boolEstado > -1) {
+    if ($boolEstado <= 1 && $boolEstado > -1) {
       $jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->listarPorEstadoSolucionado($intCodigoCliente, $boolEstado);
     }
 
