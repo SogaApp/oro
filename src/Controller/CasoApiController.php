@@ -75,7 +75,7 @@ class CasoApiController extends FOSRestController
     set_time_limit(0);
     ini_set("memory_limit", -1);
 
-    if ($intCodigoCliente != 0 && $boolEstado <= 0 && $boolEstado > -1) {
+    if ($intCodigoCliente != 0 && $boolEstado <= 1 && $boolEstado > -1) {
       $jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->listarPorEstadoAtendido($intCodigoCliente, $boolEstado);
     }
 
