@@ -13,13 +13,13 @@ class CargoApiController extends FOSRestController
 {
 
     /**
-     * @Rest\Get("/api/lista/cargo")
+     * @Rest\Get("/api/cargo/lista")
      */
     public function lista(Request $request)
     {
 
 
-        $restresult = $this->getDoctrine()->getRepository('App:Cargo')->findAll();
+        $restresult = $this->getDoctrine()->getRepository('App:Cargo')->listarCargos();
 
         if ($restresult === null) {
             return new View("No hay cargos", Response::HTTP_NOT_FOUND);

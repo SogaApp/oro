@@ -75,14 +75,14 @@ class TareaController extends Controller
     public function listaGeneral(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');
-        $arTarea = new \App\Entity\Tarea();
-     //   $session = $this->get('session');
+//        $paginator = $this->get('knp_paginator');
+//        $arTarea = new \App\Entity\Tarea();
+        //   $session = $this->get('session');
 //        $session->set('filtroEstado', 2);
         $formFiltro = $this->formularioFiltro();
         $formFiltro->handleRequest($request);
         $this->listar();
-        if ($formFiltro->isValid()) {
+        if ($formFiltro->isSubmitted() && $formFiltro->isValid()) {
             if ($formFiltro->get('BtnFiltrar')->isClicked()) {
                 $this->filtrar($formFiltro);
                 $this->listar();
@@ -98,6 +98,7 @@ class TareaController extends Controller
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                 }
+                $em->persist($arTarea);
             }
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
@@ -106,8 +107,8 @@ class TareaController extends Controller
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }
+                $em->persist($arTarea);
             }
-            $em->persist($arTarea);
             $em->flush();
             return $this->redirect($this->generateUrl('listaTareaGeneral'));
 
@@ -117,6 +118,7 @@ class TareaController extends Controller
         $sinAsignar = 0;
         $sinVerificar = 0;
 
+        $arTarea = $em->createQuery($this->strDqlLista)->getResult();
         foreach ($arTarea as $key => $value) {
             if ($value->getCodigoUsuarioAsignaFk() == null) {
                 $sinAsignar++;
@@ -127,7 +129,7 @@ class TareaController extends Controller
             }
         }
 
-        $arTarea = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1),20);
+//        $arTarea = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('Tarea/listar.html.twig', [
             'tareas' => $arTarea,
             'sinTerminar' => $sinTerminar,

@@ -11,14 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 class AreaApiController extends FOSRestController {
 
 	/**
-	 * @Rest\Get("/api/lista/area")
+	 * @Rest\Get("/api/area/lista")
 	 */
 	public function lista( Request $request) {
-		ob_clean();
+		
 		set_time_limit(0);
 		ini_set("memory_limit", -1);
 
-		$restresult = $this->getDoctrine()->getRepository('App:Area')->findAll();
+
+
+		$restresult = $this->getDoctrine()->getRepository('App:Area')->listarAreas();
 
 		if ($restresult === null) {
 			return new View("No hay areas", Response::HTTP_NOT_FOUND);

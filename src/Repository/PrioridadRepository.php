@@ -9,7 +9,16 @@
 namespace App\Repository;
 
 
-class PrioridadRepository extends \Doctrine\ORM\EntityRepository
-{
+class PrioridadRepository extends \Doctrine\ORM\EntityRepository{
+	public function listarPrioridades(){
+
+		$em = $this->getEntityManager();
+		$qb = $em->createQueryBuilder();
+		$qb->from("App:Prioridad", "a")
+		   ->select("a.codigo_prioridad_pk")
+		   ->addSelect("a.color")
+		   ->addSelect("a.nombre");
+		return $qb->getQuery()->getResult();
+	}
 
 }

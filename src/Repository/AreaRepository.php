@@ -10,4 +10,13 @@ namespace App\Repository;
  */
 class AreaRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function listarAreas(){
+
+		$em = $this->getEntityManager();
+		$qb = $em->createQueryBuilder();
+		$qb->from("App:Area", "a")
+			->select("a.codigoAreaPk")
+			->addSelect("a.nombre");
+		return $qb->getQuery()->getResult();
+	}
 }

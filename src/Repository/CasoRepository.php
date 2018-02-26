@@ -10,13 +10,223 @@ namespace App\Repository;
  */
 class CasoRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function filtroDQL($codigoClientePk = 0) {
-        $dql   = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
-        if ($codigoClientePk <> 0){
-           $dql .= " AND e.codigoClientePk =" . $codigoClientePk;
-        }
-        $dql .= " ORDER BY d.fechaRegistro ASC";
-
-        return $dql;
+  public function filtroDQL($intCodigoClientePk = 0)  {
+    $dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
+    if ($intCodigoClientePk <> 0) {
+      $dql .= " AND e.codigoClientePk =" . $intCodigoClientePk;
     }
+    $dql .= " ORDER BY d.fechaRegistro ASC";
+
+    return $dql;
+  }
+
+
+  // API Functions
+  public function listarPorEmpresa($intCodigoCliente)
+  {
+
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+    $qb->from("App:Caso", "c")
+      ->select("c.codigoCasoPk")
+      ->addSelect("c.asunto")
+      ->addSelect("c.contacto")
+      ->addSelect("c.correo")
+      ->addSelect("c.descripcion")
+      ->addSelect("c.telefono")
+      ->addSelect("c.solucion")
+      ->addSelect("c.soporte")
+      ->addSelect("c.extension")
+      ->addSelect("c.estadoAtendido")
+      ->addSelect("c.estadoSolucionado")
+      ->addSelect("c.usuario")
+      ->addSelect("c.fechaRegistro")
+      ->addSelect("c.fechaGestion")
+      ->addSelect("c.fechaSolucion")
+      ->addSelect("areaRel.nombre")
+      ->addSelect("cargoRel.nombre as cargo")
+      ->addSelect("categoriaRel.nombre as categoria")
+      ->addSelect("clienteRel.nombreComercial as empresa")
+      ->addSelect("prioridadRel.nombre as prioridad")
+      ->addSelect("prioridadRel.color as prioridadColor")
+      ->addSelect("categoriaRel.color as categoriaColor")
+      ->leftJoin("c.areaRel", "areaRel")
+      ->leftJoin("c.cargoRel", "cargoRel")
+      ->leftJoin("c.categoriaRel", "categoriaRel")
+      ->leftJoin("c.clienteRel", "clienteRel")
+      ->leftJoin("c.prioridadRel", "prioridadRel")
+      ->where("c.codigoClienteFk =  {$intCodigoCliente}")
+      ->andWhere("c.estadoSolucionado =  false");
+
+    return $qb->getQuery()->getResult();
+  }
+
+  public function listarPorCaso($intCodigoEmpresa,$intCodigoCaso)
+  {
+
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+    $qb->from("App:Caso", "c")
+      ->select("c.codigoCasoPk")
+      ->addSelect("c.asunto")
+      ->addSelect("c.contacto")
+      ->addSelect("c.correo")
+      ->addSelect("c.descripcion")
+      ->addSelect("c.telefono")
+      ->addSelect("c.solucion")
+      ->addSelect("c.soporte")
+      ->addSelect("c.extension")
+      ->addSelect("c.estadoAtendido")
+      ->addSelect("c.estadoSolucionado")
+      ->addSelect("c.usuario")
+      ->addSelect("c.fechaRegistro")
+      ->addSelect("c.fechaGestion")
+      ->addSelect("c.fechaSolucion")
+      ->addSelect("areaRel.nombre")
+      ->addSelect("cargoRel.nombre as cargo")
+      ->addSelect("categoriaRel.nombre as categoria")
+      ->addSelect("categoriaRel.color as categoriaColor")
+      ->addSelect("clienteRel.nombreComercial as empresa")
+      ->addSelect("prioridadRel.nombre as prioridad")
+      ->addSelect("prioridadRel.color as prioridadColor")
+      ->leftJoin("c.areaRel", "areaRel")
+      ->leftJoin("c.cargoRel", "cargoRel")
+      ->leftJoin("c.categoriaRel", "categoriaRel")
+      ->leftJoin("c.clienteRel", "clienteRel")
+      ->leftJoin("c.prioridadRel", "prioridadRel")
+      ->where("c.codigoCasoPk = {$intCodigoCaso}")
+      ->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+
+    return $qb->getQuery()->getResult();
+  }
+
+  public function listarPorEstadoAtendido($intCodigoEmpresa,$boolEstado)
+  {
+
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+    $qb->from("App:Caso", "c")
+      ->select("c.codigoCasoPk")
+      ->addSelect("c.asunto")
+      ->addSelect("c.contacto")
+      ->addSelect("c.correo")
+      ->addSelect("c.descripcion")
+      ->addSelect("c.telefono")
+      ->addSelect("c.solucion")
+      ->addSelect("c.soporte")
+      ->addSelect("c.extension")
+      ->addSelect("c.estadoAtendido")
+      ->addSelect("c.estadoSolucionado")
+      ->addSelect("c.usuario")
+      ->addSelect("c.fechaRegistro")
+      ->addSelect("c.fechaGestion")
+      ->addSelect("c.fechaSolucion")
+      ->addSelect("areaRel.nombre")
+      ->addSelect("cargoRel.nombre as cargo")
+      ->addSelect("categoriaRel.nombre as categoria")
+      ->addSelect("categoriaRel.color as categoriaColor")
+      ->addSelect("clienteRel.nombreComercial as empresa")
+      ->addSelect("prioridadRel.nombre as prioridad")
+      ->addSelect("prioridadRel.color as prioridadColor")
+      ->leftJoin("c.areaRel", "areaRel")
+      ->leftJoin("c.cargoRel", "cargoRel")
+      ->leftJoin("c.categoriaRel", "categoriaRel")
+      ->leftJoin("c.clienteRel", "clienteRel")
+      ->leftJoin("c.prioridadRel", "prioridadRel");
+    if($boolEstado == 0):
+      $qb->where("c.estadoAtendido = false");
+    else:
+      $qb->where("c.estadoAtendido = true");
+    endif;
+    $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+
+    return $qb->getQuery()->getResult();
+
+  }
+
+  public function listarPorEstadoSolucionado($intCodigoEmpresa,$boolEstado)
+  {
+
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+    $qb->from("App:Caso", "c")
+      ->select("c.codigoCasoPk")
+      ->addSelect("c.asunto")
+      ->addSelect("c.contacto")
+      ->addSelect("c.correo")
+      ->addSelect("c.descripcion")
+      ->addSelect("c.telefono")
+      ->addSelect("c.solucion")
+      ->addSelect("c.soporte")
+      ->addSelect("c.extension")
+      ->addSelect("c.estadoAtendido")
+      ->addSelect("c.estadoSolucionado")
+      ->addSelect("c.usuario")
+      ->addSelect("c.fechaRegistro")
+      ->addSelect("c.fechaGestion")
+      ->addSelect("c.fechaSolucion")
+      ->addSelect("areaRel.nombre")
+      ->addSelect("cargoRel.nombre as cargo")
+      ->addSelect("categoriaRel.nombre as categoria")
+      ->addSelect("categoriaRel.color as categoriaColor")
+      ->addSelect("clienteRel.nombreComercial as empresa")
+      ->addSelect("prioridadRel.nombre as prioridad")
+      ->addSelect("prioridadRel.color as prioridadColor")
+      ->leftJoin("c.areaRel", "areaRel")
+      ->leftJoin("c.cargoRel", "cargoRel")
+      ->leftJoin("c.categoriaRel", "categoriaRel")
+      ->leftJoin("c.clienteRel", "clienteRel")
+      ->leftJoin("c.prioridadRel", "prioridadRel");
+    if ($boolEstado == 0):
+      $qb->where("c.estadoSolucionado = false");
+    else:
+      $qb->where("c.estadoSolucionado = true");
+    endif;
+    $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+
+    return $qb->getQuery()->getResult();
+  }
+
+  public function listarPorPropiedad($strPropiedad , $value , $strOrder, $intCodigoCliente,$strPropiedadOrdenar){
+
+    $em = $this->getEntityManager();
+    $qb = $em->createQueryBuilder();
+    $qb->from("App:Caso", "c")
+      ->select("c.codigoCasoPk")
+      ->addSelect("c.asunto")
+      ->addSelect("c.contacto")
+      ->addSelect("c.correo")
+      ->addSelect("c.descripcion")
+      ->addSelect("c.telefono")
+      ->addSelect("c.solucion")
+      ->addSelect("c.soporte")
+      ->addSelect("c.extension")
+      ->addSelect("c.estadoAtendido")
+      ->addSelect("c.estadoSolucionado")
+      ->addSelect("c.usuario")
+      ->addSelect("c.fechaRegistro")
+      ->addSelect("c.fechaGestion")
+      ->addSelect("c.fechaSolucion")
+      ->addSelect("areaRel.nombre")
+      ->addSelect("cargoRel.nombre as cargo")
+      ->addSelect("categoriaRel.nombre as categoria")
+      ->addSelect("categoriaRel.color as categoriaColor")
+      ->addSelect("clienteRel.nombreComercial as empresa")
+      ->addSelect("prioridadRel.nombre as prioridad")
+      ->addSelect("prioridadRel.color as prioridadColor")
+      ->leftJoin("c.areaRel", "areaRel")
+      ->leftJoin("c.cargoRel", "cargoRel")
+      ->leftJoin("c.categoriaRel", "categoriaRel")
+      ->leftJoin("c.clienteRel", "clienteRel")
+      ->leftJoin("c.prioridadRel", "prioridadRel")
+      ->where("c.{$strPropiedad} = {$value}")
+      ->andWhere("c.codigoClienteFk = {$intCodigoCliente}");
+      if($strPropiedadOrdenar != ''):
+        $qb->orderBy("c.{$strPropiedadOrdenar}","{$strOrder}");
+      else:
+        return $qb->getQuery()->getResult();
+      endif;
+      return $qb->getQuery()->getResult();
+
+  }
 }

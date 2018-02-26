@@ -10,12 +10,12 @@ use FOS\RestBundle\View\View;
 class CasoCategoriaApiController extends FOSRestController {
 
 	/**
-	 * @Rest\Get("/api/lista/caso/categoria")
+	 * @Rest\Get("/api/caso/lista/categoria")
 	 */
 	public function lista( Request $request) {
 
 
-		$restresult = $this->getDoctrine()->getRepository('App:CasoCategoria')->findAll();
+		$restresult = $this->getDoctrine()->getRepository('App:CasoCategoria')->listarCategorias();
 
 		if ($restresult === null) {
 			return new View("No hay categorias", Response::HTTP_NOT_FOUND);
