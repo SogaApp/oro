@@ -33,24 +33,23 @@
 
                                     <div class="table-responsive">
                                         {{form_start(form) }}
-                                        <div class="card-box">
-                                            <div class="col-sm-11">
-                                                {{ form_widget(formFiltro.clienteRel) }}
-                                            </div>
-                                            <div class="col-md-11" style="text-align: right;padding: 10px;">
-                                                {{ form_widget(formFiltro.btnFiltrar) }}
-                                            </div>
-                                        </div>
-                                        <table class="table table-hover m-0 table-oro">
+                                        {#<div class="card-box">#}
+                                            {#<div class="col-sm-11">#}
+                                                {#{{ form_widget(formFiltro.clienteRel) }}#}
+                                            {#</div>#}
+                                            {#<div class="col-md-11" style="text-align: right;padding: 10px;">#}
+                                                {#{{ form_widget(formFiltro.btnFiltrar) }}#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                        <table id="casos-general" class="table table-hover m-0 table-oro ">
 
                                             <thead>
                                                 <tr>
+                                                    <th>Id</th>
                                                     <th>Fecha</th>
-                                                    <th>Asunto</th>
                                                     <th>Cliente</th>
                                                     <th>Correo</th>
                                                     <th>Contacto</th>
-                                                    <th>Teléfono</th>
                                                     {#<th>Ext.</th>#}
                                                     <th>Categoría</th>
                                                     <th>Descripción</th>
@@ -67,18 +66,17 @@
                                             <tbody>
                                                 {% for caso in casos %}
                                             <tr>
+                                                <td>{{ caso.codigoCasoPk }}</td>
                                                 <td>{{ caso.fechaRegistro|date('y-m-d') }}</td>
-                                                <td>{{ caso.asunto }}</td>
                                                 <td>
                                                     <strong>{{ caso.clienteRel.nombreComercial }}</strong>
                                                 </td>
                                                 <td>{{ caso.correo }}</td>
                                                 <td>{{ caso.contacto }}</td>
-                                                <td>{{ caso.telefono }} - ({{ caso.extension }})</td>
                                                 <td>
                                                     <span class="label" style="background-color: {{ caso.categoriaRel.color }}">{{ caso.categoriaRel.codigoCategoriaCasoPk }}</span>
                                                 </td>
-                                                <td>{{ caso.descripcion }}</td>
+                                                <td><strong>{{ caso.asunto }} </strong> - {{ caso.descripcion }}</td>
                                                 <td>
                                                     <span class="label" style="background-color: {% if caso.prioridadRel.color != null %} {{ caso.prioridadRel.color }} {% else %} #efefef {% endif %};">
                                                         {% if caso.prioridadRel is defined or caso.prioridadRel != null %}
