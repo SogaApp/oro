@@ -11,12 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use App\Entity\Llamada;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\SwiftmailerBundle;
 
 class CasoController extends Controller
 {
@@ -55,6 +57,117 @@ class CasoController extends Controller
             array(
                 'form' => $form->createView(),
             ));
+    }
+
+    /**
+     * @Route("/caso/solucion/registrar/{codigoCaso}",requirements={"codigoCaso":"\d+"}, name="registrarSolucion")
+     */
+    public function registrarSolucion(Request $request, $codigoCaso = null,  \Swift_Mailer $mailer )
+    {
+        /**
+         * @var $arCaso Caso
+         */
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+        $user = $this->getUser()->getCodigoUsuarioPk();
+
+        $form = $this->createFormBuilder()
+        ->add ('solucion', TextareaType::class,array(
+            'attr' => array(
+                'id' => '_solucion',
+                'name' => '_solucion',
+                'class' => 'form-control'
+            )
+        ))
+        ->add ('btnGuardar', SubmitType::class, array(
+            'attr' => array(
+                'id' => '_btnGuardar',
+                'name' => '_btnGuardar'
+            ), 'label' => 'GUARDAR'
+        ))
+        ->getForm();
+//        $form = $this->createForm(FormTypeCaso::class, $arCaso); //create form
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $arCaso->setCodigoUsuarioSolucionaFk($user);
+            $arCaso->setEstadoAtendido(true);
+            $arCaso->setEstadoSolucionado(true);
+            $arCaso->setSolucion($form->get('solucion')->getData());
+            $em->persist($arCaso);
+            $em->flush();
+
+            $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
+            ->setFrom('sogainformacion@gmail.com')
+                ->setTo($arCaso->getCorreo())
+                ->setBody(
+                    $this->renderView(
+                    // templates/emails/registration.html.twig
+                        'Correo/Caso/solucionado.html.twig',
+                        array('arCaso' => $arCaso)
+                    ),
+                    'text/html'
+                )
+                /*
+                 * If you also want to include a plaintext version of the message
+                ->addPart(
+                    $this->renderView(
+                        'emails/registration.txt.twig',
+                        array('name' => $name)
+                    ),
+                    'text/plain'
+                )
+                */
+            ;
+
+            $mailer->send($message);
+//
+//            $this->enviarCorreo($arCaso);
+
+            echo "<script>window.opener.location.reload();window.close()</script>";
+        }
+
+        return $this->render('Caso/solucion.html.twig', [
+            'form' => $form->createView(),
+            'arCaso' => $arCaso
+        ]);
+
+
+    }
+
+    public function enviarCorreo($arCaso)
+    {
+        /**
+         * @var $arCaso Caso
+         */
+//        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+//            ->setUsername('sogainformacion@gmail.com')
+//            ->setPassword('70143086')
+//        ;
+        $message =(new\Swift_Message('AppSoga - Solución de Caso (Incidente)'))
+            ->setFrom('sogainformacion@gmail.com')
+            ->setTo($arCaso->getCorreo())
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'Correo/Caso/solucionado.html.twig',
+                    array('arCaso' => $arCaso)
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        $mailer->send($message);
     }
 
     /**
@@ -149,7 +262,6 @@ class CasoController extends Controller
             $session->set ('filtroCasosCliente', null);
         }
     }
-
 
     private function listar($em){
         $session = new Session();

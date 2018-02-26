@@ -76,6 +76,13 @@ class FormTypeCaso extends AbstractType{
                     'class' => 'form-control'
                 )
             ))
+            ->add ('solucion', TextareaType::class,array(
+                'attr' => array(
+                    'id' => '_solucion',
+                    'name' => '_solucion',
+                    'class' => 'form-control'
+                )
+            ))
             ->add('clienteRel', EntityType::class, array(
                 'class' => 'App:Cliente',
                 'query_builder' => function (EntityRepository $er) {
