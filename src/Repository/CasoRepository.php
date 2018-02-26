@@ -10,10 +10,10 @@ namespace App\Repository;
  */
 class CasoRepository extends \Doctrine\ORM\EntityRepository
 {
-  public function filtroDQL($intCodigoClientePk = 0)  {
+  public function filtroDQL($intCodigoEmpresaPk = 0)  {
     $dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
-    if ($intCodigoClientePk <> 0) {
-      $dql .= " AND e.codigoClientePk =" . $intCodigoClientePk;
+    if ($intCodigoEmpresaPk <> 0) {
+      $dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
     }
     $dql .= " ORDER BY d.fechaRegistro ASC";
 
@@ -55,8 +55,10 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
       ->leftJoin("c.categoriaRel", "categoriaRel")
       ->leftJoin("c.clienteRel", "clienteRel")
       ->leftJoin("c.prioridadRel", "prioridadRel")
-      ->where("c.codigoClienteFk =  {$intCodigoCliente}")
-      ->andWhere("c.estadoSolucionado =  false");
+      ->where("c.estadoSolucionado =  false");
+     if($intCodigoCliente != 0):
+        $qb->where("c.codigoClienteFk =  {$intCodigoCliente}");
+     endif;
 
     return $qb->getQuery()->getResult();
   }
@@ -94,8 +96,11 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
       ->leftJoin("c.categoriaRel", "categoriaRel")
       ->leftJoin("c.clienteRel", "clienteRel")
       ->leftJoin("c.prioridadRel", "prioridadRel")
-      ->where("c.codigoCasoPk = {$intCodigoCaso}")
-      ->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+      ->where("c.codigoCasoPk = {$intCodigoCaso}");
+      if($intCodigoEmpresa != 0):
+        $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+      endif;
+
 
     return $qb->getQuery()->getResult();
   }
@@ -138,7 +143,10 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
     else:
       $qb->where("c.estadoAtendido = true");
     endif;
-    $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+    if($intCodigoEmpresa != 0):
+	    $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+    endif;
+
 
     return $qb->getQuery()->getResult();
 
@@ -182,7 +190,9 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
     else:
       $qb->where("c.estadoSolucionado = true");
     endif;
-    $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+    if($intCodigoEmpresa != 0):
+        $qb->andWhere("c.codigoClienteFk = {$intCodigoEmpresa}");
+    endif;
 
     return $qb->getQuery()->getResult();
   }
