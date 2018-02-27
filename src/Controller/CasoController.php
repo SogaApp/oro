@@ -209,7 +209,7 @@ class CasoController extends Controller {
                 }
             }
             $em->flush();
-            return $this->redirect($this->generateUrl('listadoCasos'));
+            return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }
 
         return $this->render('Caso/listar.html.twig', [
@@ -314,7 +314,7 @@ class CasoController extends Controller {
 				}
 			}
 			$em->flush();
-			return $this->redirect($this->generateUrl('listadoCasos'));
+			return $this->redirect($this->generateUrl('listadoCasosSolucionados'));
 		}
 
 		return $this->render('Caso/listar.html.twig', [
