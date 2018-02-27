@@ -27,8 +27,6 @@ jQuery(document).ready(function($){
                     "last":     'Last'
                 }
             }
-
-
         }
     });
 
