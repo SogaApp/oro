@@ -26,8 +26,12 @@
 
 /** paginador **/
 
+.dataTables_paginate{
+    text-align: left!important;
+}
+
 .dataTables_paginate > a, .dataTables_paginate > span > a{
-    padding: 0px 5px 0px 5px;
+    padding: 0px 3px 0px 3px;
     border: 2px solid;
     margin: 0px 6px;
     border-radius: 5px;
@@ -44,4 +48,8 @@
     background-color: #337ab7;
     color: #ffffff;
     border-color: #337ab7;
+}
+
+.dataTables_info{
+    display: none;
 }

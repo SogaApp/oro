@@ -172,7 +172,7 @@ class CasoController extends Controller {
 
 
 
-        if($formFiltro->isSubmitted() && $formFiltro->isValid()){
+        if($formFiltro->isSubmitted()){
             $this->filtrar($formFiltro);
             $this->listarSinSolucionar($em);
         }
