@@ -32,15 +32,16 @@
                                     <h4 class="header-title m-t-0 m-b-30"><i class="mdi mdi-phone-in-talk"></i> Listado de Casos (Incidencias)</h4>
 
                                     <div class="table-responsive">
-                                        {{form_start(form) }}
-                                        {#<div class="card-box">#}
-                                            {#<div class="col-sm-11">#}
-                                                {#{{ form_widget(formFiltro.clienteRel) }}#}
-                                            {#</div>#}
-                                            {#<div class="col-md-11" style="text-align: right;padding: 10px;">#}
-                                                {#{{ form_widget(formFiltro.btnFiltrar) }}#}
-                                            {#</div>#}
-                                        {#</div>#}
+
+                                        <div class="card-box">
+                                            {{form_start(form) }}
+                                            <div class="col-sm-11">
+                                                {{ form_widget(formFiltro.clienteRel) }}
+                                            </div>
+                                            <div class="col-md-11" style="text-align: right;padding: 10px;">
+                                                {{ form_widget(formFiltro.btnFiltrar) }}
+                                            </div>
+                                        </div>
                                         <table id="casos-general" class="table table-hover m-0 table-oro ">
 
                                             <thead>

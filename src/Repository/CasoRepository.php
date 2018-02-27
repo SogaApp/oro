@@ -10,7 +10,7 @@ namespace App\Repository;
  */
 class CasoRepository extends \Doctrine\ORM\EntityRepository
 {
-  public function filtroDQLSinSolucionar($intCodigoEmpresaPk = 0)  {
+  public function filtroDQLSinSolucionar($intCodigoEmpresaPk)  {
     $dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
     if ($intCodigoEmpresaPk <> 0) {
       $dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
@@ -22,7 +22,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
     return $dql;
   }
 
-	public function filtroDQLSolucionados($intCodigoEmpresaPk = 0)  {
+	public function filtroDQLSolucionados($intCodigoEmpresaPk)  {
 		$dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
 		if ($intCodigoEmpresaPk <> 0) {
 			$dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
