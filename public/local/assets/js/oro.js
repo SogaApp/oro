@@ -5,10 +5,11 @@ function abrirVentana(url, Nombre, Alto, Ancho) {
 jQuery(document).ready(function($){
     $("#casos-general").DataTable({
         "pagingType": "full_numbers",
+        "bLengthChange": false,
         "language": {
             "lengthMenu": "Mostrando _MENU_ registros por página",
             "zeroRecords": "No hay Registros :(",
-            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "info": "Total de registros _MAX_ ",
             "infoEmpty": "Información no disponible o no existen registros con esas características",
             "infoFiltered": "(Filtrado de _MAX_ total de registros)",
             "search": "Buscar",
