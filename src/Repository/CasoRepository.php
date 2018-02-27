@@ -10,15 +10,29 @@ namespace App\Repository;
  */
 class CasoRepository extends \Doctrine\ORM\EntityRepository
 {
-  public function filtroDQL($intCodigoEmpresaPk = 0)  {
+  public function filtroDQLSinSolucionar($intCodigoEmpresaPk = 0)  {
     $dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
     if ($intCodigoEmpresaPk <> 0) {
       $dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
     }
+
+    $dql .= " AND d.estadoSolucionado = false ";
     $dql .= " ORDER BY d.fechaRegistro ASC";
 
     return $dql;
   }
+
+	public function filtroDQLSolucionados($intCodigoEmpresaPk = 0)  {
+		$dql = "SELECT e, d FROM App:Caso d JOIN d.clienteRel e WHERE d.codigoClienteFk <> 0";
+		if ($intCodigoEmpresaPk <> 0) {
+			$dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
+		}
+
+		$dql .= " AND d.estadoSolucionado = true ";
+		$dql .= " ORDER BY d.fechaRegistro ASC";
+
+		return $dql;
+	}
 
 
   // API Functions
@@ -56,8 +70,8 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
       ->leftJoin("c.cargoRel", "cargoRel")
       ->leftJoin("c.categoriaRel", "categoriaRel")
       ->leftJoin("c.clienteRel", "clienteRel")
-      ->leftJoin("c.prioridadRel", "prioridadRel")
-      ->where("c.estadoSolucionado =  false");
+      ->leftJoin("c.prioridadRel", "prioridadRel");
+
      if($intCodigoCliente != 0):
         $qb->where("c.codigoClienteFk =  {$intCodigoCliente}");
      endif;

@@ -70,9 +70,13 @@
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span> Casos (Incidencias) </span> <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="{{ path('listadoCasos') }}">
+                        <li><a href="{{ path('listadoCasosSinSolucionar') }}">
                                 <i class="glyphicon glyphicon-list-alt"></i>
-                                <span>Listado General</span>
+                                <span>Listado casos sin solucionar</span>
+                            </a></li>
+                        <li><a href="{{ path('listadoCasosSolucionados') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Listado casos solucionados</span>
                             </a></li>
                         <li><a href="{{ path('registrarCaso') }}">
                                 <i class="glyphicon glyphicon-inbox"></i>

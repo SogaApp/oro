@@ -5,18 +5,32 @@ jQuery(document).ready(function($){
     }
 
     $("#casos-general").DataTable({
+        "pagingType": "full_numbers",
         "language": {
             "lengthMenu": "Mostrando _MENU_ registros por página",
             "zeroRecords": "No hay Registros :(",
             "info": "Mostrando página _PAGE_ de _PAGES_",
             "infoEmpty": "Información no disponible o no existen registros con esas características",
-            "infoFiltered": "(Filtrados de _MAX_ total de registros)",
-            "prev" : "Anterior",
-            "next" : "Siguiente",
-            "search": "Buscar"
+            "infoFiltered": "(Filtrado de _MAX_ total de registros)",
+            "search": "Buscar",
+            "paginate": {
+                "first":    "Primero",
+                "previous": 'Anterior',
+                "next":     'Siguiente',
+                "last":     'Último'
+            },
+            "aria": {
+                "paginate": {
+                    "first":    'First',
+                    "previous": 'Previous',
+                    "next":     'Next',
+                    "last":     'Last'
+                }
+            }
+
+
         }
     });
+
 });
-
-
 

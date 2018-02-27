@@ -23,3 +23,25 @@
 #submit-filtro > button{
     float: right!important;
 }
+
+/** paginador **/
+
+.dataTables_paginate > a, .dataTables_paginate > span > a{
+    padding: 0px 5px 0px 5px;
+    border: 2px solid;
+    margin: 0px 6px;
+    border-radius: 5px;
+}
+
+.dataTables_paginate > a:hover{
+    cursor: pointer;
+    background-color: #337ab7;
+    color: #ffffff;
+    border-color: #337ab7;
+}
+.dataTables_paginate > span > a:hover{
+    cursor: pointer;
+    background-color: #337ab7;
+    color: #ffffff;
+    border-color: #337ab7;
+}

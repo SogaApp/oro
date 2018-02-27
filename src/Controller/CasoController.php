@@ -20,8 +20,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\SwiftmailerBundle;
 
-class CasoController extends Controller
-{
+class CasoController extends Controller {
 
     var $strDqlLista = '';
 
@@ -135,47 +134,14 @@ class CasoController extends Controller
 
     }
 
-    public function enviarCorreo($arCaso)
-    {
-        /**
-         * @var $arCaso Caso
-         */
-//        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
-//            ->setUsername('sogainformacion@gmail.com')
-//            ->setPassword('70143086')
-//        ;
-        $message =(new\Swift_Message('AppSoga - Solución de Caso (Incidente)'))
-            ->setFrom('sogainformacion@gmail.com')
-            ->setTo($arCaso->getCorreo())
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'Correo/Caso/solucionado.html.twig',
-                    array('arCaso' => $arCaso)
-                ),
-                'text/html'
-            )
-            /*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-
-        $mailer->send($message);
-    }
 
     /**
-     * @Route("/caso/lista", name="listadoCasos")
+     * @Route("/caso/lista/sin/solucionar", name="listadoCasosSinSolucionar")
      */
-    public function lista(Request $request, Request $requestFiltro) {
+
+    public function listaSinSolucionar(Request $request, Request $requestFiltro) {
         $em = $this->getDoctrine()->getManager();
-        $this->listar ($em);
+        $this->listarSinSolucionar($em);
 
         $session = new Session();
 
@@ -208,7 +174,7 @@ class CasoController extends Controller
 
         if($formFiltro->isSubmitted() && $formFiltro->isValid()){
             $this->filtrar($formFiltro);
-            $this->listar($em);
+            $this->listarSinSolucionar($em);
         }
 
         $dql = $em->createQuery($this->strDqlLista);
@@ -263,9 +229,102 @@ class CasoController extends Controller
         }
     }
 
-    private function listar($em){
+    private function listarSinSolucionar($em){
         $session = new Session();
 //                $arCaso = $em->getRepository ('App:Caso')->findBy(array("codigoClienteFk" => $cliente),array());
-        $this->strDqlLista = $em->getRepository('App:Caso')->filtroDQL ($session->get('filtroCasosCliente'));
+        $this->strDqlLista = $em->getRepository('App:Caso')->filtroDQLSinSolucionar ($session->get('filtroCasosCliente'));
     }
+
+	private function listarSolucionados($em){
+		$session = new Session();
+//                $arCaso = $em->getRepository ('App:Caso')->findBy(array("codigoClienteFk" => $cliente),array());
+		$this->strDqlLista = $em->getRepository('App:Caso')->filtroDQLSolucionados ($session->get('filtroCasosCliente'));
+	}
+
+	/**
+	 * @Route("/caso/lista/solucionado", name="listadoCasosSolucionados")
+	 */
+	public function listaSolucionados(Request $request, Request $requestFiltro) {
+		$em = $this->getDoctrine()->getManager();
+		$this->listarSolucionados($em);
+
+		$session = new Session();
+
+		$propiedades = array(
+			'class' => 'App:Cliente',
+			'choice_label' => 'nombreComercial',
+			'required' => false,
+			'empty_data' => '',
+			'placeholder' => 'Todos',
+			'data' =>'');
+
+		if($session->get('filtroCasosCliente')){
+			$propiedades['data'] = $em->getReference('App:Cliente', $session->get('filtroCasosCliente'));
+		}
+
+		$formFiltro = $this::createFormBuilder ()
+		                   ->add('clienteRel', EntityType::class,$propiedades)
+		                   ->add ('btnFiltrar', SubmitType::class, array (
+			                   'label' => 'Filtrar',
+			                   'attr' => array (
+				                   'class' => 'btn btn-primary btn-bordered waves-effect w-md waves-light m-b-5'
+			                   )
+		                   ))
+		                   ->getForm();
+
+
+		$formFiltro->handleRequest($requestFiltro);
+
+
+
+		if($formFiltro->isSubmitted() && $formFiltro->isValid()){
+			$this->filtrar($formFiltro);
+			$this->listarSolucionados($em);
+		}
+
+		$dql = $em->createQuery($this->strDqlLista);
+		$arCaso = $dql->getResult();
+
+		//Listado General Sin Filtro
+
+		$user = $this->getUser();
+
+		$form = $this::createFormBuilder()->getForm();//form para manejar los cambios de estado
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){ // actualiza el estado de las llamadas
+			if($request->request->has('casoAtender')) {
+				$codigoCaso = $request->request->get('casoAtender');
+				$arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+				if(!$arCaso->getEstadoAtendido()){
+					$arCaso->setEstadoAtendido(true);
+					$arCaso->setCodigoUsuarioAtiendeFk($user->getCodigoUsuarioPk());
+					$arCaso->setFechaGestion(new \DateTime('now'));
+					$em->persist($arCaso);
+				}
+			}
+
+			if($request->request->has('casoSolucionar')) {
+				$codigoCaso = $request->request->get('casoSolucionar');
+				$arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+				if(!$arCaso->getEstadoSolucionado()){
+					$arCaso->setEstadoSolucionado(true);
+					$arCaso->setCodigoUsuarioSolucionaFk($user->getCodigoUsuarioPk());
+					$arCaso->setFechaSolucion(new \DateTime('now'));
+					$em->persist($arCaso);
+				}
+			}
+			$em->flush();
+			return $this->redirect($this->generateUrl('listadoCasos'));
+		}
+
+		return $this->render('Caso/listar.html.twig', [
+			'casos' => $arCaso,
+			'form' => $form->createView(),
+			'formFiltro' => $formFiltro->createView ()
+		]);
+	}
+
+
+
+
 }
