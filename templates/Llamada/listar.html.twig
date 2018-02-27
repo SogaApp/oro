@@ -39,6 +39,7 @@
                             </div>
                             {{ form_end(formFiltro) }}
                         </div>
+                        {{ form_start(form) }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card-box">
@@ -67,7 +68,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {{ form_start(form) }}
+
                                             {% for llamada in llamadas %}
 
                                                 <tr>
@@ -167,7 +168,7 @@
                                                     </td>
                                                 </tr>
                                             {% endfor %}
-                                            {{ form_end(form) }}
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -176,7 +177,7 @@
                             <!-- end col -->
 
                         </div>
-
+                        {{ form_end(form) }}
                     {% endblock content %}
                     <div class="btn-group" style="float: left">
                         {#<div class="btn btn-default ">Llamadas <span#}

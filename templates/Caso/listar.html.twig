@@ -26,6 +26,7 @@
                                 </div>
                             </div>
                         </div>
+                        {{form_start(form) }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card-box">
@@ -34,7 +35,7 @@
                                     <div class="table-responsive">
 
                                         <div class="card-box">
-                                            {{form_start(form) }}
+
                                             <div class="col-sm-11">
                                                 {{ form_widget(formFiltro.clienteRel) }}
                                             </div>
@@ -128,7 +129,7 @@
                                                 </td>
                                             </tr>
                                             {% endfor %}
-                                            {{ form_end(form) }}
+
                                             </tbody>
                                         </table>
                                     </div> <!-- end card -->
@@ -137,7 +138,7 @@
                             <!-- end col -->
 
                         </div>
-
+                        {{ form_end(form) }}
                     {% endblock content %}
                 </div> <!-- container -->
             </div> <!-- content -->
