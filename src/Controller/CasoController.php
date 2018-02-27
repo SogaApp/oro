@@ -49,7 +49,7 @@ class CasoController extends Controller {
             }
             $em->persist($arCaso);
             $em->flush();
-            return $this->redirect($this->generateUrl('listadoCasos'));
+            return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }
 
         return $this->render('Caso/nuevo.html.twig',
