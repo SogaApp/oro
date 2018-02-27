@@ -41,6 +41,12 @@ class FormTypeCaso extends AbstractType{
                     'name' => '_asunto'
                 )
             ))
+	        ->add ('soporte', TextType::class,array(
+		        'attr' => array(
+			        'id' => '_soporte',
+			        'name' => '_soporte'
+		        )
+	        ))
             ->add ('correo', TextType::class,array(
                 'attr' => array(
                     'id' => '_correo',
@@ -59,7 +65,7 @@ class FormTypeCaso extends AbstractType{
                 'attr' => array(
                     'id' => '_telefono',
                     'name' => '_telefono',
-                    'required' => 'true'
+                    'required' => true
                 )
             ))
             ->add ('extension', IntegerType::class,array(
@@ -104,6 +110,20 @@ class FormTypeCaso extends AbstractType{
                         ->orderBy('c.nombre', 'ASC');},
                 'choice_label' => 'nombre',
                 'required' => true))
+	        ->add('areaRel', EntityType::class, array(
+		        'class' => 'App:Area',
+		        'query_builder' => function (EntityRepository $er) {
+			        return $er->createQueryBuilder('a')
+			                  ->orderBy('a.nombre', 'ASC');},
+		        'choice_label' => 'nombre',
+		        'required' => true))
+	        ->add('cargoRel', EntityType::class, array(
+		        'class' => 'App:Cargo',
+		        'query_builder' => function (EntityRepository $er) {
+			        return $er->createQueryBuilder('c')
+			                  ->orderBy('c.nombre', 'ASC');},
+		        'choice_label' => 'nombre',
+		        'required' => true))
 //            Botón Guardar
             ->add ('btnGuardar', SubmitType::class, array(
                 'attr' => array(

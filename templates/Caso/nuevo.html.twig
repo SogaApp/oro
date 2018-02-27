@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
 
-                                            {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true','novalidate':'novalidate'} }) }}
+                                            {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true'} }) }}
                                             <div class="form-group">
                                                 <label class="col-md-2 control-label" for="_telefono">Contacto: </label>
                                                 <div class="col-md-4">
@@ -46,6 +46,17 @@
                                                 <label class="col-md-2 control-label" for="_telefono">Cliente:</label>
                                                 <div class="col-md-4">
                                                     {{ form_widget(form.clienteRel) }}
+                                                </div>
+
+                                                <label class="col-md-1 control-label" for="_telefono">Cargo:</label>
+                                                <div class="col-md-5">
+                                                    {{ form_widget(form.cargoRel) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="_telefono">Area:</label>
+                                                <div class="col-md-4">
+                                                    {{ form_widget(form.areaRel) }}
                                                 </div>
                                                 <label class="col-md-1 control-label" for="_telefono">Categoría:</label>
                                                 <div class="col-md-2">
@@ -70,6 +81,22 @@
                                                 <label class="col-md-1 control-label" for="_telefono">Extensión:</label>
                                                 <div class="col-md-2">
                                                     {{ form_widget(form.extension,{'attr':{'data-parsley-type':'number','data-parsley-maxlength':'5'}}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="_telefono">Soporte</label>
+
+                                                <div class="col-md-4">
+                                                    {{ form_widget(form.soporte,{'attr':{'data-parsley-type':'text','data-parsley-maxlength':'50'}}) }}
+                                                </div>
+                                                <label class="col-md-1 control-label" for="_telefono"></label>
+
+                                                <div class="col-md-2">
+
+                                                </div>
+                                                <label class="col-md-1 control-label" for="_telefono"></label>
+                                                <div class="col-md-2">
+
                                                 </div>
                                             </div>
                                             <div class="form-group">

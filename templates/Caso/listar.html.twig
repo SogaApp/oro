@@ -50,6 +50,7 @@
                                                     <th>Id</th>
                                                     <th>Fecha</th>
                                                     <th>Cliente</th>
+                                                    <th>Soporte</th>
                                                     {#<th>Correo</th>#}
                                                     <th>Contacto</th>
                                                     {#<th>Ext.</th>#}
@@ -73,7 +74,7 @@
                                                 <td>
                                                     <strong>{{ caso.clienteRel.nombreComercial }}</strong>
                                                 </td>
-
+                                                <td>{{ caso.soporte}}</td>
                                                 <td title="{{ caso.correo }}">{{ caso.contacto }}</td>
                                                 <td>
                                                     <span class="label" style="background-color: {{ caso.categoriaRel.color }}">{{ caso.categoriaRel.codigoCategoriaCasoPk }}</span>

@@ -172,7 +172,7 @@ class CasoController extends Controller {
 
 
 
-        if($formFiltro->isSubmitted()){
+        if($formFiltro->isSubmitted() && $formFiltro->isValid()){
             $this->filtrar($formFiltro);
             $this->listarSinSolucionar($em);
         }
@@ -186,7 +186,7 @@ class CasoController extends Controller {
 
         $form = $this::createFormBuilder()->getForm();//form para manejar los cambios de estado
         $form->handleRequest($request);
-        if($form->isSubmitted()){ // actualiza el estado de las llamadas
+        if($form->isSubmitted() && $form->isValid()){ // actualiza el estado de las llamadas
             if($request->request->has('casoAtender')) {
                 $codigoCaso = $request->request->get('casoAtender');
                 $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
