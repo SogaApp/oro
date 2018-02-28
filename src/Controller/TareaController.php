@@ -83,17 +83,25 @@ class TareaController extends Controller
 		$arTarea = new Tarea(); //instance class
 		if($codigoCaso != null) {
 			$arCaso = $em->getRepository( 'App:Caso' )->find( $codigoCaso );
-			$arTarea->setCasoTareaRel( $arCaso );
 		}
-		$form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
+		$form = $this->createForm(FormTypeTarea::class); //create form
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-
+			$arTarea->setCasoRel( $arCaso );
 			$arTarea->setCodigoUsuarioRegistraFk($user->getCodigoUsuarioPk());
 			$arTarea->setFechaRegistro(new \DateTime('now'));
+
+			$prioridadRel = $form->get('prioridadRel')->getData();
+			$tareaTipoRel = $form->get('tareaTipoRel')->getData();
+			$arPrioridadRel = $em->getRepository('App:Prioridad')->find($prioridadRel);
+			$arTareaTipoRel = $em->getRepository('App:TareaTipo')->find($tareaTipoRel);
 			$usuarioAsignado = $form->get('codigoUsuarioAsignaFk')->getData();
+			if($usuarioAsignado != null){
+				$arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
+				$arTarea->setPrioridadRel($arPrioridadRel);
+				$arTarea->setTareaTipoRel($arTareaTipoRel);
+			}
 			$arTarea->setFechaGestion(new \DateTime('now'));
-			$arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
 
 			$em->persist($arTarea);
 			$em->flush();
@@ -162,9 +170,9 @@ class TareaController extends Controller
         foreach ($arTarea as $key => $value) {
             if ($value->getCodigoUsuarioAsignaFk() == null) {
                 $sinAsignar++;
-            } else if (!$value->getEstadoTerminado()) {
+            } else if (!$value->isEstadoTerminado()) {
                 $sinTerminar++;
-            } else if ($value->getEstadoTerminado() && !$value->getEstadoVerificado()) {
+            } else if ($value->isEstadoTerminado() && !$value->getEstadoVerificado()) {
                 $sinVerificar++;
             }
         }
@@ -195,9 +203,9 @@ class TareaController extends Controller
         $sinTerminar = 0;
         $sinVerificar = 0;
         foreach ($arTarea as $key => $value) {
-            if (!$value->getEstadoTerminado()) {
+            if (!$value->isEstadoTerminado()) {
                 $sinTerminar++;
-            } else if (!$value->getEstadoVerificado()) {
+            } else if (!$value->isEstadoVerificado()) {
                 $sinVerificar++;
             }
         }
@@ -205,7 +213,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaSolucionar')) {
                 $codigoTarea = $request->request->get('TareaSolucionar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->getEstadoTerminado()) {
+                if (!$arTarea->isEstadoTerminado()) {
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                     $em->persist($arTarea);
@@ -217,7 +225,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->getEstadoVerificado()) {
+                if (!$arTarea->isEstadoVerificado()) {
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }

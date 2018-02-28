@@ -211,11 +211,13 @@ class Caso
      */
     private $prioridadRel;
 
-    /**
-	 * @ORM\ManyToOne(targetEntity="Tarea", inversedBy="casoTareaRel")
-	 * @ORM\JoinColumn(name="codigo_tarea_fk", referencedColumnName="codigo_tarea_pk")
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Tarea", mappedBy="casoRel")
 	 */
-	private $tareaRel;
+
+	private $tareasCasoRel;
 
 
     /**
@@ -879,4 +881,20 @@ class Caso
 	public function setTareaRel( $tareaRel ): void {
 		$this->tareaRel = $tareaRel;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTareasCasoRel() {
+		return $this->tareasCasoRel;
+	}
+
+	/**
+	 * @param mixed $tareasCasoRel
+	 */
+	public function setTareasCasoRel( $tareasCasoRel ): void {
+		$this->tareasCasoRel = $tareasCasoRel;
+	}
+
+
 }

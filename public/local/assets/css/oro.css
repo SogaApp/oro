@@ -50,6 +50,12 @@
     border-color: #337ab7;
 }
 
+
+.paginate_button.current{
+    background-color: #337ab7;
+    color: #ffffff;
+    border-color: #337ab7;
+}
 /*.dataTables_info{*/
     /*display: none;*/
 /*}*/

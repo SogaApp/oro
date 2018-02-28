@@ -119,7 +119,7 @@
                                                     {#{% endif %}#}
                                                 </td>
                                                 <td>
-                                                    {% if caso.tareaRel == null%}
+                                                    {% if caso.tareasCasoRel.initialized != false %}
                                                         <a href="javascript:abrirVentana('{{ path('registrarTareaDesdeCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}','Crear Tarea',800,1200)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-cog" style="padding: 3px;"></i>
                                                         </a>
