@@ -64,6 +64,7 @@
                                                     <th>At</th>
                                                     <th>So</th>
                                                     <th>Ta</th>
+                                                    <th>Dllo</th>
                                                     <th>Ed</th>
                                                 </tr>
                                             </thead>
@@ -119,13 +120,18 @@
                                                     {#{% endif %}#}
                                                 </td>
                                                 <td>
-                                                    {% if caso.tareasCasoRel.initialized != false %}
+
                                                         <a href="javascript:abrirVentana('{{ path('registrarTareaDesdeCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}','Crear Tarea',800,1200)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-cog" style="padding: 3px;"></i>
                                                         </a>
-                                                    {%  else %}
-                                                        En desarrollo
-                                                    {% endif %}
+
+                                                </td>
+                                                <td>
+                                                    {% for tarea in caso.tareasCasoRel %}
+                                                        {% if tarea.codigoTareaPk is defined  %}
+                                                            <a>{{ tarea.codigoTareaPk }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </td>
                                                 <td>
                                                     {% if caso.estadoSolucionado == false and caso.estadoAtendido == false%}
@@ -138,17 +144,7 @@
                                                         </a>
                                                     {% endif %}
                                                 </td>
-                                                <td>
-                                                    <table>
-                                                    {% for tarea in caso.tareasCasoRel%}
-                                                    <tr>
-                                                        <td>
-                                                            {{ tarea.codigoTareaPk }}
-                                                        </td>
-                                                    </tr>
-                                                    {%  endfor %}
-                                                    </table>
-                                                </td>
+
                                             </tr>
                                             {% endfor %}
 
