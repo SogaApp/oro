@@ -208,6 +208,7 @@ class CasoController extends Controller {
                     $em->persist($arCaso);
                 }
             }
+
             $em->flush();
             return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }

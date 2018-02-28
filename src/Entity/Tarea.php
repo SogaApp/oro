@@ -33,7 +33,15 @@ class Tarea
      */
     private $codigoUsuarioRegistraFk;
 
-    /**
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="codigo_prioridad_fk", type="string", length=50, nullable=true)
+	 */
+	private $codigoPrioridadFk;
+
+
+	/**
      * @var string
      *
      * @ORM\Column(name="codigo_tarea_tipo_fk", type="string", length=50, nullable=true)
@@ -75,6 +83,13 @@ class Tarea
      */
     private $codigoUsuarioAsignaFk;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="codigo_caso_fk", type="string", length=50, nullable=true)
+	 */
+	private $codigoCasoFk;
+
     /**
      * @var \DateTime
      *
@@ -115,6 +130,19 @@ class Tarea
      * @ORM\JoinColumn(name="codigo_tarea_tipo_fk", referencedColumnName="codigo_tarea_tipo_pk")
      */
     private $tareaTipoRel;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Prioridad", inversedBy="tareaPrioridadRel")
+	 * @ORM\JoinColumn(name="codigo_prioridad_fk", referencedColumnName="codigo_prioridad_pk")
+	 */
+	private $prioridadRel;
+
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Caso", mappedBy="tareaRel")
+	 */
+	private $casoTareaRel;
 
     /**
      * Get codigoTareaPk
@@ -437,4 +465,73 @@ class Tarea
     {
         return $this->caso;
     }
+	/**
+	 * @return mixed
+	 */
+	public function getCasoTareaRel() {
+		return $this->casoTareaRel;
+	}
+
+	/**
+	 * @param mixed $casoTareaRel
+	 */
+	public function setCasoTareaRel( $casoTareaRel ): void {
+		$this->casoTareaRel = $casoTareaRel;
+	}
+
+	/**
+	 * Set prioridadRel.
+	 *
+	 * @param \App\Entity\Prioridad|null $prioridadRel
+	 *
+	 * @return Caso
+	 */
+	public function setPrioridadRel(\App\Entity\Prioridad $prioridadRel = null)
+	{
+		$this->prioridadRel = $prioridadRel;
+
+		return $this;
+	}
+
+	/**
+	 * Get prioridadRel.
+	 *
+	 * @return \App\Entity\Prioridad|null
+	 */
+	public function getPrioridadRel()
+	{
+		return $this->prioridadRel;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCodigoPrioridadFk(): string {
+		return $this->codigoPrioridadFk;
+	}
+
+	/**
+	 * @param string $codigoPrioridadFk
+	 */
+	public function setCodigoPrioridadFk( string $codigoPrioridadFk ): void {
+		$this->codigoPrioridadFk = $codigoPrioridadFk;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCodigoCasoFk(): string {
+		return $this->codigoCasoFk;
+	}
+
+	/**
+	 * @param string $codigoCasoFk
+	 */
+	public function setCodigoCasoFk( string $codigoCasoFk ): void {
+		$this->codigoCasoFk = $codigoCasoFk;
+	}
+
+
+
+
 }

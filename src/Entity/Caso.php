@@ -146,6 +146,13 @@ class Caso
      */
     private $codigoUsuarioAtiendeFk;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="codigo_tarea_fk", type="integer", length=50 ,nullable= TRUE)
+	 */
+	private $codigoTareaFk;
+
     /**
      * @var string
      *
@@ -203,6 +210,12 @@ class Caso
      * @ORM\JoinColumn(name="codigo_prioridad_fk", referencedColumnName="codigo_prioridad_pk")
      */
     private $prioridadRel;
+
+    /**
+	 * @ORM\ManyToOne(targetEntity="Tarea", inversedBy="casoTareaRel")
+	 * @ORM\JoinColumn(name="codigo_tarea_fk", referencedColumnName="codigo_tarea_pk")
+	 */
+	private $tareaRel;
 
 
     /**
@@ -838,4 +851,32 @@ class Caso
     {
         return $this->prioridadRel;
     }
+
+	/**
+	 * @return string
+	 */
+	public function getCodigoTareaFk(): string {
+		return $this->codigoTareaFk;
+	}
+
+	/**
+	 * @param string $codigoTareaFk
+	 */
+	public function setCodigoTareaFk( string $codigoTareaFk ): void {
+		$this->codigoTareaFk = $codigoTareaFk;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTareaRel() {
+		return $this->tareaRel;
+	}
+
+	/**
+	 * @param mixed $tareaRel
+	 */
+	public function setTareaRel( $tareaRel ): void {
+		$this->tareaRel = $tareaRel;
+	}
 }

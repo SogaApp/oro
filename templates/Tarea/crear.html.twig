@@ -44,11 +44,11 @@
                                             <div class="form-group">
                                                 <label class="col-md-2 control-label" for="_telefono">Caso(Codigo del inicidente registrado en REOS): </label>
                                                 <div class="col-md-5">
-                                                    {{ form_widget(form.caso) }}
+                                                    {{ form_widget(form.caso) }}{% if codigoCaso is defined %}{{codigoCaso }}{% endif %}
                                                 </div>
-                                                <label class="col-md-2 control-label" for="_telefono"></label>
+                                                <label class="col-md-2 control-label" for="_telefono">Prioridad</label>
                                                 <div class="col-md-3">
-
+                                                    {{ form_widget(form.prioridadRel) }}
                                                 </div>
                                             </div>
                                            <div class="form-group">

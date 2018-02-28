@@ -44,6 +44,14 @@ class Prioridad
      * @ORM\OneToMany(targetEntity="Caso", mappedBy="prioridadRel")
      */
     private $casosPrioridadRel;
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Tarea", mappedBy="prioridadRel")
+	 */
+	private $tareaPrioridadRel;
+
+
     /**
      * Constructor
      */
@@ -157,4 +165,18 @@ class Prioridad
     {
         return $this->casosPrioridadRel;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getTareaPrioridadRel() {
+		return $this->tareaPrioridadRel;
+	}
+
+	/**
+	 * @param mixed $tareaPrioridadRel
+	 */
+	public function setTareaPrioridadRel( $tareaPrioridadRel ): void {
+		$this->tareaPrioridadRel = $tareaPrioridadRel;
+	}
 }

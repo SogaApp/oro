@@ -68,6 +68,46 @@ class TareaController extends Controller
         );
     }
 
+	/**
+	 * @Route("/tarea/nuevo/caso/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarTareaDesdeCaso")
+	 */
+	public function nuevoTareaDesdeCaso(Request $request, $codigoCaso = null)
+	{
+
+		/**
+		 * @var Usuario $arUser
+		 **/
+
+		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
+		$user = $this->getUser(); // trae el usuario actual
+		$arTarea = new Tarea(); //instance class
+		if($codigoCaso != null) {
+			$arCaso = $em->getRepository( 'App:Caso' )->find( $codigoCaso );
+			$arTarea->setCasoTareaRel( $arCaso );
+		}
+		$form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			$arTarea->setCodigoUsuarioRegistraFk($user->getCodigoUsuarioPk());
+			$arTarea->setFechaRegistro(new \DateTime('now'));
+			$usuarioAsignado = $form->get('codigoUsuarioAsignaFk')->getData();
+			$arTarea->setFechaGestion(new \DateTime('now'));
+			$arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
+
+			$em->persist($arTarea);
+			$em->flush();
+			echo "<script>window.opener.location.reload();window.close()</script>";
+		}
+
+		return $this->render('Tarea/crearDesdeCaso.html.twig',
+			array(
+				'form' => $form->createView(),
+				'caso' => $arCaso
+			)
+		);
+	}
+
 
     /**
      * @Route("/tarea/lista", name="listaTareaGeneral")

@@ -63,6 +63,7 @@
                                                     {#<th>Soluciona</th>#}
                                                     <th>At</th>
                                                     <th>So</th>
+                                                    <th>Ta</th>
                                                     <th>Ed</th>
                                                 </tr>
                                             </thead>
@@ -116,6 +117,15 @@
                                                         {#<button class="btn btn-success btn-xs" type="submit" name="casoSolucionar" disabled value="{{ caso.codigoCasoPk }}"  title="{{caso.codigoUsuarioSolucionaFk}}">#}
                                                             {#<i class="glyphicon glyphicon-thumbs-up"></i></button>#}
                                                     {#{% endif %}#}
+                                                </td>
+                                                <td>
+                                                    {% if caso.tareaRel == null%}
+                                                        <a href="javascript:abrirVentana('{{ path('registrarTareaDesdeCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}','Crear Tarea',800,1200)"
+                                                           class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-cog" style="padding: 3px;"></i>
+                                                        </a>
+                                                    {%  else %}
+                                                        En desarrollo
+                                                    {% endif %}
                                                 </td>
                                                 <td>
                                                     {% if caso.estadoSolucionado == false and caso.estadoAtendido == false%}

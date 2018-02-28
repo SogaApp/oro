@@ -28,7 +28,7 @@ class FormTypeTarea extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options )
     {
         $builder
             ->add('tareaTipoRel', EntityType::class, array(
@@ -73,6 +73,14 @@ class FormTypeTarea extends AbstractType
                 'label' => 'Caso (Código del caso registrado en REOS)',
                 'required' => false
             ))
+
+	        ->add('prioridadRel', EntityType::class, array(
+		        'class' => 'App:Prioridad',
+		        'query_builder' => function (EntityRepository $er) {
+			        return $er->createQueryBuilder('p')
+			                  ->orderBy('p.nombre', 'ASC');},
+		        'choice_label' => 'nombre',
+		        'required' => true))
 //            Botón Guardar
             ->add('btnGuardar', SubmitType::class, array(
                 'attr' => array(

@@ -58,6 +58,7 @@
                                                 <th>Descripción</th>
                                                 <th>Caso</th>
                                                 <th>Comentario</th>
+                                                <th>Prioridad</th>
                                                 <th title="Resuelto">Res</th>
                                                 <th title="Verificado">Ver</th>
                                                 <th title="Editar">Edt</th>
@@ -105,6 +106,15 @@
                                                     <td>{{ tarea.caso }}</td>
 
                                                     <td>{{ tarea.comentario }}</td>
+                                                    <td>
+                                                    <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
+                                                        {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}
+                                                            {{ tarea.prioridadRel.nombre }}
+                                                        {% else %}
+                                                            Sin prioridad
+                                                        {% endif %}
+                                                    </span>
+                                                    </td>
 
                                                     <td>
                                                         {% if tarea.estadoTerminado == false %}
@@ -142,7 +152,7 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        <a href="{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
+                                                        <a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
                                                                     class="glyphicon glyphicon-pencil"
                                                                     style="padding: 3px;"></i>
