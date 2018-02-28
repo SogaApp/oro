@@ -41,6 +41,10 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
     $em = $this->getEntityManager();
     $qb = $em->createQueryBuilder();
+    $qb2 = $em->createQueryBuilder();
+    $qb2->from('App:Tarea',"t")
+	    ->select("COUNT(t.codigoTareaPk)")
+        ->where("t.codigoCasoFk = c.codigoCasoPk");
     $qb->from("App:Caso", "c")
       ->select("c.codigoCasoPk")
       ->addSelect("c.asunto")
@@ -66,23 +70,32 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
       ->addSelect("prioridadRel.nombre as prioridad")
       ->addSelect("prioridadRel.color as prioridadColor")
       ->addSelect("categoriaRel.color as categoriaColor")
+	  ->addSelect("({$qb2}) as tareasCuenta")
       ->leftJoin("c.areaRel", "areaRel")
       ->leftJoin("c.cargoRel", "cargoRel")
       ->leftJoin("c.categoriaRel", "categoriaRel")
       ->leftJoin("c.clienteRel", "clienteRel")
-      ->leftJoin("c.prioridadRel", "prioridadRel")
-      ->leftJoin("c.tareasCasoRel", "tareaRel");
+      ->leftJoin("c.prioridadRel", "prioridadRel");
+
+
+
 
      if($intCodigoCliente != 0):
         $qb->where("c.codigoClienteFk =  {$intCodigoCliente}");
      endif;
+
 
     return $qb->getQuery()->getResult();
   }
 
   public function listarPorCaso($intCodigoEmpresa,$intCodigoCaso)
   {
-
+	  $em = $this->getEntityManager();
+	  $qb = $em->createQueryBuilder();
+	  $qb2 = $em->createQueryBuilder();
+	  $qb2->from('App:Tarea',"t")
+	      ->select("COUNT(t.codigoTareaPk)")
+	      ->where("t.codigoCasoFk = c.codigoCasoPk");
     $em = $this->getEntityManager();
     $qb = $em->createQueryBuilder();
     $qb->from("App:Caso", "c")
@@ -104,6 +117,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 	    ->addSelect("c.codigoUsuarioAtiendeFk")
 	    ->addSelect("c.codigoUsuarioSolucionaFk")
       ->addSelect("areaRel.nombre")
+      ->addSelect("({$qb2}) as tareasCuenta")
       ->addSelect("cargoRel.nombre as cargo")
       ->addSelect("categoriaRel.nombre as categoria")
       ->addSelect("categoriaRel.color as categoriaColor")
@@ -126,6 +140,12 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
   public function listarPorEstadoAtendido($intCodigoEmpresa,$boolEstado)
   {
+	  $em = $this->getEntityManager();
+	  $qb = $em->createQueryBuilder();
+	  $qb2 = $em->createQueryBuilder();
+	  $qb2->from('App:Tarea',"t")
+	      ->select("COUNT(t.codigoTareaPk)")
+	      ->where("t.codigoCasoFk = c.codigoCasoPk");
 
     $em = $this->getEntityManager();
     $qb = $em->createQueryBuilder();
@@ -147,6 +167,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 	    ->addSelect("c.fechaSolucion")
 	    ->addSelect("c.codigoUsuarioAtiendeFk")
 	    ->addSelect("c.codigoUsuarioSolucionaFk")
+	    ->addSelect("({$qb2}) as tareasCuenta")
       ->addSelect("areaRel.nombre")
       ->addSelect("cargoRel.nombre as cargo")
       ->addSelect("categoriaRel.nombre as categoria")
@@ -176,6 +197,14 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
   public function listarPorEstadoSolucionado($intCodigoEmpresa,$boolEstado)
   {
 
+
+	  $em = $this->getEntityManager();
+	  $qb = $em->createQueryBuilder();
+	  $qb2 = $em->createQueryBuilder();
+	  $qb2->from('App:Tarea',"t")
+	      ->select("COUNT(t.codigoTareaPk)")
+	      ->where("t.codigoCasoFk = c.codigoCasoPk");
+
     $em = $this->getEntityManager();
     $qb = $em->createQueryBuilder();
     $qb->from("App:Caso", "c")
@@ -196,6 +225,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 	    ->addSelect("c.fechaSolucion")
 	    ->addSelect("c.codigoUsuarioAtiendeFk")
 	    ->addSelect("c.codigoUsuarioSolucionaFk")
+	    ->addSelect("({$qb2}) as tareasCuenta")
       ->addSelect("areaRel.nombre")
       ->addSelect("cargoRel.nombre as cargo")
       ->addSelect("categoriaRel.nombre as categoria")
@@ -222,6 +252,13 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
   public function listarPorPropiedad($strPropiedad , $value , $strOrder, $intCodigoCliente,$strPropiedadOrdenar){
 
+	  $em = $this->getEntityManager();
+	  $qb = $em->createQueryBuilder();
+	  $qb2 = $em->createQueryBuilder();
+	  $qb2->from('App:Tarea',"t")
+	      ->select("COUNT(t.codigoTareaPk)")
+	      ->where("t.codigoCasoFk = c.codigoCasoPk");
+
     $em = $this->getEntityManager();
     $qb = $em->createQueryBuilder();
     $qb->from("App:Caso", "c")
@@ -242,6 +279,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 	    ->addSelect("c.fechaSolucion")
 	    ->addSelect("c.codigoUsuarioAtiendeFk")
 	    ->addSelect("c.codigoUsuarioSolucionaFk")
+	    ->addSelect("({$qb2}) as tareasCuenta")
       ->addSelect("areaRel.nombre")
       ->addSelect("cargoRel.nombre as cargo")
       ->addSelect("categoriaRel.nombre as categoria")
@@ -264,4 +302,5 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
       return $qb->getQuery()->getResult();
 
   }
+
 }

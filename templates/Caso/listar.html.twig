@@ -138,6 +138,17 @@
                                                         </a>
                                                     {% endif %}
                                                 </td>
+                                                <td>
+                                                    <table>
+                                                    {% for tarea in caso.tareasCasoRel%}
+                                                    <tr>
+                                                        <td>
+                                                            {{ tarea.codigoTareaPk }}
+                                                        </td>
+                                                    </tr>
+                                                    {%  endfor %}
+                                                    </table>
+                                                </td>
                                             </tr>
                                             {% endfor %}
 

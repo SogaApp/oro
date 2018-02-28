@@ -84,22 +84,22 @@ class TareaController extends Controller
 		if($codigoCaso != null) {
 			$arCaso = $em->getRepository( 'App:Caso' )->find( $codigoCaso );
 		}
-		$form = $this->createForm(FormTypeTarea::class); //create form
+		$form = $this->createForm(FormTypeTarea::class,$arTarea); //create form
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
 			$arTarea->setCasoRel( $arCaso );
 			$arTarea->setCodigoUsuarioRegistraFk($user->getCodigoUsuarioPk());
 			$arTarea->setFechaRegistro(new \DateTime('now'));
 
-			$prioridadRel = $form->get('prioridadRel')->getData();
-			$tareaTipoRel = $form->get('tareaTipoRel')->getData();
-			$arPrioridadRel = $em->getRepository('App:Prioridad')->find($prioridadRel);
-			$arTareaTipoRel = $em->getRepository('App:TareaTipo')->find($tareaTipoRel);
+//			$prioridadRel = $form->get('prioridadRel')->getData();
+//			$tareaTipoRel = $form->get('tareaTipoRel')->getData();
+//			$arPrioridadRel = $em->getRepository('App:Prioridad')->find($prioridadRel);
+//			$arTareaTipoRel = $em->getRepository('App:TareaTipo')->find($tareaTipoRel);
 			$usuarioAsignado = $form->get('codigoUsuarioAsignaFk')->getData();
 			if($usuarioAsignado != null){
 				$arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
-				$arTarea->setPrioridadRel($arPrioridadRel);
-				$arTarea->setTareaTipoRel($arTareaTipoRel);
+//				$arTarea->setPrioridadRel($arPrioridadRel);
+//				$arTarea->setTareaTipoRel($arTareaTipoRel);
 			}
 			$arTarea->setFechaGestion(new \DateTime('now'));
 
