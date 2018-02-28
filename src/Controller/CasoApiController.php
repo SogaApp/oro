@@ -60,6 +60,31 @@ class CasoApiController extends FOSRestController
     return $jsonRestResult;
   }
 
+
+	/**
+	 * @Rest\Get("/api/caso/borra/{intCodigoCaso}", requirements={"intCodigoCaso" = "\d+"}, defaults={"intCodigoCaso" = 0} )
+	 */
+	/*
+	 * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
+	 * $intCodigoCaso = 0 default Es el CodigoCasoPk seteado en base de datos(requerido)
+	 */
+
+	public function borraUno(Request $request,  $intCodigoCaso)
+	{
+
+		set_time_limit(0);
+		ini_set("memory_limit", -1);
+
+		if ($intCodigoCaso != 0) {
+			$jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->borraUnCaso($intCodigoCaso);
+		}
+
+		if ($jsonRestResult === null) {
+			return new View("No hay casos", Response::HTTP_NOT_FOUND);
+		}
+		return $jsonRestResult;
+	}
+
   /**
    * @Rest\Get("/api/caso/lista/atendido/{intCodigoCliente}/{boolEstado}", requirements={"intCodigoCliente" = "\d+", "boolEstado" = "\d+"}, defaults={"intCodigoCliente" = 0, "boolEstado" = -1} )
    */

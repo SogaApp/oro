@@ -303,4 +303,33 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
   }
 
+	public function borraUnCaso($intCodigoCasoPk){
+  	    //consultamos caso
+		$em = $this->getEntityManager();
+		$qb = $em->createQueryBuilder();
+		$qb->from("App:Caso", "c")
+			->select("c")
+			->Where("c.codigoCasoPk = {$intCodigoCasoPk}");
+
+		//consultamos tareas
+		$qb2 = $em->createQueryBuilder();
+		$qb2->from('App:Tarea',"t")
+		    ->select("COUNT(t.codigoTareaPk)")
+		    ->where("t.codigoCasoFk = {$intCodigoCasoPk}");
+
+		$caso = $qb->getQuery()->getResult();
+		$tarea = $qb2->getQuery()->getResult();
+
+		if($tarea[0]['1'] == 0 && $caso[0]->getEstadoAtendido() == true ){
+			$qb3 = $em->createQueryBuilder();
+			$qb3->delete("App:Caso","c")
+			    ->Where("c.codigoCasoPk = {$intCodigoCasoPk}");
+			$qb3->getQuery()->getResult();
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 }
