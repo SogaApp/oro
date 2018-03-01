@@ -30,6 +30,7 @@ jQuery(document).ready(function($){
     //     }
     // });
     $(".table-oro").DataTable({
+         order: [[0,"desc"]],
         "pagingType": "full_numbers",
         "bLengthChange": false,
         "language": {
