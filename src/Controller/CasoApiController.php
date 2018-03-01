@@ -110,6 +110,43 @@ class CasoApiController extends FOSRestController
     return $jsonRestResult;
   }
 
+	/**
+	 * @Rest\Get("/api/caso/reabir/intCodigoCasoPk")
+	 */
+	/*
+	 * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
+	 * $boolEstado = 0 == false
+	 * $boolEstado = 1 == true
+	 * Lista los casos de un cliente filtrados por el estado de Atendido
+	 */
+	public function reabrirCaso(Request $request, $boolEstado)
+	{
+
+		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
+		$data = json_decode($request->getContent(), true);
+
+
+
+		if ($data != null) {
+			$intCodigoCasoPk = $data['codigoCaso'];
+			$usuarioReabre = $data['usuario'];
+			$contacto = $data['contacto'];
+			$telefono = $data['telefono'];
+			$extension = $data['extension'];
+			$descripcion = $data['descripcion'];
+			$codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
+			$codigoPrioridadFk = $data['codigo_prioridad_fk'];
+			$intCodigoClienteFk = $data['codigo_cliente_fk'];
+			$codigoAreaFk = $data['codigo_area_fk'];
+			$codigoCargoFk = $data['codigo_cargo_fk'];
+		}
+
+		if ($jsonRestResult === null) {
+			return new View("No hay casos", Response::HTTP_NOT_FOUND);
+		}
+		return $jsonRestResult;
+	}
+
   /**
    * @Rest\Get("/api/caso/lista/solucionado/{intCodigoCliente}/{boolEstado}", requirements={"intCodigoCliente" = "\d+", "boolEstado" = "\d+"}, defaults={"intCodigoCliente" = 0, "boolEstado" = -1} )
    */

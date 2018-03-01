@@ -3,32 +3,7 @@ function abrirVentana(url, Nombre, Alto, Ancho) {
     windowObjectReference2.focus();
 }
 jQuery(document).ready(function($){
-    // $("#casos-general, #tarea-table-caso,#llamadas-general").DataTable({
-    //     "pagingType": "full_numbers",
-    //     "bLengthChange": false,
-    //     "language": {
-    //         "lengthMenu": "Mostrando _MENU_ registros por página",
-    //         "zeroRecords": "No hay Registros :(",
-    //         "info": "Total de registros _MAX_ ",
-    //         "infoEmpty": "Información no disponible o no existen registros con esas características",
-    //         "infoFiltered": "(Filtrado de _MAX_ total de registros)",
-    //         "search": "Buscar",
-    //         "paginate": {
-    //             "first":    "Primero",
-    //             "previous": 'Anterior',
-    //             "next":     'Siguiente',
-    //             "last":     'Último'
-    //         },
-    //         "aria": {
-    //             "paginate": {
-    //                 "first":    'First',
-    //                 "previous": 'Previous',
-    //                 "next":     'Next',
-    //                 "last":     'Last'
-    //             }
-    //         }
-    //     }
-    // });
+
     $(".table-oro").DataTable({
          order: [[0,"desc"]],
         "pagingType": "full_numbers",
