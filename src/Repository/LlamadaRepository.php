@@ -54,8 +54,9 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
             $db = $em->createQueryBuilder()->from("App:Llamada", "l")
                 ->select("l")
                 ->andWhere("l.codigoLlamadaPk <> 0")
-                ->orderBy("l.estadoAtendido", "ASC")
-                ->addOrderBy("l.estadoSolucionado", "ASC");
+                ->orderBy("l.fechaRegistro","DESC");
+//                ->orderBy("l.estadoAtendido", "ASC")
+//                ->addOrderBy("l.estadoSolucionado", "ASC");
             if ($codigoClientePk != "") {
                 $db->andWhere("l.codigoClienteFk = {$codigoClientePk}");
             }

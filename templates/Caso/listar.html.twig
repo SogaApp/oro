@@ -127,11 +127,19 @@
 
                                                 </td>
                                                 <td>
+                                                    {% set desarrollo = '' %}
                                                     {% for tarea in caso.tareasCasoRel %}
                                                         {% if tarea.codigoTareaPk is defined  %}
-                                                            <a>{{ tarea.codigoTareaPk }}</a>
+                                                            {% set desarrollo = 'true' %}
+
+                                                            {#<a class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>#}
                                                         {% endif %}
                                                     {% endfor %}
+                                                    {% if desarrollo == 'true' %}
+                                                        <a class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
+                                                    {% endif %}
+
+
                                                 </td>
                                                 <td>
                                                     {% if caso.estadoSolucionado == false and caso.estadoAtendido == false%}

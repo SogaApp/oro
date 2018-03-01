@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+    <div id="wrapper">
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+        <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container">
+                    {% block content %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title"><i class="mdi mdi-desktop-tower"></i>Ver tarea</h4>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="m-t-0 header-title"><b>Datos de la tarea</b></h4>
+                                    {#<h5>Fecha: {{ fecha|date('d/m/Y - H:i:s') }}</h5>#}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-2">Tipo: </div>
+                                                <div class="col-md-2">{{ tarea.tareaTipoRel.nombre }}</div>
+                                                <div class="col-md-2">Asignado: </div>
+                                                <div class="col-md-2">{{ tarea.codigoUsuarioAsignaFk }} </div>
+                                                <div class="col-md-2">Prioridad: </div>
+                                                <div class="col-md-2">{% if tarea.prioridadRel.nombre is defined %}{{ tarea.prioridadRel.nombre }}{% endif %} </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">Descripción: </div>
+                                        <div class="col-md-12">{{ tarea.descripcion}} </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">Comentarios: </div>
+                                        <div class="col-md-12">{{ tarea.comentario}} </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock content %}
+                </div> <!-- container -->
+            </div> <!-- content -->
+        </div>
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    </div>
+{% endblock %}

@@ -68,8 +68,38 @@ class TareaController extends Controller
         );
     }
 
+  /**
+   * @Route("/tarea/ver/{codigoTarea}", requirements={"codigoTarea":"\d+"}, name="verTarea")
+   */
+  /*
+   * Ver una tarea y sus comentarios
+   */
+  public function verTarea(Request $request, $codigoTarea = null)
+  {
+
+    /**
+     * @var Usuario $arUser
+     **/
+    $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+
+    if ($codigoTarea) {
+      $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+    }
+
+
+    return $this->render('Tarea/verTarea.html.twig',
+      array(
+        'tarea' => $arTarea,
+      )
+    );
+  }
+
 	/**
 	 * @Route("/tarea/nuevo/caso/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarTareaDesdeCaso")
+   *
+	 */
+	/*
+	 * Registra una trarea desde caso
 	 */
 	public function nuevoTareaDesdeCaso(Request $request, $codigoCaso = null)
 	{
@@ -327,4 +357,27 @@ class TareaController extends Controller
         $session = new Session();
         $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql($session->get('filtroEstado'));
     }
+
+  /**
+   * @Route("/tarea/lista/{intCodigoCasoFk}", requirements={"intCodigoCasoFk":"\d+"}, name="listaTareaCaso")
+   */
+  public function listaTareaCaso(Request $request ,$intCodigoCasoFk = 0)
+  {
+
+    $em = $this->getDoctrine()->getManager();
+    if($intCodigoCasoFk != 0 ){
+      $arTareas = $em->getRepository('App:Tarea')->listaPorCaso($intCodigoCasoFk);
+    }
+    $sinTerminar = 0;
+    $sinVerificar = 0;
+
+    return $this->render('Tarea/listarPorCaso.html.twig',array(
+      'tareas' => $arTareas,
+      'codigoCaso' => $intCodigoCasoFk
+
+    ));
+
+  }
+
+
 }

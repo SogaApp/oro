@@ -95,17 +95,17 @@ class CasoController extends Controller {
             $arCaso->setSolucion($form->get('solucion')->getData());
             $em->persist($arCaso);
             $em->flush();
-
-            $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
-            ->setFrom('sogainformacion@gmail.com')
+            if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
+              $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
+                ->setFrom('sogainformacion@gmail.com')
                 ->setTo($arCaso->getCorreo())
                 ->setBody(
-                    $this->renderView(
-                    // templates/emails/registration.html.twig
-                        'Correo/Caso/solucionado.html.twig',
-                        array('arCaso' => $arCaso)
-                    ),
-                    'text/html'
+                  $this->renderView(
+                  // templates/emails/registration.html.twig
+                    'Correo/Caso/solucionado.html.twig',
+                    array('arCaso' => $arCaso)
+                  ),
+                  'text/html'
                 )
                 /*
                  * If you also want to include a plaintext version of the message
@@ -117,10 +117,12 @@ class CasoController extends Controller {
                     'text/plain'
                 )
                 */
-            ;
+              ;
 
-            $mailer->send($message);
+              $mailer->send($message);
 //
+            }
+
 //            $this->enviarCorreo($arCaso);
 
             echo "<script>window.opener.location.reload();window.close()</script>";
