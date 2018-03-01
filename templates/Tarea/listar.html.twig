@@ -48,6 +48,7 @@
 
                                             <thead>
                                             <tr>
+                                                <th>Código</th>
                                                 <th>Registra</th>
                                                 <th>Fecha</th>
                                                 <th>Tipo</th>
@@ -69,6 +70,7 @@
                                             {{ form_start(form) }}
                                             {% for tarea in tareas %}
                                                 <tr>
+                                                    <td>{{ tarea.codigoTareaPk }}</td>
                                                     <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
 
                                                     <td>{% if tarea.fechaRegistro != null %}
