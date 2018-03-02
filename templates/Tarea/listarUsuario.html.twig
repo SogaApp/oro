@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        {{form_start(form) }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card-box">
@@ -52,7 +52,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {{form_start(form) }}
+
                                             {% for tarea in tareas %}
 
                                                 <tr>
@@ -147,7 +147,7 @@
                                                     {% endif %}
                                                 </tr>
                                             {% endfor %}
-                                            {{ form_end(form) }}
+
                                             </tbody>
                                         </table>
 
@@ -157,7 +157,7 @@
                             <!-- end col -->
 
                         </div>
-
+                        {{ form_end(form) }}
                     {% endblock content %}
                 </div> <!-- container -->
             </div> <!-- content -->
