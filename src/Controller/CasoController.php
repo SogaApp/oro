@@ -211,6 +211,16 @@ class CasoController extends Controller {
                 }
             }
 
+	        if($request->request->has('casoEscalar')) {
+		        $codigoCaso = $request->request->get('casoEscalar');
+		        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+		        if(!$arCaso->getEstadoEscalado()){
+			        $arCaso->setEstadoEscalado(true);
+
+			        $em->persist($arCaso);
+		        }
+	        }
+
             $em->flush();
             return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }

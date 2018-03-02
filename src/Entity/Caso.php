@@ -170,6 +170,13 @@ class Caso
 	/**
 	 * @var boolean
 	 *
+	 * @ORM\Column(name="estado_escalado", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoEscalado;
+
+	/**
+	 * @var boolean
+	 *
 	 * @ORM\Column(name="estado_reabierto", type="boolean" ,nullable= TRUE)
 	 */
 	private $estadoReabierto;
@@ -707,29 +714,7 @@ class Caso
         return $this;
     }
 
-    /**
-     * Get estadoReabierto.
-     *
-     * @return bool|null
-     */
-    public function getEstadoReabierto()
-    {
-        return $this->estadoReabierto;
-    }
 
-	/**
-	 * Set estadoReabierto.
-	 *
-	 * @param bool|null $estadoReabierto
-	 *
-	 * @return Caso
-	 */
-	public function setEstadoReabierto($estadoReabierto = null)
-	{
-		$this->estadoSolucionado = $estadoReabierto;
-
-		return $this;
-	}
 
 	/**
 	 * Get estadoSolucionado.
@@ -925,6 +910,54 @@ class Caso
 	 */
 	public function setTareasCasoRel( $tareasCasoRel ): void {
 		$this->tareasCasoRel = $tareasCasoRel;
+	}
+
+	/**
+	 * Get estadoReabierto.
+	 *
+	 * @return bool|null
+	 */
+	public function getEstadoReabierto()
+	{
+		return $this->estadoReabierto;
+	}
+
+	/**
+	 * Set estadoReabierto.
+	 *
+	 * @param bool|null $estadoReabierto
+	 *
+	 * @return Caso
+	 */
+	public function setEstadoReabierto($estadoReabierto = null)
+	{
+		$this->estadoSolucionado = $estadoReabierto;
+
+		return $this;
+	}
+
+	/**
+	 * Get estadoEscalado
+	 *
+	 * @return bool|null
+	 */
+	public function getEstadoEscalado()
+	{
+		return $this->estadoEscalado;
+	}
+
+	/**
+	 * Set estadoEscalado.
+	 *
+	 * @param bool|null $estadoEscalado
+	 *
+	 * @return Caso
+	 */
+	public function setEstadoEscalado($estadoEscalado = null)
+	{
+		$this->estadoEscalado = $estadoEscalado;
+
+		return $this;
 	}
 
 
