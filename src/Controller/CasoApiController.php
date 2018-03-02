@@ -111,7 +111,7 @@ class CasoApiController extends FOSRestController
   }
 
 	/**
-	 * @Rest\Get("/api/caso/reabir/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+"}, defaults={"intCodigoCasoPk" = 0} )
+	 * @Rest\Get("/api/caso/reabrir/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+"}, defaults={"intCodigoCasoPk" = 0} )
 	 */
 	/*
 	 * /api/caso/reabir/{intCodigoCasoPk}
@@ -228,7 +228,7 @@ class CasoApiController extends FOSRestController
 	    $codigoAreaFk = $data['codigo_area_fk'];
 	    $codigoCargoFk = $data['codigo_cargo_fk'];
 
-    	$arCaso = $em->getRepository()->find($intCodigoCasoPk);
+    	$arCaso = $em->getRepository('App:Caso')->find($intCodigoCasoPk);
     	if($arCaso != null && $arCaso->getEstadoAtendido() == false){
 		    if($asunto != null){
 		    	$arCaso->setAsunto($asunto);
