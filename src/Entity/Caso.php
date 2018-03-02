@@ -167,6 +167,13 @@ class Caso
      */
     private $estadoAtendido;
 
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="estado_reabierto", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoReabierto;
+
     /**
      * @var boolean
      *
@@ -701,14 +708,38 @@ class Caso
     }
 
     /**
-     * Get estadoSolucionado.
+     * Get estadoReabierto.
      *
      * @return bool|null
      */
-    public function getEstadoSolucionado()
+    public function getEstadoReabierto()
     {
-        return $this->estadoSolucionado;
+        return $this->estadoReabierto;
     }
+
+	/**
+	 * Set estadoReabierto.
+	 *
+	 * @param bool|null $estadoReabierto
+	 *
+	 * @return Caso
+	 */
+	public function setEstadoReabierto($estadoReabierto = null)
+	{
+		$this->estadoSolucionado = $estadoReabierto;
+
+		return $this;
+	}
+
+	/**
+	 * Get estadoSolucionado.
+	 *
+	 * @return bool|null
+	 */
+	public function getEstadoSolucionado()
+	{
+		return $this->estadoSolucionado;
+	}
 
     /**
      * Set codigoClienteFk.

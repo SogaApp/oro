@@ -114,31 +114,18 @@ class CasoApiController extends FOSRestController
 	 * @Rest\Get("/api/caso/reabir/intCodigoCasoPk")
 	 */
 	/*
-	 * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
-	 * $boolEstado = 0 == false
-	 * $boolEstado = 1 == true
-	 * Lista los casos de un cliente filtrados por el estado de Atendido
+	 * $intCodigoCaso = 0 default Es el código del caso seteado en base de datos(requerido).
+	 * Reactiva el caso de un cliente despues de cerrado
 	 */
-	public function reabrirCaso(Request $request, $boolEstado)
+	public function reabrirCaso(Request $request, $intCodigoCasoPk)
 	{
 
 		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
-		$data = json_decode($request->getContent(), true);
-
-
-
-		if ($data != null) {
-			$intCodigoCasoPk = $data['codigoCaso'];
-			$usuarioReabre = $data['usuario'];
-			$contacto = $data['contacto'];
-			$telefono = $data['telefono'];
-			$extension = $data['extension'];
-			$descripcion = $data['descripcion'];
-			$codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
-			$codigoPrioridadFk = $data['codigo_prioridad_fk'];
-			$intCodigoClienteFk = $data['codigo_cliente_fk'];
-			$codigoAreaFk = $data['codigo_area_fk'];
-			$codigoCargoFk = $data['codigo_cargo_fk'];
+		if ($intCodigoCasoPk != null) {
+			$arCaso = $em->getRepository()->find($intCodigoCasoPk);
+			$arCaso->setEstadoSolucionado(true);
+			$arCaso->setEstadoReabierto(true);
+			$jsonRestResult = true;
 		}
 
 		if ($jsonRestResult === null) {

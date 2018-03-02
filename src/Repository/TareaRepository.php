@@ -18,9 +18,9 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
         $db = $em->createQueryBuilder()->from("App:Tarea", "t")
             ->select("t")
             ->andwhere("t.codigoTareaPk <> 0")
-            ->orderBy("t.estadoTerminado", "ASC")
-            ->addOrderBy("t.estadoVerificado", "ASC")
-            ->addOrderBy("t.fechaRegistro", "DESC");
+//            ->orderBy("t.estadoTerminado", "ASC")
+            ->orderBy("t.fechaRegistro", "DESC");
+//            ->addOrderBy("t.fechaRegistro", "DESC");
         if ($estado == 0) {
             $db->andWhere("t.estadoTerminado = 0");
         }

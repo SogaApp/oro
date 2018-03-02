@@ -172,7 +172,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaSolucionar')) {
                 $codigoTarea = $request->request->get('TareaSolucionar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->getEstadoTerminado()) {
+                if (!$arTarea->isEstadoTerminado()) {
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                 }
@@ -181,7 +181,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->getEstadoVerificado()) {
+                if (!$arTarea->isEstadoVerificado()) {
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }
@@ -202,7 +202,7 @@ class TareaController extends Controller
                 $sinAsignar++;
             } else if (!$value->isEstadoTerminado()) {
                 $sinTerminar++;
-            } else if ($value->isEstadoTerminado() && !$value->getEstadoVerificado()) {
+            } else if ($value->isEstadoTerminado() && !$value->isEstadoVerificado()) {
                 $sinVerificar++;
             }
         }
