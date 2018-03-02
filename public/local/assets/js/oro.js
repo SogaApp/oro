@@ -5,6 +5,7 @@ function abrirVentana(url, Nombre, Alto, Ancho) {
 jQuery(document).ready(function($){
 
     $(".table-oro").DataTable({
+        "pageLength": 50,
          order: [[0,"desc"]],
         "pagingType": "full_numbers",
         "bLengthChange": false,
