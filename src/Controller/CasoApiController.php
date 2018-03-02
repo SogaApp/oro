@@ -111,9 +111,10 @@ class CasoApiController extends FOSRestController
   }
 
 	/**
-	 * @Rest\Get("/api/caso/reabir/intCodigoCasoPk")
+	 * @Rest\Get("/api/caso/reabir/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+"}, defaults={"intCodigoCasoPk" = 0} )
 	 */
 	/*
+	 * /api/caso/reabir/{intCodigoCasoPk}
 	 * $intCodigoCaso = 0 default Es el código del caso seteado en base de datos(requerido).
 	 * Reactiva el caso de un cliente despues de cerrado
 	 */
