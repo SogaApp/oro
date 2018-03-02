@@ -20,6 +20,7 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
             ->andwhere("t.codigoTareaPk <> 0")
 //            ->orderBy("t.estadoTerminado", "ASC")
             ->orderBy("t.fechaRegistro", "DESC");
+
 //            ->addOrderBy("t.fechaRegistro", "DESC");
         if ($estado == 0) {
             $db->andWhere("t.estadoTerminado = 0");
