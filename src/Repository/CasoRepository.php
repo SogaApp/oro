@@ -323,7 +323,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		$caso  = $qb->getQuery()->getResult();
 		$tarea = $qb2->getQuery()->getResult();
 
-		if ( $tarea[0]['1'] == 0 && $caso[0]->getEstadoAtendido() == true ) {
+		if ( $tarea[0]['1'] == 0 && $caso[0]->getEstadoAtendido() == false ) {
 			$qb3 = $em->createQueryBuilder();
 			$qb3->delete( "App:Caso", "c" )
 			    ->Where( "c.codigoCasoPk = {$intCodigoCasoPk}" );
