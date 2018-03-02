@@ -226,11 +226,11 @@ class CasoApiController extends FOSRestController
 	    $descripcion = $data['descripcion'];
 	    $codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
 	    $codigoPrioridadFk = $data['codigo_prioridad_fk'];
-	    $intCodigoClienteFk = $data['codigo_cliente_fk'];
 	    $codigoAreaFk = $data['codigo_area_fk'];
 	    $codigoCargoFk = $data['codigo_cargo_fk'];
 
     	$arCaso = $em->getRepository('App:Caso')->find($intCodigoCasoPk);
+
     	if($arCaso != null && $arCaso->getEstadoAtendido() == false){
 		    if($asunto != null){
 		    	$arCaso->setAsunto($asunto);
@@ -259,25 +259,20 @@ class CasoApiController extends FOSRestController
 		    if($codigoPrioridadFk != null){
 			    $arPrioridad = $em->getRepository('App:Prioridad')->find($codigoPrioridadFk);
 			    if($arPrioridad != null){
-				    $arCaso->setCategoriaRel($arPrioridad);
+				    $arCaso->setPrioridadRel($arPrioridad);
 			    }
 		    }
-		    if($intCodigoClienteFk != null){
-			    $arCliente = $em->getRepository('App:Cliente')->find($intCodigoClienteFk);
-			    if($arCliente != null){
-				    $arCaso->setCategoriaRel($arCliente);
-			    }
-		    }
+
 		    if($codigoAreaFk != null){
 			    $arArea = $em->getRepository('App:Area')->find($codigoAreaFk);
 			    if($arArea != null){
-				    $arCaso->setCategoriaRel($arArea);
+				    $arCaso->setAreaRel($arArea);
 			    }
 		    }
 		    if($codigoCargoFk != null){
 			    $arCargo= $em->getRepository('App:Cargo')->find($codigoCargoFk);
 			    if($arCargo != null){
-				    $arCaso->setCategoriaRel($arCargo);
+				    $arCaso->setCargoRel($arCargo);
 			    }
 		    }
 	    }
