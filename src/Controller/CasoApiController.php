@@ -123,9 +123,10 @@ class CasoApiController extends FOSRestController
 
 		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
 		if ($intCodigoCasoPk != null) {
-			$arCaso = $em->getRepository()->find($intCodigoCasoPk);
+			$arCaso = $em->getRepository('App:Caso')->find($intCodigoCasoPk);
 			$arCaso->setEstadoSolucionado(false);
 			$arCaso->setEstadoReabierto(true);
+			$em->flush();
 			$jsonRestResult = true;
 		}
 

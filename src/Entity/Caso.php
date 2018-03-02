@@ -929,9 +929,9 @@ class Caso
 	 *
 	 * @return Caso
 	 */
-	public function setEstadoReabierto($estadoReabierto = null)
+	public function setEstadoReabierto($estadoReabierto )
 	{
-		$this->estadoSolucionado = $estadoReabierto;
+		$this->estadoReabierto = $estadoReabierto;
 
 		return $this;
 	}
@@ -953,7 +953,7 @@ class Caso
 	 *
 	 * @return Caso
 	 */
-	public function setEstadoEscalado($estadoEscalado = null)
+	public function setEstadoEscalado($estadoEscalado)
 	{
 		$this->estadoEscalado = $estadoEscalado;
 
