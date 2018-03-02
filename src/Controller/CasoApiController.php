@@ -162,58 +162,131 @@ class CasoApiController extends FOSRestController
 
 
   /**
-   * @Rest\Post("/api/caso/nuevo")
+   * @Rest\Post("/api/caso/nuevo/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+" } ,defaults={"intCodigoCasoPk" = 0})
    */
-  // crear nuevo caso de un cliente
-  public function nuevo(Request $request)
+  /* crear nuevo caso de un cliente o editarlo
+   * En caso de venir seteado el parametro de codigoCaso se editara el caso con los valores enviados
+   *
+   */
+  public function nuevo(Request $request, $intCodigoCasoPk)
   {
+  	/**
+  	 * @var $arCaso Caso
+  	 */
     $em = $this->getDoctrine()->getManager(); // instancia el entity manager
     $data = json_decode($request->getContent(), true);
-    if ($data != null) {
-      //captura datos del post
-      $asunto = $data['asunto'];
-      $correo = $data['correo'];
-      $contacto = $data['contacto'];
-      $telefono = $data['telefono'];
-      $extension = $data['extension'];
-      $descripcion = $data['descripcion'];
-      $codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
-      $codigoPrioridadFk = $data['codigo_prioridad_fk'];
-      $intCodigoClienteFk = $data['codigo_cliente_fk'];
-      $codigoAreaFk = $data['codigo_area_fk'];
-      $codigoCargoFk = $data['codigo_cargo_fk'];
+    if($intCodigoCasoPk == 0 && $data != null){
+	    //captura datos del post
+	    $asunto = $data['asunto'];
+	    $correo = $data['correo'];
+	    $contacto = $data['contacto'];
+	    $telefono = $data['telefono'];
+	    $extension = $data['extension'];
+	    $descripcion = $data['descripcion'];
+	    $codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
+	    $codigoPrioridadFk = $data['codigo_prioridad_fk'];
+	    $intCodigoClienteFk = $data['codigo_cliente_fk'];
+	    $codigoAreaFk = $data['codigo_area_fk'];
+	    $codigoCargoFk = $data['codigo_cargo_fk'];
 
-      //consulta las entidades a relacionar
-      $arCliente = $this->getDoctrine()->getRepository('App:Cliente')->find($intCodigoClienteFk);
-      $arCategoria = $this->getDoctrine()->getRepository('App:CasoCategoria')->find($codigoCategoriaCasoFk);
-      $arPrioridad = $this->getDoctrine()->getRepository('App:Prioridad')->find($codigoPrioridadFk);
-      $arArea = $this->getDoctrine()->getRepository('App:Area')->find($codigoAreaFk);
-      $arCargo = $this->getDoctrine()->getRepository('App:Cargo')->find($codigoCargoFk);
+	    //consulta las entidades a relacionar
+	    $arCliente = $this->getDoctrine()->getRepository('App:Cliente')->find($intCodigoClienteFk);
+	    $arCategoria = $this->getDoctrine()->getRepository('App:CasoCategoria')->find($codigoCategoriaCasoFk);
+	    $arPrioridad = $this->getDoctrine()->getRepository('App:Prioridad')->find($codigoPrioridadFk);
+	    $arArea = $this->getDoctrine()->getRepository('App:Area')->find($codigoAreaFk);
+	    $arCargo = $this->getDoctrine()->getRepository('App:Cargo')->find($codigoCargoFk);
 
-      //crea objeto tipo caso y setea las propiedades del post
-      $arCaso = new Caso();
-      $arCaso->setDescripcion($descripcion);
-      $arCaso->setAsunto($asunto);
-      $arCaso->setCorreo($correo);
-      $arCaso->setContacto($contacto);
-      $arCaso->setTelefono($telefono);
-      $arCaso->setExtension($extension);
-      $arCaso->setFechaRegistro(new \DateTime('now'));
-      $arCaso->setCodigoCategoriaCasoFk($codigoCategoriaCasoFk);
-      $arCaso->setCodigoPrioridadFk($codigoPrioridadFk);
-      $arCaso->setEstadoAtendido(false);
-      $arCaso->setEstadoSolucionado(false);
-      $arCaso->setClienteRel($arCliente);
-      $arCaso->setCategoriaRel($arCategoria);
-      $arCaso->setPrioridadRel($arPrioridad);
-      $arCaso->setAreaRel($arArea);
-      $arCaso->setCargoRel($arCargo);
+	    //crea objeto tipo caso y setea las propiedades del post
+	    $arCaso = new Caso();
+	    $arCaso->setDescripcion($descripcion);
+	    $arCaso->setAsunto($asunto);
+	    $arCaso->setCorreo($correo);
+	    $arCaso->setContacto($contacto);
+	    $arCaso->setTelefono($telefono);
+	    $arCaso->setExtension($extension);
+	    $arCaso->setFechaRegistro(new \DateTime('now'));
+	    $arCaso->setCodigoCategoriaCasoFk($codigoCategoriaCasoFk);
+	    $arCaso->setCodigoPrioridadFk($codigoPrioridadFk);
+	    $arCaso->setEstadoAtendido(false);
+	    $arCaso->setEstadoSolucionado(false);
+	    $arCaso->setClienteRel($arCliente);
+	    $arCaso->setCategoriaRel($arCategoria);
+	    $arCaso->setPrioridadRel($arPrioridad);
+	    $arCaso->setAreaRel($arArea);
+	    $arCaso->setCargoRel($arCargo);
+    }
+    if ($data != null && $intCodigoCasoPk != 0) {
+	    $asunto = $data['asunto'];
+	    $correo = $data['correo'];
+	    $contacto = $data['contacto'];
+	    $telefono = $data['telefono'];
+	    $extension = $data['extension'];
+	    $descripcion = $data['descripcion'];
+	    $codigoCategoriaCasoFk = $data['codigo_categoria_caso_fk'];
+	    $codigoPrioridadFk = $data['codigo_prioridad_fk'];
+	    $intCodigoClienteFk = $data['codigo_cliente_fk'];
+	    $codigoAreaFk = $data['codigo_area_fk'];
+	    $codigoCargoFk = $data['codigo_cargo_fk'];
+
+    	$arCaso = $em->getRepository()->find($intCodigoCasoPk);
+    	if($arCaso != null && $arCaso->getEstadoAtendido() == false){
+		    if($asunto != null){
+		    	$arCaso->setAsunto($asunto);
+		    }
+		    if($correo != null){
+				$arCaso->setCorreo($correo);
+		    }
+		    if($contacto != null){
+				$arCaso->setContacto($contacto);
+		    }
+		    if($telefono != null){
+				$arCaso->setTelefono($telefono);
+		    }
+		    if($extension != null){
+				$arCaso->setExtension($extension);
+		    }
+		    if($descripcion != null){
+				$arCaso->setDescripcion($descripcion);
+		    }
+		    if($codigoCategoriaCasoFk != null){
+				$arCategoriaCaso = $em->getRepository('App:CasoCategoria')->find($codigoCategoriaCasoFk);
+				if($arCategoriaCaso != null){
+					$arCaso->setCategoriaRel($arCategoriaCaso);
+				}
+		    }
+		    if($codigoPrioridadFk != null){
+			    $arPrioridad = $em->getRepository('App:Prioridad')->find($codigoPrioridadFk);
+			    if($arPrioridad != null){
+				    $arCaso->setCategoriaRel($arPrioridad);
+			    }
+		    }
+		    if($intCodigoClienteFk != null){
+			    $arCliente = $em->getRepository('App:Cliente')->find($intCodigoClienteFk);
+			    if($arCliente != null){
+				    $arCaso->setCategoriaRel($arCliente);
+			    }
+		    }
+		    if($codigoAreaFk != null){
+			    $arArea = $em->getRepository('App:Area')->find($codigoAreaFk);
+			    if($arArea != null){
+				    $arCaso->setCategoriaRel($arArea);
+			    }
+		    }
+		    if($codigoCargoFk != null){
+			    $arCargo= $em->getRepository('App:Cargo')->find($codigoCargoFk);
+			    if($arCargo != null){
+				    $arCaso->setCategoriaRel($arCargo);
+			    }
+		    }
+	    }
+
+    }
 
       $em->persist($arCaso);
       $em->flush();
 
       return true;
-    }
+
 
   }
 

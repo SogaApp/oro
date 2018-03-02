@@ -45,6 +45,7 @@ class TareaController extends Controller
 
         $form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$codigoTarea) {
                 $id = $user->getCodigoUsuarioPk();
