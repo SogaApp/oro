@@ -48,7 +48,7 @@ class ErrorApiController extends Controller
     {
         $limite = 100;
         $em = $this->getDoctrine()->getManager();
-        $arrResultados = $em->getRepository("App:Error")->lista($pagina, $cliente, $fecha, $limite);
+        $arrResultados = $em->getRepository("App:Error")->listaApi($pagina, $cliente, $fecha, $limite);
         if(!$arrResultados) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }
@@ -63,7 +63,7 @@ class ErrorApiController extends Controller
     public function listaUno(Request $request, $codigo)
     {
         $em = $this->getDoctrine()->getManager();
-        $arError = $em->getRepository("App:Error")->listaUno($codigo);
+        $arError = $em->getRepository("App:Error")->listaUnoApi($codigo);
         if(!$arError) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }

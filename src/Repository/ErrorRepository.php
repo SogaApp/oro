@@ -20,12 +20,27 @@ class ErrorRepository extends ServiceEntityRepository
     }
 
 
-    public function listaUno($codigo)
+    public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
             ->where('e.id= :value')->setParameter('value', $codigo)
             ->getQuery()
             ->getSingleResult();
+    }
+
+    public function filtroErrores($cliente = "")
+    {
+        $qb = $this->createQueryBuilder("e")
+            ->select("e.id")
+            ->addSelect("e.cliente")
+            ->addSelect("e.mensaje")
+            ->addSelect("e.fecha");
+        if(!empty($cliente)) {
+            $qb->where("e.cliente LIKE '%{$cliente}%'");
+        }
+
+        return $qb->orderBy("e.fecha", 'DESC')
+            ->getDQL();
     }
 
     /**
@@ -37,7 +52,7 @@ class ErrorRepository extends ServiceEntityRepository
      * @return array|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function lista($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
+    public function listaApi($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
