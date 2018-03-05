@@ -46,7 +46,7 @@ class ErrorApiController extends Controller
      */
     public function lista(Request $request, $pagina=null, $cliente=null, $fecha=null)
     {
-        $limite = 5;
+        $limite = 30;
         $em = $this->getDoctrine()->getManager();
         $arrResultados = $em->getRepository("App:Error")->lista($pagina, $cliente, $fecha, $limite);
         if(!$arrResultados) {
