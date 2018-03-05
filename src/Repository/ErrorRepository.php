@@ -32,8 +32,10 @@ class ErrorRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder("e")
             ->select("e.id")
+            ->addSelect("e.codigo")
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
+            ->addSelect("e.url")
             ->addSelect("e.fecha");
         if(!empty($cliente)) {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
