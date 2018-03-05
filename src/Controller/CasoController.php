@@ -128,6 +128,7 @@ class CasoController extends Controller {
 		        }
 		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
 		        $arCaso->setEstadoSolicitudInformacion(true);
+		        $arCaso->setFechaSolicitudInformacion(new \DateTime('now'));
 	        }
 	        if($form->get('btnGuardar')->isClicked()){
 		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){

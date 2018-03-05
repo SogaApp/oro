@@ -97,6 +97,21 @@ class Caso
      */
     private $fechaRegistro;
 
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="fecha_solicitud_informacion", type="datetime", nullable= TRUE)
+	 */
+	private $fechaSolicitudInformacion;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="fecha_respuesta_solicitud_informacion", type="datetime", nullable= TRUE)
+	 */
+	private $fechaRespuestaSolicitudInformacion;
+
     /**
      * @var \DateTime
      *
@@ -1082,6 +1097,53 @@ class Caso
 	}
 
 
+	/**
+	 * Set fechaSolicitudInformacion.
+	 *
+	 * @param \DateTime|null $fechaSolicitudInformacion
+	 *
+	 * @return Caso
+	 */
+	public function setfechaSolicitudInformacion($fechaSolicitudInformacion)
+	{
+		$this->fechaSolicitudInformacion = $fechaSolicitudInformacion;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaSolicitudInformacion.
+	 *
+	 * @return \DateTime|null
+	 */
+	public function getfechaSolicitudInformacion()
+	{
+		return $this->fechaSolicitudInformacion;
+	}
+
+	/**
+	 * Set fechaRespuestaSolicitudInformacion.
+	 *
+	 * @param \DateTime|null $fechaRespuestaSolicitudInformacion
+	 *
+	 * @return Caso
+	 */
+	public function setfechaRespuestaSolicitudInformacion($fechaRespuestaSolicitudInformacion)
+	{
+		$this->fechaRespuestaSolicitudInformacion = $fechaRespuestaSolicitudInformacion;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaRespuestaSolicitudInformacion.
+	 *
+	 * @return \DateTime|null
+	 */
+	public function getfechaRespuestaSolicitudInformacion()
+	{
+		return $this->fechaRespuestaSolicitudInformacion;
+	}
 
 
 }
