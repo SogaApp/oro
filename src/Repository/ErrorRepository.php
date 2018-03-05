@@ -19,18 +19,6 @@ class ErrorRepository extends ServiceEntityRepository
         parent::__construct($registry, Error::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->where('e.something = :value')->setParameter('value', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
     public function listaUno($codigo)
     {
@@ -68,6 +56,7 @@ class ErrorRepository extends ServiceEntityRepository
 
         if ($total > 0){
             $qb->select("e")
+                ->orderBy('e.id', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
             $registros = $qb->getQuery()->getResult();
