@@ -170,6 +170,38 @@ class Caso
 	/**
 	 * @var boolean
 	 *
+	 * @ORM\Column(name="estado_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoSolicitudInformacion;
+
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="estado_respuesta_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoRespuestaSolicitudInformacion;
+
+	/**
+	 * @var text
+	 *
+	 * @ORM\Column(name="solicitud_informacion", type="text" ,nullable= TRUE)
+	 */
+	private $solicitudInformacion;
+
+
+	/**
+	 * @var text
+	 *
+	 * @ORM\Column(name="respuesta_solicitud_informacion", type="text" ,nullable= TRUE)
+	 */
+	private $respuestaSolicitudInformacion;
+
+
+
+
+	/**
+	 * @var boolean
+	 *
 	 * @ORM\Column(name="estado_escalado", type="boolean" ,nullable= TRUE)
 	 */
 	private $estadoEscalado;
@@ -229,9 +261,17 @@ class Caso
 	/**
 	 *
 	 * @ORM\OneToMany(targetEntity="Tarea", mappedBy="casoRel")
+	 *
+	 */
+	 private $tareasCasoRel;
+
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="casoRel")
 	 */
 
-	private $tareasCasoRel;
+	private $casosComentarioRel;
 
 
     /**
@@ -959,6 +999,89 @@ class Caso
 
 		return $this;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCasosComentarioRel() {
+		return $this->casosComentarioRel;
+	}
+
+	/**
+	 * @param mixed $casosComentarioRel
+	 */
+	public function setCasosComentarioRel( $casosComentarioRel ){
+		$this->casosComentarioRel = $casosComentarioRel;
+		return $this;
+	}
+
+
+
+
+
+	/* solicitudes de informacion */
+
+	/**
+	 * @return text
+	 */
+	public function getSolicitudInformacion() {
+		return $this->solicitudInformacion;
+	}
+
+	/**
+	 * @param text $solicitudInformacion
+	 */
+	public function setSolicitudInformacion( $solicitudInformacion ) {
+		$this->solicitudInformacion = $solicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return text
+	 */
+	public function getRespuestaSolicitudInformacion() {
+		return $this->respuestaSolicitudInformacion;
+	}
+
+	/**
+	 * @param text $respuestaSolicitudInformacion
+	 */
+	public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion ){
+		$this->respuestaSolicitudInformacion = $respuestaSolicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEstadoSolicitudInformacion(){
+		return $this->estadoSolicitudInformacion;
+	}
+
+	/**
+	 * @param bool $estadoSolicitudInformacion
+	 */
+	public function setEstadoSolicitudInformacion( bool $estadoSolicitudInformacion ) {
+		$this->estadoSolicitudInformacion = $estadoSolicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEstadoRespuestaSolicitudInformacion() {
+		return $this->estadoRespuestaSolicitudInformacion;
+	}
+
+	/**
+	 * @param bool $estadoRespuestaSolicitudInformacion
+	 */
+	public function setEstadoRespuestaSolicitudInformacion( bool $estadoRespuestaSolicitudInformacion ) {
+		$this->estadoRespuestaSolicitudInformacion = $estadoRespuestaSolicitudInformacion;
+		return $this;
+	}
+
+
 
 
 }

@@ -107,8 +107,11 @@
                                                     <td>{{ tarea.descripcion }}</td>
 
                                                     <td>{{ tarea.caso }}</td>
-
-                                                    <td>{{ tarea.comentario }}</td>
+                                                    {#{{  dump(tarea) }}#}
+                                                    {#<td>{% for comentariosTarea in tarea.tareasComentarioRel %}#}
+                                                                  {#{{ comentariosTarea.comentario }}#}
+                                                        {#{% endfor %}#}
+                                                    </td>
                                                     <td>
                                                     <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
                                                         {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}

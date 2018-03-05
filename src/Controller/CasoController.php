@@ -70,13 +70,24 @@ class CasoController extends Controller {
         $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
         $user = $this->getUser()->getCodigoUsuarioPk();
 
+
+
         $form = $this->createFormBuilder()
         ->add ('solucion', TextareaType::class,array(
             'attr' => array(
                 'id' => '_solucion',
                 'name' => '_solucion',
-                'class' => 'form-control'
-            )
+                'class' => 'form-control',
+
+            ),
+	        'required' => false
+        ))
+        ->add ('requisitoInformacion', TextareaType::class,array(
+	        'attr' => array(
+		        'id' => '_requisitoInformacion',
+		        'name' => '_requisitoInformacion',
+		        'class' => 'form-control'
+	        )
         ))
         ->add ('btnGuardar', SubmitType::class, array(
             'attr' => array(
@@ -84,44 +95,77 @@ class CasoController extends Controller {
                 'name' => '_btnGuardar'
             ), 'label' => 'GUARDAR'
         ))
+
+        ->add ('btnEnviar', SubmitType::class, array(
+	        'attr' => array(
+		        'id' => '_btnEnviar',
+		        'name' => '_btnEnviar'
+	        ), 'label' => 'Enviar solicitud'
+        ))
+
         ->getForm();
 //        $form = $this->createForm(FormTypeCaso::class, $arCaso); //create form
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $arCaso->setCodigoUsuarioSolucionaFk($user);
-            $arCaso->setEstadoAtendido(true);
-            $arCaso->setEstadoSolucionado(true);
-            $arCaso->setSolucion($form->get('solucion')->getData());
-            $em->persist($arCaso);
-            $em->flush();
-            if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
-              $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
-                ->setFrom('sogainformacion@gmail.com')
-                ->setTo($arCaso->getCorreo())
-                ->setBody(
-                  $this->renderView(
-                  // templates/emails/registration.html.twig
-                    'Correo/Caso/solucionado.html.twig',
-                    array('arCaso' => $arCaso)
-                  ),
-                  'text/html'
-                )
-                /*
-                 * If you also want to include a plaintext version of the message
-                ->addPart(
-                    $this->renderView(
-                        'emails/registration.txt.twig',
-                        array('name' => $name)
-                    ),
-                    'text/plain'
-                )
-                */
-              ;
+        	if($form->get('btnEnviar')->isClicked()){
 
-              $mailer->send($message);
+
+		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)) {
+			        $message = ( new \Swift_Message( 'Solicitud ampliación de información de caso - AppSoga' . ' - ' . $arCaso->getCodigoCasoPk() ) )
+				        ->setFrom( 'sogainformacion@gmail.com' )
+				        ->setTo( $arCaso->getCorreo() )
+				        ->setBody(
+					        $this->renderView(
+					        // templates/emails/registration.html.twig
+						        'Correo/Caso/solicitudInformacion.html.twig',
+						        array( 'arCaso' => $arCaso,
+							            'mensaje' => $form->get('requisitoInformacion')->getData())
+					        ),
+					        'text/html'
+				        );
+			        $mailer->send( $message );
+		        }
+		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
+		        $arCaso->setEstadoSolicitudInformacion(true);
+	        }
+	        if($form->get('btnGuardar')->isClicked()){
+		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
+			        $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
+				        ->setFrom('sogainformacion@gmail.com')
+				        ->setTo($arCaso->getCorreo())
+				        ->setBody(
+					        $this->renderView(
+					        // templates/emails/registration.html.twig
+						        'Correo/Caso/solucionado.html.twig',
+						        array('arCaso' => $arCaso)
+					        ),
+					        'text/html'
+				        )
+				        /*
+						 * If you also want to include a plaintext version of the message
+						->addPart(
+							$this->renderView(
+								'emails/registration.txt.twig',
+								array('name' => $name)
+							),
+							'text/plain'
+						)
+						*/
+			        ;
+
+			        $mailer->send($message);
 //
-            }
+		        }
+		        $arCaso->setCodigoUsuarioSolucionaFk($user);
+		        $arCaso->setEstadoAtendido(true);
+		        $arCaso->setEstadoSolucionado(true);
+		        $arCaso->setSolucion($form->get('solucion')->getData());
+		        $em->persist($arCaso);
+		        $em->flush();
+	        }
+
+
 
 //            $this->enviarCorreo($arCaso);
 
