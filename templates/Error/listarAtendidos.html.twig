@@ -79,11 +79,11 @@
                                     </div>
                                     <hr>
                                     {% for error in errores %}
-                                        {% if not error.estadoAtendido %}
+                                        {% if error.estadoAtendido %}
                                             <div class="search-item">
                                                 <h3 class="h5 font-600 m-b-5"><a href="#">{{ error.cliente }}</a></h3>
                                                 <h6>Id: {{ error.id }} Código: {{ error.codigo }}
-                                                    Fecha:{{ error.fecha|date('Y/m/d H:m') }}</h6>
+                                                    Fecha:{{ error.fecha|date('d/m/Y') }}</h6>
                                                 <div class="font-13 text-success m-b-10">
                                                     {{ error.url }}
                                                 </div>
@@ -92,11 +92,9 @@
                                                        aria-controls="collapseExample">{{ error.mensaje|slice(0,100) }}</a>
                                                 </p>
                                                 <div class="collapse" id="{{ error.id }}">
-                                                    <hr>
                                                     <div class="card card-block">
                                                         {{ error.mensaje }}
                                                     </div>
-                                                    <hr>
                                                 </div>
                                             </div>
                                             <div style="float: right">
@@ -104,7 +102,7 @@
                                                    data-placement="top" title="Atender al error"
                                                    data-original-title="Tooltip on top"><span
                                                             class="glyphicon glyphicon-ok"></span></a>
-                                                <a href="{{ path('registrarSolucionError', { 'codigoError':  error.id }) }}" class="btn btn-info"data-toggle="tooltip"
+                                                <a href="{{ path('errorAtender', { 'codigoError':  error.id }) }}" class="btn btn-info"data-toggle="tooltip"
                                                    data-placement="top" title="Enviar Correo solucionado al cliente"
                                                    data-original-title="Tooltip on top"><span
                                                             class="glyphicon glyphicon-send"></span></a>

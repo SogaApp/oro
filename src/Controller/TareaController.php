@@ -8,14 +8,19 @@
 
 namespace App\Controller;
 
+
+
+use App\Entity\Comentario;
 use App\Forms\Type\FormTypeTarea;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Tarea;
 use App\Entity\Usuario;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -100,7 +105,7 @@ class TareaController extends Controller
    *
 	 */
 	/*
-	 * Registra una trarea desde caso
+	 * Registra una tarea desde caso
 	 */
 	public function nuevoTareaDesdeCaso(Request $request, $codigoCaso = null)
 	{
@@ -133,10 +138,15 @@ class TareaController extends Controller
 //				$arTarea->setTareaTipoRel($arTareaTipoRel);
 			}
 			$arTarea->setFechaGestion(new \DateTime('now'));
+			if($arCaso->getEstadoAtendido() == true){
+				$em->persist($arTarea);
+				$em->flush();
+				echo "<script>window.opener.location.reload();window.close()</script>";
+			} else{
+				echo "<script>alert('El caso debe estar atendido para asignar una tarea');window.close()</script>";
+			}
 
-			$em->persist($arTarea);
-			$em->flush();
-			echo "<script>window.opener.location.reload();window.close()</script>";
+
 		}
 
 		return $this->render('Tarea/crearDesdeCaso.html.twig',
@@ -281,24 +291,32 @@ class TareaController extends Controller
     /**
      * @Route("/tarea/comentario/registrar/{codigoTarea}",requirements={"codigoTarea":"\d+"}, name="registrarComentario")
      */
-    public function registrarComentario(Request $request, $codigoTarea = null)
-    {
+    public function registrarComentario(Request $request, $codigoTarea = null){
 
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $user = $em->getRepository('App:Usuario')->find($arTarea->getCodigoUsuarioAsignaFk());
-        $arTarea->setCodigoUsuarioAsignaFk($user);
-        $descripcion = $arTarea->getDescripcion();
-        $tareaTipo = $arTarea->getTareaTipoRel();
-        $form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
+
+        $arComentario = new Comentario();
+        $form = $this->createFormBuilder()
+        	->add('comentario', TextareaType::class)
+	        ->add('btnGuardar', SubmitType::class)
+	        ->getForm();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $idUser = $user->getCodigoUsuarioPk();
-            $arTarea->setCodigoUsuarioAsignaFk($idUser);
-            $arTarea->setDescripcion($descripcion);
-            $arTarea->setTareaTipoRel($tareaTipo);
-            $em->persist($arTarea);
+
+
+            $arComentario->setFechaCreacion(new \DateTime('now'));
+	        $arComentario->setComentario($form->get('comentario')->getData());
+	        $arComentario->setCodigoUsuarioFk($idUser);
+	        $arComentario->setTareaRel($arTarea);
+
+	        $em->persist($arComentario);
+
+
             $em->flush();
             echo "<script>window.opener.location.reload();window.close()</script>";
         }
@@ -306,8 +324,6 @@ class TareaController extends Controller
         return $this->render('Tarea/comentario.html.twig', [
             'form' => $form->createView(),
         ]);
-
-
     }
 
     /**
