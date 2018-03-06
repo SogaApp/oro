@@ -19,25 +19,30 @@ class ErrorRepository extends ServiceEntityRepository
         parent::__construct($registry, Error::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->where('e.something = :value')->setParameter('value', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    public function listaUno($codigo)
+    public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
             ->where('e.id= :value')->setParameter('value', $codigo)
             ->getQuery()
             ->getSingleResult();
+    }
+
+    public function filtroErrores($cliente = "")
+    {
+        $qb = $this->createQueryBuilder("e")
+            ->select("e.id")
+            ->addSelect("e.codigo")
+            ->addSelect("e.cliente")
+            ->addSelect("e.mensaje")
+            ->addSelect("e.url")
+            ->addSelect("e.fecha");
+        if(!empty($cliente)) {
+            $qb->where("e.cliente LIKE '%{$cliente}%'");
+        }
+
+        return $qb->orderBy("e.fecha", 'DESC')
+            ->getDQL();
     }
 
     /**
@@ -49,7 +54,7 @@ class ErrorRepository extends ServiceEntityRepository
      * @return array|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function lista($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
+    public function listaApi($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -68,6 +73,7 @@ class ErrorRepository extends ServiceEntityRepository
 
         if ($total > 0){
             $qb->select("e")
+                ->orderBy('e.id', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
             $registros = $qb->getQuery()->getResult();

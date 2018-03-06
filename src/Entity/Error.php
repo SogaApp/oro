@@ -65,6 +65,36 @@ class Error
     private $url;
 
     /**
+     * @var string
+     * @ORM\Column(name="usuario", type="string", length=100, nullable=true)
+     */
+    private $usuario;
+
+    /**
+     * @var string
+     * @ORM\Column(name="nombre_usuario", type="string", length=100, nullable=true)
+     */
+    private $nombreUsuario;
+
+    /**
+     * @var string
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
+     */
+    private $estadoAtendido;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="estado_solucionado", type="boolean", nullable=true)
+     */
+    private $estadoSolucionado;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -74,6 +104,7 @@ class Error
 
     /**
      * @param mixed $id
+     * @return Error
      */
     public function setId($id)
     {
@@ -91,6 +122,7 @@ class Error
 
     /**
      * @param string $cliente
+     * @return Error
      */
     public function setCliente(string $cliente)
     {
@@ -108,6 +140,7 @@ class Error
 
     /**
      * @param string $mensaje
+     * @return Error
      */
     public function setMensaje(string $mensaje)
     {
@@ -125,6 +158,7 @@ class Error
 
     /**
      * @param int $codigo
+     * @return Error
      */
     public function setCodigo(int $codigo)
     {
@@ -142,6 +176,7 @@ class Error
 
     /**
      * @param string $ruta
+     * @return Error
      */
     public function setRuta(string $ruta)
     {
@@ -159,6 +194,7 @@ class Error
 
     /**
      * @param string $archivo
+     * @return Error
      */
     public function setArchivo(string $archivo)
     {
@@ -176,6 +212,7 @@ class Error
 
     /**
      * @param string $traza
+     * @return Error
      */
     public function setTraza(string $traza)
     {
@@ -193,6 +230,7 @@ class Error
 
     /**
      * @param \DateTime $fecha
+     * @return Error
      */
     public function setFecha(\DateTime $fecha)
     {
@@ -210,6 +248,7 @@ class Error
 
     /**
      * @param string $url
+     * @return Error
      */
     public function setUrl(string $url)
     {
@@ -217,5 +256,93 @@ class Error
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 
+    /**
+     * @param string $usuario
+     * @return Error
+     */
+    public function setUsuario(string $usuario)
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreUsuario()
+    {
+        return $this->nombreUsuario;
+    }
+
+    /**
+     * @param string $nombreUsuario
+     * @return Error
+     */
+    public function setNombreUsuario(string $nombreUsuario)
+    {
+        $this->nombreUsuario = $nombreUsuario;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return Error
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAtendido()
+    {
+        return $this->estadoAtendido;
+    }
+
+    /**
+     * @param bool $estadoAtendido
+     * @return Error
+     */
+    public function setEstadoAtendido(bool $estadoAtendido)
+    {
+        $this->estadoAtendido = $estadoAtendido;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoSolucionado()
+    {
+        return $this->estadoSolucionado;
+    }
+
+    /**
+     * @param bool $estadoSolucionado
+     * @return Error
+     */
+    public function setEstadoSolucionado(bool $estadoSolucionado)
+    {
+        $this->estadoSolucionado = $estadoSolucionado;
+        return $this;
+    }
 }

@@ -35,7 +35,10 @@ class ErrorApiController extends Controller
             ->setArchivo($data['archivo'])
             ->setTraza($data['traza'])
             ->setFecha(new \DateTime($data['fecha']))
-            ->setUrl($data['url']);
+            ->setUrl($data['url'])
+            ->setUsuario($data['usuario'])
+            ->setNombreUsuario($data['nombre_usuario'])
+            ->setEmail($data['email']);
         $em->persist($error);
         $em->flush();
         return $error->getId() != null;
@@ -46,9 +49,9 @@ class ErrorApiController extends Controller
      */
     public function lista(Request $request, $pagina=null, $cliente=null, $fecha=null)
     {
-        $limite = 30;
+        $limite = 100;
         $em = $this->getDoctrine()->getManager();
-        $arrResultados = $em->getRepository("App:Error")->lista($pagina, $cliente, $fecha, $limite);
+        $arrResultados = $em->getRepository("App:Error")->listaApi($pagina, $cliente, $fecha, $limite);
         if(!$arrResultados) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }
@@ -63,7 +66,7 @@ class ErrorApiController extends Controller
     public function listaUno(Request $request, $codigo)
     {
         $em = $this->getDoctrine()->getManager();
-        $arError = $em->getRepository("App:Error")->listaUno($codigo);
+        $arError = $em->getRepository("App:Error")->listaUnoApi($codigo);
         if(!$arError) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }
