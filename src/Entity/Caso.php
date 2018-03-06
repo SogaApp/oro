@@ -37,7 +37,7 @@ class Caso
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="adjunto", type="string", length=255)
+	 * @ORM\Column(name="adjunto", type="string", length=255, nullable =true)
 	 */
 	private $adjunto;
 
