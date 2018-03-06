@@ -18,12 +18,6 @@ class Error
 
     /**
      * @var string
-     * @ORM\Column(name="cliente", type="string", length=255, nullable=true)
-     */
-    private $cliente;
-
-    /**
-     * @var string
      * @ORM\Column(name="mensaje", type="text", nullable=true)
      */
     private $mensaje;
@@ -83,6 +77,12 @@ class Error
     private $email;
 
     /**
+     * @var string
+     * @ORM\Column(name="cliente", type="string", length=100, nullable=true)
+     */
+    private $cliente;
+
+    /**
      * @var bool
      * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
      */
@@ -93,6 +93,17 @@ class Error
      * @ORM\Column(name="estado_solucionado", type="boolean", nullable=true)
      */
     private $estadoSolucionado;
+
+    /**
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     */
+    private $codigo_cliente_fk;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="erroresClienteRel")
+     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
+     */
+    protected $clienteRel;
 
     /**
      * @return mixed
@@ -109,24 +120,6 @@ class Error
     public function setId($id)
     {
         $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
-    }
-
-    /**
-     * @param string $cliente
-     * @return Error
-     */
-    public function setCliente(string $cliente)
-    {
-        $this->cliente = $cliente;
         return $this;
     }
 
@@ -343,6 +336,60 @@ class Error
     public function setEstadoSolucionado(bool $estadoSolucionado)
     {
         $this->estadoSolucionado = $estadoSolucionado;
+        return $this;
+    }
+
+    /**
+     * @return Cliente
+     */
+    public function getClienteRel()
+    {
+        return $this->clienteRel;
+    }
+
+    /**
+     * @param Cliente $clienteRel
+     * @return Error
+     */
+    public function setClienteRel($clienteRel)
+    {
+        $this->clienteRel = $clienteRel;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+
+    /**
+     * @param string $cliente
+     * @return Error
+     */
+    public function setCliente(string $cliente)
+    {
+        $this->cliente = $cliente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClienteFk()
+    {
+        return $this->codigo_cliente_fk;
+    }
+
+    /**
+     * @param mixed $codigo_cliente_fk
+     * @return Error
+     */
+    public function setCodigoClienteFk($codigo_cliente_fk)
+    {
+        $this->codigo_cliente_fk = $codigo_cliente_fk;
         return $this;
     }
 }
