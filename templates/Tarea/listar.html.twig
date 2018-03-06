@@ -111,6 +111,7 @@
                                                     {#<td>{% for comentariosTarea in tarea.tareasComentarioRel %}#}
                                                                   {#{{ comentariosTarea.comentario }}#}
                                                         {#{% endfor %}#}
+                                                    <td>{{ tarea.comentario }}</td>
                                                     </td>
                                                     <td>
                                                     <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">

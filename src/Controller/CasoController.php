@@ -122,6 +122,7 @@ class CasoController extends Controller {
 		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
 		        $arCaso->setEstadoSolicitudInformacion(true);
 		        $arCaso->setFechaSolicitudInformacion(new \DateTime('now'));
+		        $arCaso->setCodigoUsuarioAtiendeFk($user);
 		        if($arCaso->getEstadoAtendido() != true ){
 			        $arCaso->setEstadoAtendido(true);
 			        $arCaso->setFechaGestion(new \ DateTime('now'));
