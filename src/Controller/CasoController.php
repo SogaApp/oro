@@ -64,8 +64,6 @@ class CasoController extends Controller {
         $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
         $user = $this->getUser()->getCodigoUsuarioPk();
 
-
-
         $form = $this->createFormBuilder()
         ->add ('solucion', TextareaType::class,array(
             'attr' => array(
