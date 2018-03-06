@@ -81,7 +81,8 @@ class CasoController extends Controller {
 		        'id' => '_requisitoInformacion',
 		        'name' => '_requisitoInformacion',
 		        'class' => 'form-control'
-	        )
+	        ),
+	        'required' => false
         ))
         ->add ('btnGuardar', SubmitType::class, array(
             'attr' => array(

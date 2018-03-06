@@ -34,6 +34,13 @@ class Caso
      */
     private $asunto;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="adjunto", type="string", length=255)
+	 */
+	private $adjunto;
+
     /**
      * @var string
      *
@@ -1143,6 +1150,30 @@ class Caso
 	public function getfechaRespuestaSolicitudInformacion()
 	{
 		return $this->fechaRespuestaSolicitudInformacion;
+	}
+
+	/**
+	 * Set adjunto.
+	 *
+	 * @param string $adjunto
+	 *
+	 * @return Caso
+	 */
+	public function setAdjunto($adjunto)
+	{
+		$this->adjunto = $adjunto;
+
+		return $this;
+	}
+
+	/**
+	 * Get Adjunto.
+	 *
+	 * @return string
+	 */
+	public function getAdjunto()
+	{
+		return $this->adjunto;
 	}
 
 
