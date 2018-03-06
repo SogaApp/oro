@@ -24,11 +24,15 @@ class ErrorApiController extends Controller
      */
     public function nuevo(Request $request)
     {
-        ob_start();
         $em = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
+
+        $cliente = $em->getRepository("App:Cliente")->find($data['codigo_cliente']);
         $error = new Error();
-        $error->setCliente($data['cliente'])
+        if($cliente) {
+            $error->setClienteRel($cliente);
+        }
+        $error->setCliente($data['nombre_cliente'])
             ->setMensaje($data['mensaje'])
             ->setCodigo($data['codigo'])
             ->setRuta($data['ruta'])
