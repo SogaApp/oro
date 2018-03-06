@@ -18,8 +18,8 @@ class CasoApiController extends FOSRestController
 
   /*
   * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
+  * listar los casos de un cliente al logueo
   */
-  // listar los casos de un cliente al logueo
   public function listaEmpresa(Request $request, $intCodigoCliente)
   {
 
@@ -290,7 +290,7 @@ class CasoApiController extends FOSRestController
 	/**
 	 * @Rest\Post("/api/caso/solicitud/informacion/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+" } ,defaults={"intCodigoCasoPk" = 0})
 	 */
-	/* crear nuevo caso de un cliente o editarlo
+	/* recibe la respuesta de un cliente ferente a una solicitud de ampliacion de informacion
 	 * En caso de venir seteado el parametro de codigoCaso se editara el caso con los valores enviados
 	 *
 	 */
