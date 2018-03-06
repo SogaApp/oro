@@ -35,7 +35,10 @@ class ErrorApiController extends Controller
             ->setArchivo($data['archivo'])
             ->setTraza($data['traza'])
             ->setFecha(new \DateTime($data['fecha']))
-            ->setUrl($data['url']);
+            ->setUrl($data['url'])
+            ->setUsuario($data['usuario'])
+            ->setNombreUsuario($data['nombre_usuario'])
+            ->setEmail($data['email']);
         $em->persist($error);
         $em->flush();
         return $error->getId() != null;
