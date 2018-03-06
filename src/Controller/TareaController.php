@@ -142,6 +142,8 @@ class TareaController extends Controller
 				$em->persist($arTarea);
 				$em->flush();
 				echo "<script>window.opener.location.reload();window.close()</script>";
+			} else{
+				echo "<script>alert('El caso debe estar atendido para asignar una tarea');window.close()</script>";
 			}
 
 

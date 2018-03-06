@@ -79,7 +79,8 @@ class CasoController extends Controller {
 		        'id' => '_requisitoInformacion',
 		        'name' => '_requisitoInformacion',
 		        'class' => 'form-control'
-	        )
+	        ),
+	        'required' => false
         ))
         ->add ('btnGuardar', SubmitType::class, array(
             'attr' => array(
@@ -119,6 +120,7 @@ class CasoController extends Controller {
 		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
 		        $arCaso->setEstadoSolicitudInformacion(true);
 		        $arCaso->setFechaSolicitudInformacion(new \DateTime('now'));
+		        $arCaso->setCodigoUsuarioAtiendeFk($user);
 		        if($arCaso->getEstadoAtendido() != true ){
 			        $arCaso->setEstadoAtendido(true);
 			        $arCaso->setFechaGestion(new \ DateTime('now'));
