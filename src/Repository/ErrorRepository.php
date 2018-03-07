@@ -22,7 +22,7 @@ class ErrorRepository extends ServiceEntityRepository
     public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
-            ->where('e.id= :value')->setParameter('value', $codigo)
+            ->where('e.codigoErrorPk = :value')->setParameter('value', $codigo)
             ->getQuery()
             ->getSingleResult();
     }
@@ -30,7 +30,7 @@ class ErrorRepository extends ServiceEntityRepository
     public function filtroErrores($cliente = "")
     {
         $qb = $this->createQueryBuilder("e")
-            ->select("e.id")
+            ->select("e.codigoErrorPk as id")
             ->addSelect("e.codigo")
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
@@ -59,7 +59,7 @@ class ErrorRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->from('App:Error', "e")
-            ->select("COUNT(e)");
+            ->select("COUNT(e.cliente)");
 
         if(!empty($cliente) && $cliente != "none") {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
@@ -73,7 +73,7 @@ class ErrorRepository extends ServiceEntityRepository
 
         if ($total > 0){
             $qb->select("e")
-                ->orderBy('e.id', 'DESC')
+                ->orderBy('e.codigoErrorPk', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
             $registros = $qb->getQuery()->getResult();

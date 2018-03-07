@@ -11,10 +11,10 @@ class Error
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_error_pk", type="integer", unique=true)
      */
-    private $id;
+    private $codigoErrorPk;
 
     /**
      * @var string
@@ -108,18 +108,18 @@ class Error
     /**
      * @return mixed
      */
-    public function getId()
+    public function getCodigoErrorPk()
     {
-        return $this->id;
+        return $this->codigoErrorPk;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $codigoErrorPk
      * @return Error
      */
-    public function setId($id)
+    public function setCodigoErrorPk($codigoErrorPk)
     {
-        $this->id = $id;
+        $this->codigoErrorPk = $codigoErrorPk;
         return $this;
     }
 
