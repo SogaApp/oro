@@ -97,7 +97,7 @@ class Error
     /**
      * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
      */
-    private $codigo_cliente_fk;
+    private $codigoClienteFk;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="erroresClienteRel")
@@ -380,16 +380,16 @@ class Error
      */
     public function getCodigoClienteFk()
     {
-        return $this->codigo_cliente_fk;
+        return $this->codigoClienteFk;
     }
 
     /**
-     * @param mixed $codigo_cliente_fk
+     * @param mixed $codigoClienteFk
      * @return Error
      */
-    public function setCodigoClienteFk($codigo_cliente_fk)
+    public function setCodigoClienteFk($codigoClienteFk)
     {
-        $this->codigo_cliente_fk = $codigo_cliente_fk;
+        $this->codigoClienteFk= $codigoClienteFk;
         return $this;
     }
 }

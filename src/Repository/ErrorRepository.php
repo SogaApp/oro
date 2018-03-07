@@ -59,7 +59,7 @@ class ErrorRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->from('App:Error', "e")
-            ->select("COUNT(e.cliente)");
+            ->select("COUNT(e.codigoErrorPk)");
 
         if(!empty($cliente) && $cliente != "none") {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
@@ -71,8 +71,22 @@ class ErrorRepository extends ServiceEntityRepository
 
         $total = $qb->getQuery()->getSingleScalarResult();
 
-        if ($total > 0){
-            $qb->select("e")
+        if ($total > 0) {
+            $qb->select("e.codigoErrorPk")
+                ->addSelect("e.cliente as nombreCliente")
+                ->addSelect("e.mensaje")
+                ->addSelect("e.codigo")
+                ->addSelect("e.ruta")
+                ->addSelect("e.archivo")
+                ->addSelect("e.traza")
+                ->addSelect("e.fecha")
+                ->addSelect("e.url")
+                ->addSelect("e.usuario")
+                ->addSelect("e.nombreUsuario")
+                ->addSelect("e.email")
+                ->addSelect("e.estadoAtendido")
+                ->addSelect("e.estadoSolucionado")
+                ->addSelect("e.codigoClienteFk")
                 ->orderBy('e.codigoErrorPk', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
