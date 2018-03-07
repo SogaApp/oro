@@ -94,9 +94,9 @@ class ErrorController extends Controller
         $user = $this->getUser()->getCodigoUsuarioPk();
 	    $arError = $em->getRepository('App:Error')->find($codigoError);
         $form = $this->createFormBuilder()
-            ->add("mensaje", TextareaType::class)
-	        ->add("ccJefe", CheckboxType::class, array('required'=>false))
-	        ->add("enviar", SubmitType::class)
+            ->add("mensaje", TextareaType::class, array('label'=>'Mensaje','required'=>false))
+	        ->add("ccJefe", CheckboxType::class, array('label'=>'Con copia jefe desarrollo','required'=>false))
+	        ->add("enviar", SubmitType::class, array('label'=>'ENVIAR'))
 		    ->getForm();
         $form->handleRequest($request);
 
