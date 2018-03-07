@@ -59,7 +59,7 @@
                                                 <th>Fecha verificación</th>
                                                 <th>Descripción</th>
                                                 <th>Caso</th>
-                                                <th>Comentario</th>
+                                                <th>Vcom</th>
                                                 <th>Prioridad</th>
                                                 <th title="Resuelto">Res</th>
                                                 <th title="Verificado">Ver</th>
@@ -107,11 +107,20 @@
                                                     <td>{{ tarea.descripcion }}</td>
 
                                                     <td>{{ tarea.caso }}</td>
-                                                    {#{{  dump(tarea) }}#}
-                                                    {#<td>{% for comentariosTarea in tarea.tareasComentarioRel %}#}
-                                                                  {#{{ comentariosTarea.comentario }}#}
-                                                        {#{% endfor %}#}
-                                                    <td>{{ tarea.comentario }}</td>
+                                                    {% set isComentarios = 'none' %}
+                                                    <td>{% for comentariosTarea in tarea.tareasComentarioRel %}
+                                                            {% if comentariosTarea.codigoComentarioPk != null %}
+                                                                {% set isComentarios = 'block' %}
+
+                                                            {% endif %}
+
+                                                                  {#{{ comentariosTarea.codigoComentarioPk }}#}
+
+                                                        {% endfor %}
+                                                        {#{{  dump(tarea) }}#}
+
+                                                        <a style='display:{{ isComentarios }};' href="javascript:abrirVentana('{{ path('verComentariosTarea', { 'codigoTareaPk':   tarea.codigoTareaPk}) }}','Ver comentarios',600, 900)" class="btn btn-purple waves-effect waves-light btn-xs"><i class="glyphicon glyphicon-eye-open" style="padding: 3px;"></i></a>
+
                                                     </td>
                                                     <td>
                                                     <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
