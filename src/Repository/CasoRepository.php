@@ -62,7 +62,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.codigoUsuarioAtiendeFk" )
 		   ->addSelect( "c.codigoUsuarioSolucionaFk" )
 			->addSelect( "c.estadoReabierto" )
-			->addSelect( "c.estadoEscalado" )
+			->addSelect( "c.estadoEscalado")
 		   ->addSelect( "areaRel.nombre" )
 		   ->addSelect( "cargoRel.nombre as cargo" )
 		   ->addSelect( "categoriaRel.nombre as categoria" )
