@@ -92,4 +92,24 @@ class ErrorRepository extends ServiceEntityRepository
         }
         return null;
     }
+
+    /**
+     * Esta funcion permite listar errores para la interface mercurio.
+     * @param null $codigoCliente
+     * @return array|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function apiListaMercurio($codigoCliente = null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->from( "App:Error", "e" )
+            ->select( "e.codigoErrorPk" )
+            ->addSelect( "t.descripcion" )
+            ->where( "e.codigoClienteFk = {$codigoCliente}" );
+
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

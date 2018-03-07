@@ -106,7 +106,7 @@
 
                                                     <td>{{ tarea.descripcion }}</td>
 
-                                                    <td>{{ tarea.caso }}</td>
+                                                    <td>{{ tarea.codigoCasoFk }}</td>
                                                     {% set isComentarios = 'none' %}
                                                     <td>{% for comentariosTarea in tarea.tareasComentarioRel %}
                                                             {% if comentariosTarea.codigoComentarioPk != null %}
