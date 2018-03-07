@@ -63,6 +63,19 @@ class ErrorApiController extends Controller
     }
 
     /**
+     * @Rest\Get("/api/error/lista/mercurio/{codigoCliente}", defaults={"codigoCliente"=null})
+     */
+    public function listaMercurio(Request $request, $codigoCliente=null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arrResultados = $em->getRepository("App:Error")->apiListaMercurio($codigoCliente);
+        if(!$arrResultados) {
+            return new View("No hay errores", Response::HTTP_NOT_FOUND);
+        }
+        return $arrResultados;
+    }
+
+    /**
      * @Rest\Get("/api/error/get/{codigo}", requirements={"codigo"="\d+"})
      * @param Request $request
      * @param $codigo

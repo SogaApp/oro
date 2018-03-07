@@ -43,7 +43,6 @@ class CasoApiController extends FOSRestController
    * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
    * $intCodigoCaso = 0 default Es el CodigoCasoPk seteado en base de datos(requerido)
    */
-
   public function listaUno(Request $request, $intCodigoCliente, $intCodigoCaso)
   {
 
@@ -59,6 +58,24 @@ class CasoApiController extends FOSRestController
     }
     return $jsonRestResult;
   }
+
+    /**
+     * @Rest\Get("/api/caso/{codigoCaso}", requirements={"codigoCaso" = "\d+"}, defaults={"codigoCaso" = 0} )
+     */
+    public function caso(Request $request, $codigoCaso)
+    {
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+
+        if ($codigoCaso != 0) {
+            $jsonRestResult = $this->getDoctrine()->getRepository('App:Caso')->apiCaso($codigoCaso);
+        }
+
+        if ($jsonRestResult === null) {
+            return new View("No se encontro el caso", Response::HTTP_NOT_FOUND);
+        }
+        return $jsonRestResult;
+    }
 
 
 	/**
