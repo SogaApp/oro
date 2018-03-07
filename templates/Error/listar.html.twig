@@ -104,7 +104,7 @@
                                                    data-placement="top" title="Atender al error"
                                                    data-original-title="Tooltip on top"><span
                                                             class="glyphicon glyphicon-ok"></span></a>
-                                                <a href="{{ path('registrarSolucionError', { 'codigoError':  error.id }) }}" class="btn btn-info"data-toggle="tooltip"
+                                                <a href="javascript:abrirVentana('{{ path('registrarSolucionError', { 'codigoError':  error.id }) }}','Ver comentarios',600, 900)" class="btn btn-info"data-toggle="tooltip"
                                                    data-placement="top" title="Enviar Correo solucionado al cliente"
                                                    data-original-title="Tooltip on top"><span
                                                             class="glyphicon glyphicon-send"></span></a>

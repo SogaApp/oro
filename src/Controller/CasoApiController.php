@@ -170,20 +170,7 @@ class CasoApiController extends FOSRestController
 	 *
 	 */
 	public function adjuntarArchivoCaso(Request $request, $intCodigoCasoPk){
-		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
-		if($intCodigoCasoPk != 0){
-			$targetDir= "/local/adjuntos/casos/";
-			$date = new \DateTime('now');
-			$files = $request->files;
-			$file = $targetDir.basename($files);
-
-			if(move_uploaded_file($files, $file)){
-				return "subido exitosamente";
-			} else{
-				return $file;
-			}
-
-		}
+		// codigo para guardar archivo
 	}
   /**
    * @Rest\Post("/api/caso/nuevo/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+" } ,defaults={"intCodigoCasoPk" = 0})
