@@ -19,7 +19,6 @@ class ErrorRepository extends ServiceEntityRepository
         parent::__construct($registry, Error::class);
     }
 
-
     public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
@@ -36,6 +35,7 @@ class ErrorRepository extends ServiceEntityRepository
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
             ->addSelect("e.url")
+            ->addSelect("e.estadoAtendido")
             ->addSelect("e.fecha");
         if(!empty($cliente)) {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
