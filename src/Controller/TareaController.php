@@ -229,6 +229,17 @@ class TareaController extends Controller
         ]);
     }
 
+	/**
+	 * @Route("/tarea/comentarios/{codigoTareaPk}",requirements={"codigoTareaPk":"\d+"}, name="verComentariosTarea")
+	 */
+
+	public function verComentariosTarea($codigoTareaPk){
+		$em = $this->getDoctrine()->getManager();
+		$comentarios = $em->getRepository('App:Comentario')->findBy(array('codigoTareaFk'=>$codigoTareaPk));
+		return $this->render('Tarea/verComentarios.html.twig', array(
+			'comentarios' => $comentarios
+		));
+	}
 
     /**
      * @Route("/tarea/lista/usuario", name="listaTareaUsuario")
