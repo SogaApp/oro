@@ -145,6 +145,13 @@ class Tarea
 	private $casoRel;
 
 	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="tareaRel")
+	 */
+
+	private $tareasComentarioRel;
+
+	/**
 	 * @return int
 	 */
 	public function getCodigoTareaPk() {
@@ -411,6 +418,23 @@ class Tarea
 		$this->casoRel = $casoRel;
 		return $this;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTareasComentarioRel() {
+		return $this->tareasComentarioRel;
+	}
+
+	/**
+	 * @param mixed $tareasComentarioRel
+	 */
+	public function setTareasComentarioRel( $tareasComentarioRel ) {
+		$this->tareasComentarioRel = $tareasComentarioRel;
+		return $this;
+	}
+
+
 
 
    }

@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
 
     $(".table-oro").DataTable({
         "pageLength": 50,
-         order: [[0,"desc"]],
+         order: [[2,"desc"]],
         "pagingType": "full_numbers",
         "bLengthChange": false,
         "language": {

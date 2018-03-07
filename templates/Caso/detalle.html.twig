@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+    {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+    {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+    <div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+    <div class="container">
+    {% block content %}
+        <div class="row">
+            <div class="col-md-12" style="padding: 20px;">
+                <div class="panel panel-color panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Detalles del caso: <span
+                                    class="label label-default">#{{ caso.codigoCasoPk }} </span></h3><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 class="panel-title"> Paso 1:
+                                    {% if caso.estadoAtendido %}
+                                        <span class="label label-info">Atendido</span>
+                                    {% else %}
+                                        <span class="label label-warning">Sin Atender</span>
+                                    {% endif %} |
+                                    Paso 2:
+                                    {% if caso.estadoSolucionado %}
+                                        <span class="label label-success">Solucionado</span>
+                                    {% else %}
+                                        <span class="label label-warning">Por Solucionar</span>
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Nombre:</strong> {{ caso.nombre|default('-') }}<br><br>
+                                <strong>Cargo:</strong> {{ caso.cargo|default('-') }}
+                            </div>
+                            <div class="col-md-4">
+                                {#{{ dump(caso) }}#}
+                                <strong>Categoria: </strong> <span>
+                                        {#style="padding: 2px;border-radius: 5px;">{{ caso.categoria }}</span><br><br>#}
+                                <strong>Prioridad:</strong> <span>
+                                        {#style=" padding: 2px;border-radius: 5px;">{{ caso.prioridad }}</span>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <h4>Gestión interna:</h4>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-2" class="control-label">Registra:</label>
+                                    <p>{{ caso.usuario|default('Sin usuario') }}</p><br>
+                                    <label for="field-3" class="control-label">Fecha de Registro:</label>
+                                    {#<p>{{ caso.fechaRegistro|date('d/m/Y')|default('Sin usuario')  }}</p>#}
+                                    <p>
+                                        {% if caso.fechaRegistro %}
+                                            {{ caso.fechaRegistro|date('d/m/Y') }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-3" class="control-label">Gestiona:</label>
+                                    <p>{{ caso.codigoUsuarioAtiendeFk|default('Sin atender') }}</p><br>
+                                    <label for="field-3" class="control-label">Fecha de Gestión:</label>
+                                    <p>
+                                        {% if caso.fechaGestion is defined %}
+                                            {{ caso.fechaGestion|date('d/m/Y') }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-3" class="control-label">Soluciona:</label>
+                                    <p>{{ caso.codigoUsuarioSolucionaFk|default('Sin solucionar') }}</p><br>
+                                    <label for="field-3" class="control-label">Fecha de Solución:</label>
+                                    {#<p>{{ caso.fechaSolucion|date('d/m/Y')  }}</p>#}
+
+                                    <p>
+                                        {% if caso.fechaSolucion is defined %}
+                                            {{ caso.fechaSolucion|date('d/m/Y') }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <h4>Datos de Contacto:</h4>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-2" class="control-label">Contacto:</label>
+                                    <p>{{ caso.contacto }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-3" class="control-label">Correo:</label>
+                                    <p>{{ caso.correo }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-4" class="control-label">Teléfono:</label>
+                                    <p>{{ caso.telefono }} ext. {{ caso.extension }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <h4>Datos del Caso:</h4>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field-2" class="control-label">Asunto:</label>
+                                    <p>{{ caso.asunto }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="field-3" class="control-label">Descripcion:</label>
+                                    <p>{{ caso.descripcion }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-4" class="control-label">Solución:</label>
+                                    <p>{{ caso.solucion|default('-') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h4>Datos de solicitud de información adicional:</h4>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field-2" class="control-label">Fecha Solicitud:</label>
+                                    <p>{{ caso.fechaSolicitudInformacion|date('y-m-d H:m') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="field-3" class="control-label">Descripción de la solicitud:</label>
+                                    <p>{{ caso.solicitudInformacion }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field-4" class="control-label">Respuesta:</label>
+                                    <p>{{ caso.respuestaSolicitudInformacion|default('-') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    {% endblock %}
+{% endblock %}
