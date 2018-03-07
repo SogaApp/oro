@@ -24,7 +24,6 @@ class ErrorApiController extends Controller
      */
     public function nuevo(Request $request)
     {
-        ob_start();
         $em = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
         $error = new Error();
