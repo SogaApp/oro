@@ -11,6 +11,8 @@ namespace App\Controller;
 use App\Entity\Error;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -89,26 +91,46 @@ class ErrorController extends Controller
          * @var $arError Error
          */
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
-        $arError = $em->getRepository('App:Error')->find($codigoError);
         $user = $this->getUser()->getCodigoUsuarioPk();
+	    $arError = $em->getRepository('App:Error')->find($codigoError);
+        $form = $this->createFormBuilder()
+            ->add("mensaje", TextareaType::class)
+	        ->add("ccJefe", CheckboxType::class, array('required'=>false))
+	        ->add("enviar", SubmitType::class)
+		    ->getForm();
+        $form->handleRequest($request);
 
-        if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
-            $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getId()))
-                ->setFrom('sogainformacion@gmail.com')
-                ->setTo($arError->getEmail())
-                ->setBody(
-                    $this->renderView(
-                    // templates/emails/registration.html.twig
-                        'Correo/Error/errorSolucionado.html.twig',
-                        array('arError' => $arError)
-                    ),
-                    'text/html'
-                );
-            $mailer->send($message);
+        if($form->isSubmitted() && $form->isValid()){
+
+        	$mensaje = $form->get('mensaje')->getData();
+	        if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
+		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getId()))
+			        ->setFrom('sogainformacion@gmail.com')
+			        ->setTo($arError->getEmail())
+			        ->setBody(
+				        $this->renderView(
+				        // templates/emails/registration.html.twig
+					        'Correo/Error/errorSolucionado.html.twig',
+					        array('arError' => $arError,
+						        'mensaje'=>$mensaje,
+						        'user' => $user
+					        )
+				        ),
+				        'text/html'
+			        );
+		        if($form->get('ccJefe')->getData() == true){
+		        	$message->addCc('jefedesarrollo@appsoga.com');
+		        }
+		        $mailer->send($message);
+	        }
+	        echo "<script>window.opener.location.reload();window.close()</script>";
+
         }
 
-        return $this->redirect($this->generateUrl('erroresLista'));
-    }
+	    return $this->render("Error/enviarCorreo.html.twig", array(
+	    	'form' => $form->createView()
+	    ));
+	}
 
     private function filtrar($formFiltro)
     {
