@@ -49,13 +49,13 @@ class ErrorApiController extends Controller
     }
 
     /**
-     * @Rest\Get("/api/error/lista/{pagina}/{cliente}/{fecha}", requirements={"pagina"="\d+"}, defaults={"pagina"=1, "cliente"=null, "fecha"=null})
+     * @Rest\Get("/api/error/lista/{pagina}/{cliente}/{fecha}/{atendido}/{solucionado}", requirements={"pagina"="\d+"}, defaults={"pagina"=1, "cliente"=null, "fecha"=null, "atendido"=0, "solucionado"=0})
      */
-    public function lista(Request $request, $pagina=null, $cliente=null, $fecha=null)
+    public function lista(Request $request, $pagina, $cliente, $fecha, $atendido, $solucionado)
     {
         $limite = 100;
         $em = $this->getDoctrine()->getManager();
-        $arrResultados = $em->getRepository("App:Error")->listaApi($pagina, $cliente, $fecha, $limite);
+        $arrResultados = $em->getRepository("App:Error")->listaApi($pagina, $cliente, $fecha, $atendido, $solucionado, $limite);
         if(!$arrResultados) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }

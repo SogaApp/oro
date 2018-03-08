@@ -60,11 +60,13 @@ class ErrorRepository extends ServiceEntityRepository
      * @param int $pagina
      * @param null $cliente
      * @param null $fecha
+     * @param int $atendido
+     * @param int $solucionado
      * @param int $limite
      * @return array|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function listaApi($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
+    public function listaApi($pagina = 1, $cliente = null, $fecha = null, $atendido = 0, $solucionado = 0, $limite = 10)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -72,12 +74,22 @@ class ErrorRepository extends ServiceEntityRepository
             ->select("COUNT(e.codigoErrorPk)");
 
         if(!empty($cliente) && $cliente != "none") {
-            $qb->where("e.cliente LIKE '%{$cliente}%'");
+            $qb->where("e.codigoClienteFk = {$cliente}");
         }
 
-        if(!empty($fecha)) {
+        if(!empty($fecha) && $fecha != "none") {
             $qb->andWhere("e.fecha LIKE '%{$fecha}%'");
         }
+
+        if($atendido != 0) {
+            $qb->andWhere("e.estadoAtendido = {$atendido}");
+        }
+
+        if($solucionado != 0) {
+            $qb->andWhere("e.estadoSolucionado = {$solucionado}");
+        }
+
+
 
         $total = $qb->getQuery()->getSingleScalarResult();
 
