@@ -62,9 +62,9 @@ class ErrorController extends Controller
     }
 
     /**
-     * @Route("/error/atender/{codigoError}", name="errorAtender")
+     * @Route("/error/atender/{codigoErrorPk}", name="errorAtender")
      */
-    public function errorAtender($codigoError = null)
+    public function errorAtender($codigoErrorPk = null)
     {
         /**
          * @var $arError Error
@@ -72,8 +72,8 @@ class ErrorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arError = new Error();
 
-        if ($codigoError != null) {
-            $arError = $em->getRepository('App:Error')->find($codigoError);
+        if ($codigoErrorPk != null) {
+            $arError = $em->getRepository('App:Error')->find($codigoErrorPk);
             $arError->setEstadoAtendido(true);
             $em->persist($arError);
             $em->flush();
@@ -83,16 +83,19 @@ class ErrorController extends Controller
     }
 
     /**
-     * @Route("/error/solucion/registrar/{codigoError}",requirements={"codigoError":"\d+"}, name="registrarSolucionError")
+     * @Route("/error/solucion/registrar/{codigoErrorPk}",requirements={"codigoErrorPk":"\d+"},defaults={"codigoErrorPk" = 0}, name="registrarSolucionError")
      */
-    public function registrarSolucion(Request $request, $codigoError = null, \Swift_Mailer $mailer)
+    public function registrarSolucion(Request $request, $codigoErrorPk, \Swift_Mailer $mailer)
     {
         /**
          * @var $arError Error
          */
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $user = $this->getUser()->getCodigoUsuarioPk();
-	    $arError = $em->getRepository('App:Error')->find($codigoError);
+        if($codigoErrorPk !=0){
+	        $arError = $em->getRepository('App:Error')->find($codigoErrorPk);
+        }
+
         $form = $this->createFormBuilder()
             ->add("mensaje", TextareaType::class, array('label'=>'Mensaje','required'=>false))
 	        ->add("ccJefe", CheckboxType::class, array('label'=>'Con copia jefe desarrollo','required'=>false))
@@ -104,7 +107,7 @@ class ErrorController extends Controller
 
         	$mensaje = $form->get('mensaje')->getData();
 	        if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
-		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getId()))
+		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getCodigoErrorPk()))
 			        ->setFrom('sogainformacion@gmail.com')
 			        ->setTo($arError->getEmail())
 			        ->setBody(

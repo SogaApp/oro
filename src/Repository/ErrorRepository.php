@@ -30,12 +30,13 @@ class ErrorRepository extends ServiceEntityRepository
     public function filtroErrores($cliente = "")
     {
         $qb = $this->createQueryBuilder("e")
-            ->select("e.codigoErrorPk as id")
+            ->select("e.codigoErrorPk ")
             ->addSelect("e.codigo")
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
             ->addSelect("e.url")
             ->addSelect("e.estadoAtendido")
+	        ->addSelect("e.nombreUsuario")
             ->addSelect("e.fecha");
         if(!empty($cliente)) {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
