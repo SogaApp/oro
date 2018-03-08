@@ -69,8 +69,10 @@
                                 <div class="card-box">
                                     <div class="row">
                                         <div class="col-md-8 col-md-offset-2">
+                                            {{ form_widget(form.estadoAtendido) }}
+                                            {{ form_widget(form.estadoSolucionado) }}
                                             <div class="input-group m-t-10">
-                                                {{ form_widget(form.cliente, {'attr':{'class':'form-control'}}) }}
+                                                {{ form_widget(form.clienteRel, {'attr':{'class':'form-control'}}) }}
                                                 <span class="input-group-btn">
                                                     {{ form_widget(form.btnFiltrar, {'attr':{'class':'btn waves-effect waves-light btn-custom'}}) }}
                                                 </span>

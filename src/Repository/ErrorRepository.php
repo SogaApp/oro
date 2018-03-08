@@ -27,7 +27,7 @@ class ErrorRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    public function filtroErrores($cliente = "")
+    public function filtroErrores($cliente = "", $estadoAntendido = false, $estadoSolucionado = false)
     {
         $qb = $this->createQueryBuilder("e")
             ->select("e.codigoErrorPk as id")
@@ -36,11 +36,21 @@ class ErrorRepository extends ServiceEntityRepository
             ->addSelect("e.mensaje")
             ->addSelect("e.url")
             ->addSelect("e.estadoAtendido")
+            ->addSelect("e.estadoSolucionado")
             ->addSelect("e.fecha");
-        if(!empty($cliente)) {
-            $qb->where("e.cliente LIKE '%{$cliente}%'");
-        }
 
+        if(!empty($cliente)) {
+            $qb->where("e.codigoClienteFk = '{$cliente}'");
+        }
+        if($estadoAntendido) {
+            $qb->andWhere("e.estadoAtendido = {$estadoAntendido}");
+        }
+        if($estadoSolucionado) {
+            $qb->andWhere("e.estadoSolucionado = {$estadoSolucionado}");
+        }
+//        var_dump($estadoAntendido, $estadoSolucionado);
+//        echo $qb->getQuery()->getSQL();
+//        exit();
         return $qb->orderBy("e.fecha", 'DESC')
             ->getDQL();
     }

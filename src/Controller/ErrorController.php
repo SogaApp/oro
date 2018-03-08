@@ -8,13 +8,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Cliente;
 use App\Entity\Error;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -27,23 +29,33 @@ class ErrorController extends Controller
      */
     public function lista(Request $request, Request $requestForm)
     {
-        $em = $this->getDoctrine()->getManager();
         $session = new Session();
+        $em = $this->getDoctrine()->getManager();
         $this->listarErrores($em);
 
-        $propiedades = array(
-            'required' => false,
-            'empty_data' => '',
-            'data' => $session->get("filtro-cliente"));
-
         $formFiltro = $this::createFormBuilder()
-            ->add('cliente', TextType::class, $propiedades)
-            ->add('btnFiltrar', SubmitType::class, array(
+            ->add('clienteRel', EntityType::class, [
+                'class' => 'App:Cliente',
+                'query_builder' => function(EntityRepository $er){
+                    return $er->createQueryBuilder('c')
+                              ->orderBy('c.nombreComercial', 'ASC');
+                },
+                'choice_label' => 'nombreComercial',
+            ])
+            ->add('estadoAtendido', CheckboxType::class, [
+                'required' => false,
+                'data' => $session->get('filtro-estado-atendido'),
+            ])
+            ->add('estadoSolucionado', CheckboxType::class, [
+                'required' => false,
+                'data' => $session->get('filtro-estado-solucionado')
+            ])
+            ->add('btnFiltrar', SubmitType::class, [
                 'label' => 'Filtrar',
-                'attr' => array(
+                'attr' => [
                     'class' => 'btn btn-primary btn-bordered waves-effect w-md waves-light m-b-5'
-                )
-            ))
+                ]
+            ])
             ->getForm();
 
         $formFiltro->handleRequest($request);
@@ -135,18 +147,19 @@ class ErrorController extends Controller
     private function filtrar($formFiltro)
     {
         $session = new Session();
-        $filtro = $formFiltro->get('cliente')->getData();
-        if ($filtro) {
-            $session->set('filtro-cliente', $filtro);
-        } else {
-            $session->set('filtro-cliente', null);
-        }
+        $dataCliente = $formFiltro->get('clienteRel')->getData();
+        $dataEstadoAtendido = $formFiltro->get('estadoAtendido')->getData();
+        $dataEstadoSolucionado = $formFiltro->get('estadoSolucionado')->getData();
+        $codigoCliente = $dataCliente instanceof Cliente? $dataCliente->getCodigoClientePk() : null;
+        $session->set('filtro-cliente', $codigoCliente);
+        $session->set('filtro-estado-atendido', $dataEstadoAtendido);
+        $session->set('filtro-estado-solucionado', $dataEstadoSolucionado);
     }
 
     private function listarErrores($em)
     {
         $session = new Session();
-        $this->strDqlLista = $em->getRepository('App:Error')->filtroErrores($session->get('filtro-cliente'));
+        $this->strDqlLista = $em->getRepository('App:Error')->filtroErrores($session->get('filtro-cliente'), $session->get("filtro-estado-atendido"), $session->get('filtro-estado-solucionado'));
     }
 
 }
