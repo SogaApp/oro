@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 
-class ErrorApiController extends Controller
+class ApiErrorController extends Controller
 {
 
     /**

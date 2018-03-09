@@ -9,7 +9,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class CargoApiController extends FOSRestController
+class ApiCargoController extends FOSRestController
 {
 
     /**

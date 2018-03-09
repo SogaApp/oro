@@ -8,7 +8,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class AreaApiController extends FOSRestController {
+class ApiAreaController extends FOSRestController {
 
 	/**
 	 * @Rest\Get("/api/area/lista")

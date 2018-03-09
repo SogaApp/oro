@@ -9,7 +9,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Tarea;
 
-class TareaApiController extends FOSRestController
+class ApiTareaController extends FOSRestController
 {
     /**
      * @Rest\Get("/api/tarea/lista/caso/{codigoCaso}", requirements={"codigoCaso" = "\d+"}, defaults={"codigoCaso" = 0})
