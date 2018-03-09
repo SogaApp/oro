@@ -22,7 +22,7 @@ class ErrorRepository extends ServiceEntityRepository
     public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
-            ->where('e.id= :value')->setParameter('value', $codigo)
+            ->where('e.codigoErrorPk = :value')->setParameter('value', $codigo)
             ->getQuery()
             ->getSingleResult();
     }
@@ -30,12 +30,13 @@ class ErrorRepository extends ServiceEntityRepository
     public function filtroErrores($cliente = "")
     {
         $qb = $this->createQueryBuilder("e")
-            ->select("e.id")
+            ->select("e.codigoErrorPk ")
             ->addSelect("e.codigo")
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
             ->addSelect("e.url")
             ->addSelect("e.estadoAtendido")
+	        ->addSelect("e.nombreUsuario")
             ->addSelect("e.fecha");
         if(!empty($cliente)) {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
@@ -59,7 +60,7 @@ class ErrorRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->from('App:Error', "e")
-            ->select("COUNT(e)");
+            ->select("COUNT(e.codigoErrorPk)");
 
         if(!empty($cliente) && $cliente != "none") {
             $qb->where("e.cliente LIKE '%{$cliente}%'");
@@ -71,9 +72,23 @@ class ErrorRepository extends ServiceEntityRepository
 
         $total = $qb->getQuery()->getSingleScalarResult();
 
-        if ($total > 0){
-            $qb->select("e")
-                ->orderBy('e.id', 'DESC')
+        if ($total > 0) {
+            $qb->select("e.codigoErrorPk")
+                ->addSelect("e.cliente as nombreCliente")
+                ->addSelect("e.mensaje")
+                ->addSelect("e.codigo")
+                ->addSelect("e.ruta")
+                ->addSelect("e.archivo")
+                ->addSelect("e.traza")
+                ->addSelect("e.fecha")
+                ->addSelect("e.url")
+                ->addSelect("e.usuario")
+                ->addSelect("e.nombreUsuario")
+                ->addSelect("e.email")
+                ->addSelect("e.estadoAtendido")
+                ->addSelect("e.estadoSolucionado")
+                ->addSelect("e.codigoClienteFk")
+                ->orderBy('e.codigoErrorPk', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
             $registros = $qb->getQuery()->getResult();
