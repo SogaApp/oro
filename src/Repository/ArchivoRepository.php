@@ -26,4 +26,18 @@ class ArchivoRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function apiArchivoDescargar($codigoArchivo ) {
+        $em  = $this->getEntityManager();
+        $qb  = $em->createQueryBuilder();
+        $qb->from( "App:Archivo", "a" )
+            ->select( "a.nombre" )
+            ->addSelect( "a.nombreAlmacenamiento" )
+            ->addSelect( "a.tamano" )
+            ->addSelect( "a.extension" )
+            ->addSelect( "a.tipo" )
+            ->where( "a.codigoArchivoPk = {$codigoArchivo}" );
+        return $qb->getQuery()->getResult();
+    }
+
 }

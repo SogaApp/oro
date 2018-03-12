@@ -54,4 +54,22 @@ class ApiArchivoController extends FOSRestController
         return $jsonRestResult;
     }
 
+    /**
+     * @Rest\Get("/api/archivo/descargar/{codigoArchivo}")
+     */
+    public function descargar(Request $request, $codigoArchivo)
+    {
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+
+        if ($codigoArchivo != 0) {
+            $jsonRestResult = $this->getDoctrine()->getRepository('App:Archivo')->apiArchivoDescargar($codigoArchivo);
+        }
+
+        if ($jsonRestResult === null) {
+            return new View("No se encontro el archivo", Response::HTTP_NOT_FOUND);
+        }
+        return $jsonRestResult;
+    }
+
 }
