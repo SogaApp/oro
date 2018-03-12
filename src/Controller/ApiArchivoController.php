@@ -2,45 +2,56 @@
 
 namespace App\Controller;
 
+use App\Entity\Archivo;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Tarea;
 
 class ApiArchivoController extends FOSRestController
 {
     /**
-     * @Rest\Post("/api/archivo/nuevo/{codigoDocumento}/{numero}", requirements={"codigoDocumento" = "\d+", "numero" = "\d+"}, defaults={"codigoDocumento" = 0, "numero" = 0})
+     * @Rest\Post("/api/archivo/nuevo/")
      */
-    public function nuevo(Request $request, $codigoDocumento, $numero)
+    public function nuevo(Request $request)
     {
-        $file = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+        $arrArchivo = json_decode($request->getContent(), true);
         set_time_limit(0);
         ini_set("memory_limit", -1);
-        if ($codigoDocumento != 0 && $numero != 0) {
-            $file_array = explode("\n\r", $file, 2);
-            $header_array = explode("\n", $file_array[0]);
-            foreach($header_array as $header_value) {
-                $header_pieces = explode(':', $header_value);
-                if(count($header_pieces) == 2) {
-                    $headers[$header_pieces[0]] = trim($header_pieces[1]);
-                }
-            }
-            $nombreArchivo = explode(";", $header_array[1]);
-            //$archivo = explode("\r\n", $data['archivo']);
-            move_uploaded_file($file_array[1], "/var/www/archivosoro/prueba.pdf");
-
-
-            //$form['attachment']->getData()->move($strDestino, $strArchivo);
-            //$jsonRestResult = $this->getDoctrine()->getRepository('App:Tarea')->apiListaCaso($codigoCaso);
-            $prueba = 1;
-        }
-
-        /*if ($jsonRestResult === null) {
-            return new View("No hay tareas", Response::HTTP_NOT_FOUND);
-        }*/
+        $arArchivo = new Archivo();
+        $arArchivo->setFecha(new \DateTime('now'));
+        $arArchivo->setNombre($arrArchivo['nombre']);
+        $arArchivo->setNombreAlmacenamiento($arrArchivo['nombreAlmacenamiento']);
+        $arArchivo->setExtension($arrArchivo['extension']);
+        $arArchivo->setTamano($arrArchivo['tamano']);
+        $arArchivo->setTipo($arrArchivo['tipo']);
+        $arArchivo->setDirectorio($arrArchivo['directorio']);
+        $arArchivo->setNumero($arrArchivo['numero']);
+        $arArchivo->setCodigoDocumentoFk($arrArchivo['codigoDocumento']);
+        $em->persist($arArchivo);
+        $em->flush();
         return true;
     }
+
+    /**
+     * @Rest\Get("/api/archivo/lista/{codigoDocumento}/{numero}", requirements={"codigoDocumento" = "\d+", "numero" = "\d+"}, defaults={"codigoDocumento" = 0, "numero" = 0})
+     */
+    public function lista(Request $request, $codigoDocumento = 0, $numero = 0)
+    {
+
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+
+        if ($codigoDocumento != 0 && $numero != 0) {
+            $jsonRestResult = $this->getDoctrine()->getRepository('App:Archivo')->apiLista($codigoDocumento, $numero);
+        }
+
+        if ($jsonRestResult === null) {
+            return new View("No hay archivos", Response::HTTP_NOT_FOUND);
+        }
+        return $jsonRestResult;
+    }
+
 }

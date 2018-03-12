@@ -32,7 +32,7 @@ class Archivo
     private $numero = 0;
 
     /**
-     * @ORM\Column(name="fecha_hasta", type="date", nullable=true)
+     * @ORM\Column(name="fecha", type="date", nullable=true)
      */
     private $fecha;
 
@@ -42,9 +42,14 @@ class Archivo
     private $nombre;
 
     /**
-     * @ORM\Column(name="extensionOriginal", type="string", length=250, nullable=true)
+     * @ORM\Column(name="nombre_almacenamiento", type="string", length=250, nullable=true)
      */
-    private $extensionOriginal;
+    private $nombreAlmacenamiento;
+
+    /**
+     * @ORM\Column(name="extension", type="string", length=250, nullable=true)
+     */
+    private $extension;
 
     /**
      * @ORM\Column(name="tipo", type="string", length=250, nullable=true)
@@ -65,6 +70,11 @@ class Archivo
      * @ORM\Column(name="comentario", type="string", length=1000, nullable=true)
      */
     private $comentario;
+
+    /**
+     * @ORM\Column(name="directorio", type="string", length=20, nullable=true)
+     */
+    private $directorio;
 
     /**
      * @return int
@@ -149,17 +159,33 @@ class Archivo
     /**
      * @return mixed
      */
-    public function getExtensionOriginal()
+    public function getNombreAlmacenamiento()
     {
-        return $this->extensionOriginal;
+        return $this->nombreAlmacenamiento;
     }
 
     /**
-     * @param mixed $extensionOriginal
+     * @param mixed $nombreAlmacenamiento
      */
-    public function setExtensionOriginal($extensionOriginal): void
+    public function setNombreAlmacenamiento($nombreAlmacenamiento): void
     {
-        $this->extensionOriginal = $extensionOriginal;
+        $this->nombreAlmacenamiento = $nombreAlmacenamiento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param mixed $extension
+     */
+    public function setExtension($extension): void
+    {
+        $this->extension = $extension;
     }
 
     /**
@@ -224,6 +250,22 @@ class Archivo
     public function setComentario($comentario): void
     {
         $this->comentario = $comentario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirectorio()
+    {
+        return $this->directorio;
+    }
+
+    /**
+     * @param mixed $directorio
+     */
+    public function setDirectorio($directorio): void
+    {
+        $this->directorio = $directorio;
     }
 
 

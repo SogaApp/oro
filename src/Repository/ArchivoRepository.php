@@ -10,16 +10,20 @@ namespace App\Repository;
  */
 class ArchivoRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function apiListaCaso( $codigoCaso ) {
+    public function apiLista( $codigoDocumento, $numero ) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->from( "App:Tarea", "t" )
-            ->select( "t.codigoTareaPk" )
-            ->addSelect( "t.descripcion" )
-            ->where( "t.codigoCasoFk = {$codigoCaso}" );
+        $qb->from( "App:Archivo", "a" )
+            ->select( "a.codigoArchivoPk" )
+            ->addSelect( "a.tipo" )
+            ->addSelect( "a.extension" )
+            ->addSelect( "a.tamano" )
+            ->addSelect( "a.nombre" )
+            ->addSelect( "a.nombreAlmacenamiento" )
+            ->where( "a.codigoDocumentoFk = {$codigoDocumento}" )
+            ->andWhere("a.numero = {$numero}");
 
 
         return $qb->getQuery()->getResult();
     }
-
 }
