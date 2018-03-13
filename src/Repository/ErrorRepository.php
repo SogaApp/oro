@@ -19,13 +19,40 @@ class ErrorRepository extends ServiceEntityRepository
         parent::__construct($registry, Error::class);
     }
 
-
-    public function listaUno($codigo)
+    public function listaUnoApi($codigo)
     {
         return $this->createQueryBuilder('e')
-            ->where('e.id= :value')->setParameter('value', $codigo)
+            ->where('e.codigoErrorPk = :value')->setParameter('value', $codigo)
             ->getQuery()
             ->getSingleResult();
+    }
+
+    public function filtroErrores($cliente = "", $estadoAntendido = false, $estadoSolucionado = false)
+    {
+        $qb = $this->createQueryBuilder("e")
+            ->select("e.codigoErrorPk as id")
+            ->addSelect("e.codigo")
+            ->addSelect("e.cliente")
+            ->addSelect("e.mensaje")
+            ->addSelect("e.url")
+            ->addSelect("e.estadoAtendido")
+            ->addSelect("e.estadoSolucionado")
+            ->addSelect("e.fecha");
+
+        if(!empty($cliente)) {
+            $qb->where("e.codigoClienteFk = '{$cliente}'");
+        }
+        if($estadoAntendido) {
+            $qb->andWhere("e.estadoAtendido = {$estadoAntendido}");
+        }
+        if($estadoSolucionado) {
+            $qb->andWhere("e.estadoSolucionado = {$estadoSolucionado}");
+        }
+//        var_dump($estadoAntendido, $estadoSolucionado);
+//        echo $qb->getQuery()->getSQL();
+//        exit();
+        return $qb->orderBy("e.fecha", 'DESC')
+            ->getDQL();
     }
 
     /**
@@ -33,30 +60,56 @@ class ErrorRepository extends ServiceEntityRepository
      * @param int $pagina
      * @param null $cliente
      * @param null $fecha
+     * @param int $atendido
+     * @param int $solucionado
      * @param int $limite
      * @return array|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function lista($pagina = 1, $cliente = null, $fecha = null, $limite = 10)
+    public function listaApi($pagina = 1, $cliente = null, $fecha = null, $atendido = 0, $solucionado = 0, $limite = 10)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->from('App:Error', "e")
-            ->select("COUNT(e)");
+            ->select("COUNT(e.codigoErrorPk)");
 
         if(!empty($cliente) && $cliente != "none") {
-            $qb->where("e.cliente LIKE '%{$cliente}%'");
+            $qb->where("e.codigoClienteFk = {$cliente}");
         }
 
-        if(!empty($fecha)) {
+        if(!empty($fecha) && $fecha != "none") {
             $qb->andWhere("e.fecha LIKE '%{$fecha}%'");
         }
 
+        if($atendido != 0) {
+            $qb->andWhere("e.estadoAtendido = {$atendido}");
+        }
+
+        if($solucionado != 0) {
+            $qb->andWhere("e.estadoSolucionado = {$solucionado}");
+        }
+
+
+
         $total = $qb->getQuery()->getSingleScalarResult();
 
-        if ($total > 0){
-            $qb->select("e")
-                ->orderBy('e.id', 'DESC')
+        if ($total > 0) {
+            $qb->select("e.codigoErrorPk")
+                ->addSelect("e.cliente as nombreCliente")
+                ->addSelect("e.mensaje")
+                ->addSelect("e.codigo")
+                ->addSelect("e.ruta")
+                ->addSelect("e.archivo")
+                ->addSelect("e.traza")
+                ->addSelect("e.fecha")
+                ->addSelect("e.url")
+                ->addSelect("e.usuario")
+                ->addSelect("e.nombreUsuario")
+                ->addSelect("e.email")
+                ->addSelect("e.estadoAtendido")
+                ->addSelect("e.estadoSolucionado")
+                ->addSelect("e.codigoClienteFk")
+                ->orderBy('e.codigoErrorPk', 'DESC')
                 ->setFirstResult(($pagina - 1) * $limite)
                 ->setMaxResults($limite);
             $registros = $qb->getQuery()->getResult();

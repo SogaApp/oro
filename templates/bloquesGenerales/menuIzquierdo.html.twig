@@ -6,11 +6,10 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="menu-title">Principal</li>
-
-
-
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect active"><i class="glyphicon glyphicon-phone-alt"></i> <span> Gestión Llamadas </span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);" class="waves-effect active"><i
+                                class="glyphicon glyphicon-phone-alt"></i> <span> Gestión Llamadas </span> <span
+                                class="menu-arrow"></span></a>
                     <ul class="list-unstyled" style="display: none;">
 
                         <li class="has_sub">
@@ -20,13 +19,6 @@
                                 <span> Listar Llamadas</span>
                             </a>
                         </li>
-                        {#<li class="has_sub">#}
-                            {#<a href="{{ path('registrarLlamada') }}" class="waves-effect">#}
-                                {#<i class="mdi mdi-phone-incoming"></i>#}
-                                {#<span class="label label-success pull-right">2</span>#}
-                                {#<span> Nueva Llamada</span>#}
-                            {#</a>#}
-                        {#</li>#}
                         <li class="has_sub">
                             <a href="{{ path('listadoLlamadasUsuario') }}" class="waves-effect">
                                 <i class="mdi mdi-phone-classic"></i>
@@ -43,7 +35,9 @@
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect active"><i class="glyphicon glyphicon-th-list"></i> <span> Tareas </span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);" class="waves-effect active"><i
+                                class="glyphicon glyphicon-th-list"></i> <span> Tareas </span> <span
+                                class="menu-arrow"></span></a>
                     <ul class="list-unstyled" style="display: none;">
 
                         <li class="has_sub">
@@ -66,9 +60,9 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="has_sub">
-                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span> Casos (Incidencias) </span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span> Casos (Incidencias) </span>
+                        <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ path('listadoCasosSinSolucionar') }}">
                                 <i class="glyphicon glyphicon-list-alt"></i>
@@ -85,60 +79,20 @@
                         </li>
                     </ul>
                 </li>
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Admin UI </span> <span class="menu-arrow"></span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#">Sweet Alert</a></li>#}
-                        {#<li><a href="#">Widgets</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
-                {#<li>#}
-                    {#<a href="#" class="waves-effect"><i class="mdi mdi-calendar"></i><span> Calendar </span></a>#}
-                {#</li>#}
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-email"></i><span> Email </span> <span class="menu-arrow"></span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#"> Inbox</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Icons </span> <span class="menu-arrow"></span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#">Glyphicons</a></li>#}
-                        {#<li><a href="#">Colored Icons</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-diamond"></i><span class="label label-info pull-right">New</span> <span> Forms </span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#">Form Elements</a></li>#}
-                        {#<li><a href="#">Form Advanced</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-format-list-bulleted"></i> <span> Tables </span> <span class="menu-arrow"></span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#">Basic Tables</a></li>#}
-                        {#<li><a href="#">Tables Layouts</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
-                {#<li class="menu-title">Extra</li>#}
-
-                {#<li class="has_sub">#}
-                    {#<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-arc"></i><span> Charts </span> <span class="menu-arrow"></span></a>#}
-                    {#<ul class="list-unstyled">#}
-                        {#<li><a href="#">Flot Chart</a></li>#}
-                        {#<li><a href="#">Morris Chart</a></li>#}
-                    {#</ul>#}
-                {#</li>#}
-
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-watermark"></i> <span> Errores </span>
+                        <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ path('erroresLista') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Pendientes</span>
+                            </a></li>
+                        {#<li><a href="{{ path('listadoCasosSolucionados') }}">#}
+                                {#<i class="glyphicon glyphicon-list-alt"></i>#}
+                                {#<span>Solucionados</span>#}
+                            {#</a></li>#}
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

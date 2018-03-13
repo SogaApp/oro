@@ -56,6 +56,12 @@ class Cliente
      */
 
     private $casosClienteRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Error", mappedBy="clienteRel", cascade={"persist", "remove"})
+     */
+    protected $erroresClienteRel;
+
     /**
      * Constructor
      */
@@ -214,4 +220,23 @@ class Cliente
     {
         return $this->casosClienteRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getErroresClienteRel()
+    {
+        return $this->erroresClienteRel;
+    }
+
+    /**
+     * @param mixed $erroresClienteRel
+     * @return Cliente
+     */
+    public function setErroresClienteRel($erroresClienteRel)
+    {
+        $this->erroresClienteRel = $erroresClienteRel;
+        return $this;
+    }
+
 }

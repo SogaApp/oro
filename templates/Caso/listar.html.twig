@@ -51,16 +51,10 @@
                                                     <th>Fecha</th>
                                                     <th>Cliente</th>
                                                     <th>Soporte</th>
-                                                    {#<th>Correo</th>#}
                                                     <th>Contacto</th>
-                                                    {#<th>Ext.</th>#}
                                                     <th>Categoría</th>
                                                     <th>Descripción</th>
                                                     <th>Prioridad</th>
-                                                    {#<th>Gestión</th>#}
-                                                    <th>Gestiona</th>
-                                                    {#<th>Solución</th>#}
-                                                    {#<th>Soluciona</th>#}
                                                     <th>At</th>
                                                     <th>So</th>
                                                     <th>Ta</th>
@@ -68,12 +62,13 @@
                                                     <th>Reab</th>
                                                     <th>Esca</th>
                                                     <th>Ed</th>
+                                                    <th>Ver</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for caso in casos %}
                                             <tr>
-                                                <td>{{ caso.codigoCasoPk }}</td>
+                                                <td>{{ caso.codigoCasoPk }} {% if caso.estadoSolicitudInformacion == true and caso.estadoRespuestaSolicitudInformacion == false %}<i class=" glyphicon glyphicon-exclamation-sign " style="color:red;"></i> {% elseif caso.estadoSolicitudInformacion == true and caso.estadoRespuestaSolicitudInformacion == true %}<i class=" glyphicon glyphicon-exclamation-sign " style="color:green;">{% endif %}</td>
                                                 <td>{{ caso.fechaRegistro|date('y-m-d') }}</td>
                                                 <td>
                                                     <strong>{{ caso.clienteRel.nombreComercial }}</strong>
@@ -93,37 +88,32 @@
                                                         {% endif %}
                                                     </span>
                                                 </td>
-                                                {#<td>{% if caso.fechaGestion != null %}{{ caso.fechaGestion|date('y-m-d') }}{%  endif %}</td>#}
-                                                <td>{{ caso.codigoUsuarioAtiendeFk }}</td>
-                                                {#<td>{% if caso.fechaSolucion!= null %}{{ caso.fechaSolucion|date('y-m-d') }}{%  endif %}</td>#}
-                                                {#<td>{{ caso.codigoUsuarioSolucionaFk }}</td>#}
+                                                {% set deshabilitar = '' %}
+                                                {% if caso.estadoSolicitudInformacion ==  true and caso.estadoRespuestaSolicitudInformacion == false %}
+                                                    {% set deshabilitar = 'disabled' %}
+                                                {%  endif %}
+
                                                 <td>
                                                     {% if caso.estadoAtendido %}
                                                         <button class="btn btn-success btn-xs" type="submit" name="casoAtender" disabled value="{{ caso.codigoCasoPk }}" title="{{ caso.codigoUsuarioAtiendeFk}}">
                                                             <i class="glyphicon glyphicon-thumbs-up"></i></button>
                                                     {% else %}
-                                                        <button class="btn btn-danger btn-xs" type="submit" name="casoAtender"  value="{{ caso.codigoCasoPk }}">
+                                                        <button class="btn btn-danger btn-xs" type="submit" name="casoAtender"  value="{{ caso.codigoCasoPk }} {{ deshabilitar }}">
                                                             <i class="glyphicon glyphicon-thumbs-down"></i></button>
                                                     {% endif %}
                                                 </td>
                                                 <td>
 
-                                                    <a href="javascript:abrirVentana('{{ path('registrarSolucion', { 'codigoCaso':  caso.codigoCasoPk }) }}','Agregar solución',800, 1200)"
+                                                    <a {{ deshabilitar }} href="javascript:abrirVentana('{{ path('registrarSolucion', { 'codigoCaso':  caso.codigoCasoPk }) }}','Agregar solución',800, 1200)"
                                                        class="btn btn-default waves-effect waves-light btn-xs"><i
                                                                 class="glyphicon glyphicon-flag"
                                                                 style="padding: 3px;"></i>
                                                     </a>
-                                                    {#{% if caso.estadoSolucionado == false and caso.estadoAtendido or caso.estadoAtendido == false and caso.estadoSolucionado == false %}#}
-                                                        {#<button class="btn btn-danger btn-xs" type="submit" name="casoSolucionar" value="{{ caso.codigoCasoPk }}" {% if caso.estadoAtendido == false %} disabled {% endif %} >#}
-                                                            {#<i class="glyphicon glyphicon-thumbs-down"></i></button>#}
-                                                    {#{% else %}#}
-                                                        {#<button class="btn btn-success btn-xs" type="submit" name="casoSolucionar" disabled value="{{ caso.codigoCasoPk }}"  title="{{caso.codigoUsuarioSolucionaFk}}">#}
-                                                            {#<i class="glyphicon glyphicon-thumbs-up"></i></button>#}
-                                                    {#{% endif %}#}
+
                                                 </td>
                                                 <td>
 
-                                                        <a href="javascript:abrirVentana('{{ path('registrarTareaDesdeCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}','Crear Tarea',800,1200)"
+                                                        <a {{ deshabilitar }} href="javascript:abrirVentana('{{ path('registrarTareaDesdeCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}','Crear Tarea',800,1200)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-cog" style="padding: 3px;"></i>
                                                         </a>
 
@@ -134,16 +124,16 @@
                                                         {% if tarea.codigoTareaPk is defined  %}
                                                             {% set desarrollo = 'true' %}
 
-                                                            {#<a class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>#}
+
                                                         {% endif %}
                                                     {% endfor %}
                                                     {% if desarrollo == 'true' %}
-                                                        <a class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
+                                                        <a {{ deshabilitar }} class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
                                                     {% endif %}
 
                                                 <td>
                                                     {% if caso.estadoReabierto == true  %}
-                                                        <a onclick="return false" disabled=""
+                                                        <a {{ deshabilitar }} onclick="return false" disabled=""
                                                            class="btn btn-danger waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-fire" style="padding: 3px;"></i>
                                                         </a>
 
@@ -152,24 +142,32 @@
 
                                                 <td>
                                                     {% if caso.estadoEscalado != null %}
-                                                        <button class="btn btn-danger btn-xs" type="submit" name="casoEscalar"  value="{{ caso.codigoCasoPk }}" disabled>
+                                                        <button {{ deshabilitar }} class="btn btn-danger btn-xs" type="submit" name="casoEscalar"  value="{{ caso.codigoCasoPk }}" disabled>
                                                             <i class="glyphicon glyphicon-arrow-up"></i></button>
                                                     {% else %}
-                                                        <button class="btn btn-succes btn-xs" type="submit" name="casoEscalar"  value="{{ caso.codigoCasoPk }}">
+                                                        <button {{ deshabilitar }} class="btn btn-succes btn-xs" type="submit" name="casoEscalar"  value="{{ caso.codigoCasoPk }}">
                                                             <i class="glyphicon glyphicon-arrow-up"></i></button>
                                                     {% endif %}
 
                                                 </td>
                                                 <td>
                                                     {% if caso.estadoSolucionado == false and caso.estadoAtendido == false%}
-                                                        <a href="{{ path('registrarCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}"
+                                                        <a {{ deshabilitar }} href="{{ path('registrarCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}"
                                                            class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-pencil" style="padding: 3px;"></i>
                                                         </a>
+
+                                                        <a></a>
                                                     {% else %}
-                                                        <a href="{{ path('registrarCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}" onclick="return false" disabled=""
+                                                        <a {{ deshabilitar }} href="{{ path('registrarCaso', { 'codigoCaso':  caso.codigoCasoPk }) }}" onclick="return false" disabled=""
                                                            class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i class="glyphicon glyphicon-pencil" style="padding: 3px;"></i>
                                                         </a>
                                                     {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a  href="{{ path('casoDetalle', { 'codigoCaso':  caso.codigoCasoPk }) }}"
+                                                       class="btn btn-info waves-effect waves-light btn-xs"><i
+                                                                class="glyphicon glyphicon-eye-open"></i>
+                                                    </a>
                                                 </td>
 
                                             </tr>

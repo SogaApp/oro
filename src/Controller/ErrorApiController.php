@@ -24,31 +24,38 @@ class ErrorApiController extends Controller
      */
     public function nuevo(Request $request)
     {
-        ob_start();
         $em = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
+
+        $cliente = $em->getRepository("App:Cliente")->find($data['codigo_cliente']);
         $error = new Error();
-        $error->setCliente($data['cliente'])
+        if($cliente) {
+            $error->setClienteRel($cliente);
+        }
+        $error->setCliente($data['nombre_cliente'])
             ->setMensaje($data['mensaje'])
             ->setCodigo($data['codigo'])
             ->setRuta($data['ruta'])
             ->setArchivo($data['archivo'])
             ->setTraza($data['traza'])
             ->setFecha(new \DateTime($data['fecha']))
-            ->setUrl($data['url']);
+            ->setUrl($data['url'])
+            ->setUsuario($data['usuario'])
+            ->setNombreUsuario($data['nombre_usuario'])
+            ->setEmail($data['email']);
         $em->persist($error);
         $em->flush();
         return $error->getId() != null;
     }
 
     /**
-     * @Rest\Get("/api/error/lista/{pagina}/{cliente}/{fecha}", requirements={"pagina"="\d+"}, defaults={"pagina"=1, "cliente"=null, "fecha"=null})
+     * @Rest\Get("/api/error/lista/{pagina}/{cliente}/{fecha}/{atendido}/{solucionado}", requirements={"pagina"="\d+"}, defaults={"pagina"=1, "cliente"=null, "fecha"=null, "atendido"=0, "solucionado"=0})
      */
-    public function lista(Request $request, $pagina=null, $cliente=null, $fecha=null)
+    public function lista(Request $request, $pagina, $cliente, $fecha, $atendido, $solucionado)
     {
         $limite = 100;
         $em = $this->getDoctrine()->getManager();
-        $arrResultados = $em->getRepository("App:Error")->lista($pagina, $cliente, $fecha, $limite);
+        $arrResultados = $em->getRepository("App:Error")->listaApi($pagina, $cliente, $fecha, $atendido, $solucionado, $limite);
         if(!$arrResultados) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }
@@ -63,7 +70,7 @@ class ErrorApiController extends Controller
     public function listaUno(Request $request, $codigo)
     {
         $em = $this->getDoctrine()->getManager();
-        $arError = $em->getRepository("App:Error")->listaUno($codigo);
+        $arError = $em->getRepository("App:Error")->listaUnoApi($codigo);
         if(!$arError) {
             return new View("No hay errores", Response::HTTP_NOT_FOUND);
         }

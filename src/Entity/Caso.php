@@ -34,6 +34,13 @@ class Caso
      */
     private $asunto;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="adjunto", type="string", length=255, nullable =true)
+	 */
+	private $adjunto;
+
     /**
      * @var string
      *
@@ -96,6 +103,21 @@ class Caso
      * @ORM\Column(name="fecha_registro", type="datetime", nullable= TRUE)
      */
     private $fechaRegistro;
+
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="fecha_solicitud_informacion", type="datetime", nullable= TRUE)
+	 */
+	private $fechaSolicitudInformacion;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="fecha_respuesta_solicitud_informacion", type="datetime", nullable= TRUE)
+	 */
+	private $fechaRespuestaSolicitudInformacion;
 
     /**
      * @var \DateTime
@@ -170,6 +192,38 @@ class Caso
 	/**
 	 * @var boolean
 	 *
+	 * @ORM\Column(name="estado_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoSolicitudInformacion;
+
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="estado_respuesta_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 */
+	private $estadoRespuestaSolicitudInformacion;
+
+	/**
+	 * @var text
+	 *
+	 * @ORM\Column(name="solicitud_informacion", type="text" ,nullable= TRUE)
+	 */
+	private $solicitudInformacion;
+
+
+	/**
+	 * @var text
+	 *
+	 * @ORM\Column(name="respuesta_solicitud_informacion", type="text" ,nullable= TRUE)
+	 */
+	private $respuestaSolicitudInformacion;
+
+
+
+
+	/**
+	 * @var boolean
+	 *
 	 * @ORM\Column(name="estado_escalado", type="boolean" ,nullable= TRUE)
 	 */
 	private $estadoEscalado;
@@ -229,9 +283,17 @@ class Caso
 	/**
 	 *
 	 * @ORM\OneToMany(targetEntity="Tarea", mappedBy="casoRel")
+	 *
+	 */
+	 private $tareasCasoRel;
+
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="casoRel")
 	 */
 
-	private $tareasCasoRel;
+	private $casosComentarioRel;
 
 
     /**
@@ -958,6 +1020,160 @@ class Caso
 		$this->estadoEscalado = $estadoEscalado;
 
 		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCasosComentarioRel() {
+		return $this->casosComentarioRel;
+	}
+
+	/**
+	 * @param mixed $casosComentarioRel
+	 */
+	public function setCasosComentarioRel( $casosComentarioRel ){
+		$this->casosComentarioRel = $casosComentarioRel;
+		return $this;
+	}
+
+
+
+
+
+	/* solicitudes de informacion */
+
+	/**
+	 * @return text
+	 */
+	public function getSolicitudInformacion() {
+		return $this->solicitudInformacion;
+	}
+
+	/**
+	 * @param text $solicitudInformacion
+	 */
+	public function setSolicitudInformacion( $solicitudInformacion ) {
+		$this->solicitudInformacion = $solicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return text
+	 */
+	public function getRespuestaSolicitudInformacion() {
+		return $this->respuestaSolicitudInformacion;
+	}
+
+	/**
+	 * @param text $respuestaSolicitudInformacion
+	 */
+	public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion ){
+		$this->respuestaSolicitudInformacion = $respuestaSolicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEstadoSolicitudInformacion(){
+		return $this->estadoSolicitudInformacion;
+	}
+
+	/**
+	 * @param bool $estadoSolicitudInformacion
+	 */
+	public function setEstadoSolicitudInformacion( bool $estadoSolicitudInformacion ) {
+		$this->estadoSolicitudInformacion = $estadoSolicitudInformacion;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEstadoRespuestaSolicitudInformacion() {
+		return $this->estadoRespuestaSolicitudInformacion;
+	}
+
+	/**
+	 * @param bool $estadoRespuestaSolicitudInformacion
+	 */
+	public function setEstadoRespuestaSolicitudInformacion( bool $estadoRespuestaSolicitudInformacion ) {
+		$this->estadoRespuestaSolicitudInformacion = $estadoRespuestaSolicitudInformacion;
+		return $this;
+	}
+
+
+	/**
+	 * Set fechaSolicitudInformacion.
+	 *
+	 * @param \DateTime|null $fechaSolicitudInformacion
+	 *
+	 * @return Caso
+	 */
+	public function setfechaSolicitudInformacion($fechaSolicitudInformacion)
+	{
+		$this->fechaSolicitudInformacion = $fechaSolicitudInformacion;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaSolicitudInformacion.
+	 *
+	 * @return \DateTime|null
+	 */
+	public function getfechaSolicitudInformacion()
+	{
+		return $this->fechaSolicitudInformacion;
+	}
+
+	/**
+	 * Set fechaRespuestaSolicitudInformacion.
+	 *
+	 * @param \DateTime|null $fechaRespuestaSolicitudInformacion
+	 *
+	 * @return Caso
+	 */
+	public function setfechaRespuestaSolicitudInformacion($fechaRespuestaSolicitudInformacion)
+	{
+		$this->fechaRespuestaSolicitudInformacion = $fechaRespuestaSolicitudInformacion;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaRespuestaSolicitudInformacion.
+	 *
+	 * @return \DateTime|null
+	 */
+	public function getfechaRespuestaSolicitudInformacion()
+	{
+		return $this->fechaRespuestaSolicitudInformacion;
+	}
+
+	/**
+	 * Set adjunto.
+	 *
+	 * @param string $adjunto
+	 *
+	 * @return Caso
+	 */
+	public function setAdjunto($adjunto)
+	{
+		$this->adjunto = $adjunto;
+
+		return $this;
+	}
+
+	/**
+	 * Get Adjunto.
+	 *
+	 * @return string
+	 */
+	public function getAdjunto()
+	{
+		return $this->adjunto;
 	}
 
 

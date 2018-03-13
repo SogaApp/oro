@@ -62,6 +62,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.codigoUsuarioAtiendeFk" )
 		   ->addSelect( "c.codigoUsuarioSolucionaFk" )
 			->addSelect( "c.estadoReabierto" )
+			->addSelect( "c.estadoEscalado")
 		   ->addSelect( "areaRel.nombre" )
 		   ->addSelect( "cargoRel.nombre as cargo" )
 		   ->addSelect( "categoriaRel.nombre as categoria" )
@@ -113,6 +114,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.codigoUsuarioAtiendeFk" )
 		   ->addSelect( "c.codigoUsuarioSolucionaFk" )
 			->addSelect( "c.estadoReabierto" )
+			->addSelect( "c.estadoEscalado" )
 		   ->addSelect( "areaRel.nombre as area" )
 		   ->addSelect( "areaRel.codigoAreaPk as areaPk" )
 		   ->addSelect( "({$qb2}) as tareasCuenta" )
@@ -166,6 +168,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.fechaRegistro" )
 		   ->addSelect( "c.fechaGestion" )
 		   ->addSelect( "c.fechaSolucion" )
+			->addSelect( "c.estadoEscalado" )
 		   ->addSelect( "c.codigoUsuarioAtiendeFk" )
 		   ->addSelect( "c.codigoUsuarioSolucionaFk" )
 		   ->addSelect( "({$qb2}) as tareasCuenta" )
@@ -217,6 +220,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.solucion" )
 		   ->addSelect( "c.soporte" )
 		   ->addSelect( "c.extension" )
+			->addSelect( "c.estadoEscalado" )
 			->addSelect( "c.estadoReabierto" )
 		   ->addSelect( "c.estadoAtendido" )
 		   ->addSelect( "c.estadoSolucionado" )
@@ -283,6 +287,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		   ->addSelect( "c.fechaRegistro" )
 		   ->addSelect( "c.fechaGestion" )
 		   ->addSelect( "c.fechaSolucion" )
+			->addSelect( "c.estadoEscalado" )
 		   ->addSelect( "c.codigoUsuarioAtiendeFk" )
 		   ->addSelect( "c.codigoUsuarioSolucionaFk" )
 		   ->addSelect( "({$qb2}) as tareasCuenta" )
@@ -339,5 +344,60 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository {
 		}
 
 	}
+
+    public function apiCaso($codigoCaso ) {
+        $em  = $this->getEntityManager();
+        $qb  = $em->createQueryBuilder();
+        $qb2 = $em->createQueryBuilder();
+        $qb2->from( 'App:Tarea', "t" )
+            ->select( "COUNT(t.codigoTareaPk)" )
+            ->where( "t.codigoCasoFk = c.codigoCasoPk" );
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->from( "App:Caso", "c" )
+            ->select( "c.codigoCasoPk" )
+            ->addSelect( "c.asunto" )
+            ->addSelect( "c.contacto" )
+            ->addSelect( "c.correo" )
+            ->addSelect( "c.descripcion" )
+            ->addSelect( "c.telefono" )
+            ->addSelect( "c.solucion" )
+            ->addSelect( "c.solicitudInformacion" )
+            ->addSelect( "c.respuestaSolicitudInformacion" )
+            ->addSelect( "c.soporte" )
+            ->addSelect( "c.extension" )
+            ->addSelect( "c.estadoAtendido" )
+            ->addSelect( "c.estadoSolucionado" )
+            ->addSelect( "c.estadoRespuestaSolicitudInformacion" )
+            ->addSelect( "c.usuario" )
+            ->addSelect( "c.fechaRegistro" )
+            ->addSelect( "c.fechaGestion" )
+            ->addSelect( "c.fechaSolucion" )
+            ->addSelect( "c.fechaSolicitudInformacion" )
+            ->addSelect( "c.fechaRespuestaSolicitudInformacion" )
+            ->addSelect( "c.codigoUsuarioAtiendeFk" )
+            ->addSelect( "c.codigoUsuarioSolucionaFk" )
+            ->addSelect( "c.estadoReabierto" )
+            ->addSelect( "c.estadoEscalado" )
+            ->addSelect( "areaRel.nombre as area" )
+            ->addSelect( "areaRel.codigoAreaPk as areaPk" )
+            ->addSelect( "({$qb2}) as tareasCuenta" )
+            ->addSelect( "cargoRel.nombre as cargo" )
+            ->addSelect( "cargoRel.codigoCargoPk as cargoPk" )
+            ->addSelect( "categoriaRel.nombre as categoria" )
+            ->addSelect( "categoriaRel.codigoCategoriaCasoPk as categoriaPk" )
+            ->addSelect( "categoriaRel.color as categoriaColor" )
+            ->addSelect( "clienteRel.nombreComercial as empresa" )
+            ->addSelect( "prioridadRel.nombre as prioridad" )
+            ->addSelect( "prioridadRel.codigo_prioridad_pk as prioridadPk" )
+            ->addSelect( "prioridadRel.color as prioridadColor" )
+            ->leftJoin( "c.areaRel", "areaRel" )
+            ->leftJoin( "c.cargoRel", "cargoRel" )
+            ->leftJoin( "c.categoriaRel", "categoriaRel" )
+            ->leftJoin( "c.clienteRel", "clienteRel" )
+            ->leftJoin( "c.prioridadRel", "prioridadRel" )
+            ->where( "c.codigoCasoPk = {$codigoCaso}" );
+        return $qb->getQuery()->getResult();
+    }
 
 }

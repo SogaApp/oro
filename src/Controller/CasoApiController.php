@@ -18,8 +18,8 @@ class CasoApiController extends FOSRestController
 
   /*
   * $intCodigoCLiente = 0 default Es el códigoClientePk seteado en base de datos(requerido).
+  * listar los casos de un cliente al logueo
   */
-  // listar los casos de un cliente al logueo
   public function listaEmpresa(Request $request, $intCodigoCliente)
   {
 
@@ -162,6 +162,16 @@ class CasoApiController extends FOSRestController
   }
 
 
+	/**
+	 * @Rest\Post("/api/caso/adjuntar/{intCodigoCasoPk}", requirements={"intCodigoCasoPk"="\d+"}, defaults={"intCodigoCasoPk"=0})
+	 */
+	/*
+	 * Recibe un adjunto para un caso recibiendo como parametro el codigo del caso
+	 *
+	 */
+	public function adjuntarArchivoCaso(Request $request, $intCodigoCasoPk){
+		// codigo para guardar archivo
+	}
   /**
    * @Rest\Post("/api/caso/nuevo/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+" } ,defaults={"intCodigoCasoPk" = 0})
    */
@@ -287,6 +297,38 @@ class CasoApiController extends FOSRestController
 
   }
 
+	/**
+	 * @Rest\Post("/api/caso/solicitud/informacion/{intCodigoCasoPk}", requirements={"intCodigoCasoPk" = "\d+" } ,defaults={"intCodigoCasoPk" = 0})
+	 */
+	/* recibe la respuesta de un cliente ferente a una solicitud de ampliacion de informacion
+	 * En caso de venir seteado el parametro de codigoCaso se editara el caso con los valores enviados
+	 *
+	 */
+
+	public function solicitudInformacion(Request $request, $intCodigoCasoPk) {
+
+		/**
+		 * @var $arCaso Caso
+		 */
+		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
+
+		$data = json_decode($request->getContent(), true);
+		$arCaso = $em->getRepository()->find($intCodigoCasoPk);
+		if($arCaso != null) {
+			$respuestaSolicitudInformacion = $data['respuestaSolicitud'];
+			$arCaso->setEstadoRespuestaSolicitudInformacion(true);
+			$arCaso->setRespuestaSolicitudInformacion($respuestaSolicitudInformacion);
+			$arCaso->setFechaRespuestaSolicitudInformacion(new \DateTime('now'));
+			$em->persist($arCaso);
+			$em->flush();
+		}
+
+
+
+
+		//acá metodo de creacion de solicitud de informacion para el caso
+	}
+
   /**
    * @Rest\Get("/api/caso/lista/propiedad/{intCodigoCliente}/{strPropiedad}/{value}/{strPropiedadOrdenar}/{strOrder}", requirements={"intCodigoCliente" = "\d+"} ,defaults={"intCodigoCliente" = 0} )
    */
@@ -314,4 +356,26 @@ class CasoApiController extends FOSRestController
     }
 
   }
+
+    /**
+     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}")
+     */
+    public function respuestaInformacion(Request $request, $codigoCaso)
+    {
+        $em = $this->getDoctrine()->getManager();
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+        $arrCaso = json_decode($request->getContent(), true);
+        if ($codigoCaso != 0) {
+            $arCaso = $em->getRepository(Caso::class)->find($codigoCaso);
+            $arCaso->setRespuestaSolicitudInformacion($arrCaso['respuestaInformacion']);
+            $arCaso->setEstadoRespuestaSolicitudInformacion(1);
+            $arCaso->setfechaRespuestaSolicitudInformacion(new \DateTime('now'));
+            $em->persist($arCaso);
+            $em->flush();
+        }
+
+        return true;
+    }
+
 }
