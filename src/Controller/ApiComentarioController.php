@@ -26,7 +26,7 @@ class ApiComentarioController extends FOSRestController
         }
 
         if ($jsonRestResult === null) {
-            return new View("No hay tareas", Response::HTTP_NOT_FOUND);
+            return new View("No hay comentarios", Response::HTTP_NOT_FOUND);
         }
         return $jsonRestResult;
     }
