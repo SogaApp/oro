@@ -10,16 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Comentario
 {
     /**
+     * @var int
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_comentario_pk", type="integer", unique=true)
      */
     private $codigoComentarioPk;
 
 	/**
 	 * @var dateTime
 	 *
-	 * @ORM\Column(name="fecha_registro", type="datetime", length=30, nullable=true)
+	 * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
 	 */
 	private $fechaRegistro;
 
@@ -69,17 +70,17 @@ class Comentario
 	private $tareaRel;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCodigoComentarioPk()
+    public function getCodigoComentarioPk(): int
     {
         return $this->codigoComentarioPk;
     }
 
     /**
-     * @param mixed $codigoComentarioPk
+     * @param int $codigoComentarioPk
      */
-    public function setCodigoComentarioPk($codigoComentarioPk): void
+    public function setCodigoComentarioPk(int $codigoComentarioPk): void
     {
         $this->codigoComentarioPk = $codigoComentarioPk;
     }
