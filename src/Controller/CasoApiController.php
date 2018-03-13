@@ -356,4 +356,26 @@ class CasoApiController extends FOSRestController
     }
 
   }
+
+    /**
+     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}")
+     */
+    public function respuestaInformacion(Request $request, $codigoCaso)
+    {
+        $em = $this->getDoctrine()->getManager();
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+        $arrCaso = json_decode($request->getContent(), true);
+        if ($codigoCaso != 0) {
+            $arCaso = $em->getRepository(Caso::class)->find($codigoCaso);
+            $arCaso->setRespuestaSolicitudInformacion($arrCaso['respuestaInformacion']);
+            $arCaso->setEstadoRespuestaSolicitudInformacion(1);
+            $arCaso->setfechaRespuestaSolicitudInformacion(new \DateTime('now'));
+            $em->persist($arCaso);
+            $em->flush();
+        }
+
+        return true;
+    }
+
 }
