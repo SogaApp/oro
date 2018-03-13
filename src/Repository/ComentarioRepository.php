@@ -19,16 +19,12 @@ class ComentarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Comentario::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->where('c.something = :value')->setParameter('value', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function apiListaCaso($codigoCaso){
+        $em = $this->getEntityManager();
+        $db = $em->createQueryBuilder()->from("App:Comentario", "c")
+            ->select("c")
+            ->where("c.codigoCasoFk = {$codigoCaso}");
+        return $db->getQuery()->getResult();
+
     }
-    */
 }
