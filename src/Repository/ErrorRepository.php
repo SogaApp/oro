@@ -48,9 +48,7 @@ class ErrorRepository extends ServiceEntityRepository
         if($estadoSolucionado) {
             $qb->andWhere("e.estadoSolucionado = {$estadoSolucionado}");
         }
-//        var_dump($estadoAntendido, $estadoSolucionado);
-//        echo $qb->getQuery()->getSQL();
-//        exit();
+
         return $qb->orderBy("e.fecha", 'DESC')
             ->getDQL();
     }

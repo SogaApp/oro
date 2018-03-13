@@ -33,14 +33,20 @@ class ErrorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $this->listarErrores($em);
 
+        if ($session->get("filtro_cliente")) {
+            $cliente = $em->getRepository("App:Cliente")->find($session->get('filtro_cliente'));
+        }
         $formFiltro = $this::createFormBuilder()
             ->add('clienteRel', EntityType::class, [
+                'placeholder' => 'Seleccione un cliente',
+                'required' => false,
                 'class' => 'App:Cliente',
                 'query_builder' => function(EntityRepository $er){
                     return $er->createQueryBuilder('c')
                               ->orderBy('c.nombreComercial', 'ASC');
                 },
                 'choice_label' => 'nombreComercial',
+                'data' => $cliente?? null,
             ])
             ->add('estadoAtendido', CheckboxType::class, [
                 'required' => false,
@@ -151,7 +157,7 @@ class ErrorController extends Controller
         $dataEstadoAtendido = $formFiltro->get('estadoAtendido')->getData();
         $dataEstadoSolucionado = $formFiltro->get('estadoSolucionado')->getData();
         $codigoCliente = $dataCliente instanceof Cliente? $dataCliente->getCodigoClientePk() : null;
-        $session->set('filtro-cliente', $codigoCliente);
+        $session->set('filtro_cliente', $codigoCliente);
         $session->set('filtro-estado-atendido', $dataEstadoAtendido);
         $session->set('filtro-estado-solucionado', $dataEstadoSolucionado);
     }
