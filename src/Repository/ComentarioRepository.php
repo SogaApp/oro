@@ -10,6 +10,10 @@ class ComentarioRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $qb->from( "App:Comentario", "c" )
             ->select( "c.codigoComentarioPk" )
+            ->addSelect( "c.fechaCreacion" )
+            ->addSelect( "c.comentario" )
+            ->addSelect( "c.codigoUsuarioFk" )
+            ->addSelect( "c.cliente" )
             ->where( "c.codigoCasoFk = {$codigoCaso}" );
         return $qb->getQuery()->getResult();
     }

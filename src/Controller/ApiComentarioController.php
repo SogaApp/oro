@@ -49,7 +49,7 @@ class ApiComentarioController extends FOSRestController
             $arComentario->setFechaCreacion(new \DateTime('now'));
             $arComentario->setCodigoUsuarioFk($usuario);
             $arComentario->setComentario($arrComentario['comentario']);
-
+            $arComentario->setCliente(1);
             $em->persist($arComentario);
             $em->flush();
             return true;
