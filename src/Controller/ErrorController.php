@@ -118,11 +118,12 @@ class ErrorController extends Controller
 		    ->getForm();
         $form->handleRequest($request);
 
+
         if($form->isSubmitted() && $form->isValid()){
 
         	$mensaje = $form->get('mensaje')->getData();
 	        if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
-		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getId()))
+		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getCodigoErrorPk()))
 			        ->setFrom('sogainformacion@gmail.com')
 			        ->setTo($arError->getEmail())
 			        ->setBody(
