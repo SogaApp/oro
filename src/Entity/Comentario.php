@@ -88,7 +88,7 @@ class Comentario
     /**
      * @return dateTime
      */
-    public function getFechaRegistro(): dateTime
+    public function getFechaRegistro()
     {
         return $this->fechaRegistro;
     }
@@ -96,7 +96,7 @@ class Comentario
     /**
      * @param dateTime $fechaRegistro
      */
-    public function setFechaRegistro(dateTime $fechaRegistro): void
+    public function setFechaRegistro( $fechaRegistro): void
     {
         $this->fechaRegistro = $fechaRegistro;
     }
