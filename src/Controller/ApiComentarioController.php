@@ -39,14 +39,13 @@ class ApiComentarioController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $arCaso = $em->getRepository(Caso::class)->find($codigoCaso);
         $arrComentario = json_decode($request->getContent(), true);
-
         set_time_limit(0);
         ini_set("memory_limit", -1);
         $arComentario = new Comentario();
 
-        if ($codigoCaso <> 0 and $usuario <> 0) {
+        if ($codigoCaso != "" && $usuario != "") {
             $arComentario->setCasoRel($arCaso);
-            $arComentario->setFechaCreacion(new \DateTime('now'));
+            $arComentario->setFechaRegistro(new \DateTime('now'));
             $arComentario->setCodigoUsuarioFk($usuario);
             $arComentario->setComentario($arrComentario['comentario']);
             $arComentario->setCliente(1);
