@@ -358,7 +358,7 @@ class CasoApiController extends FOSRestController
   }
 
     /**
-     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}")
+     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}",requirements={"codigoCaso" = "\d+"}, defaults={"codigoCaso" = 0} )
      */
     public function respuestaInformacion(Request $request, $codigoCaso)
     {
