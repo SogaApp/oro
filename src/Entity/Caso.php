@@ -719,7 +719,7 @@ class Caso
     /**
      * @param text
      */
-    public function setSolicitudInformacion(text $solicitudInformacion)
+    public function setSolicitudInformacion($solicitudInformacion)
     {
         $this->solicitudInformacion = $solicitudInformacion;
 
@@ -737,7 +737,7 @@ class Caso
     /**
      * @param text
      */
-    public function setRespuestaSolicitudInformacion(text $respuestaSolicitudInformacion): void
+    public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion): void
     {
         $this->respuestaSolicitudInformacion = $respuestaSolicitudInformacion;
     }
