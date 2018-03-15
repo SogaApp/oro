@@ -709,7 +709,7 @@ class Caso
     }
 
     /**
-     * @return text
+     * @return text $solicitudInformacion
      */
     public function getSolicitudInformacion()
     {
