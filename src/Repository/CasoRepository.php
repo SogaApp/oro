@@ -244,7 +244,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect("c.estadoAtendido")
             ->addSelect("c.estadoSolucionado")
             ->addSelect("c.estadoSolicitudInformacion")
-            ->addSelect("c.estadoRspuestaSolicitudInformacion")
+            ->addSelect("c.estadoRespuestaSolicitudInformacion")
             ->addSelect("c.solicitudInformacion")
             ->addSelect("c.respuestaSolicitudInformacion")
             ->addSelect("c.fechaRespuestaSolicitudInformacion")
