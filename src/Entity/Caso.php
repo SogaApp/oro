@@ -663,7 +663,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoAtendido(): bool
+    public function getEstadoAtendido(): bool
     {
         return $this->estadoAtendido;
     }
@@ -679,7 +679,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoSolicitudInformacion(): bool
+    public function getEstadoSolicitudInformacion(): bool
     {
         return $this->estadoSolicitudInformacion;
     }
@@ -695,7 +695,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoRespuestaSolicitudInformacion(): bool
+    public function getEstadoRespuestaSolicitudInformacion(): bool
     {
         return $this->estadoRespuestaSolicitudInformacion;
     }
@@ -743,7 +743,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoEscalado(): bool
+    public function getEstadoEscalado(): bool
     {
         return $this->estadoEscalado;
     }
@@ -759,7 +759,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoReabierto(): bool
+    public function getEstadoReabierto(): bool
     {
         return $this->estadoReabierto;
     }
@@ -775,7 +775,7 @@ class Caso
     /**
      * @return bool
      */
-    public function isEstadoSolucionado(): bool
+    public function getEstadoSolucionado(): bool
     {
         return $this->estadoSolucionado;
     }
