@@ -439,7 +439,7 @@ class Caso
     /**
      * @return string
      */
-    public function getSoporte(): string
+    public function getSoporte()
     {
         return $this->soporte;
     }
@@ -711,7 +711,7 @@ class Caso
     /**
      * @return text
      */
-    public function getSolicitudInformacion(): text
+    public function getSolicitudInformacion()
     {
         return $this->solicitudInformacion;
     }
