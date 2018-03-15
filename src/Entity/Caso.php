@@ -311,7 +311,7 @@ class Caso
     /**
      * @return string
      */
-    public function getAsunto(): string
+    public function getAsunto()
     {
         return $this->asunto;
     }
@@ -327,7 +327,7 @@ class Caso
     /**
      * @return string
      */
-    public function getAdjunto(): string
+    public function getAdjunto()
     {
         return $this->adjunto;
     }
@@ -343,7 +343,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCorreo(): string
+    public function getCorreo()
     {
         return $this->correo;
     }
@@ -359,7 +359,7 @@ class Caso
     /**
      * @return string
      */
-    public function getContacto(): string
+    public function getContacto()
     {
         return $this->contacto;
     }
@@ -375,7 +375,7 @@ class Caso
     /**
      * @return string
      */
-    public function getUsuario(): string
+    public function getUsuario()
     {
         return $this->usuario;
     }
@@ -391,7 +391,7 @@ class Caso
     /**
      * @return string
      */
-    public function getTelefono(): string
+    public function getTelefono()
     {
         return $this->telefono;
     }
@@ -407,7 +407,7 @@ class Caso
     /**
      * @return string
      */
-    public function getExtension(): string
+    public function getExtension()
     {
         return $this->extension;
     }
@@ -423,7 +423,7 @@ class Caso
     /**
      * @return string
      */
-    public function getDescripcion(): string
+    public function getDescripcion()
     {
         return $this->descripcion;
     }
@@ -455,7 +455,7 @@ class Caso
     /**
      * @return string
      */
-    public function getSolucion(): string
+    public function getSolucion()
     {
         return $this->solucion;
     }
@@ -551,7 +551,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoCategoriaCasoFk(): string
+    public function getCodigoCategoriaCasoFk()
     {
         return $this->codigoCategoriaCasoFk;
     }
@@ -567,7 +567,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoCargoFk(): string
+    public function getCodigoCargoFk()
     {
         return $this->codigoCargoFk;
     }
@@ -583,7 +583,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoAreaFk(): string
+    public function getCodigoAreaFk()
     {
         return $this->codigoAreaFk;
     }
@@ -599,7 +599,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoPrioridadFk(): string
+    public function getCodigoPrioridadFk()
     {
         return $this->codigoPrioridadFk;
     }
@@ -615,7 +615,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoUsuarioAtiendeFk(): string
+    public function getCodigoUsuarioAtiendeFk()
     {
         return $this->codigoUsuarioAtiendeFk;
     }
@@ -631,7 +631,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoTareaFk(): string
+    public function getCodigoTareaFk()
     {
         return $this->codigoTareaFk;
     }
@@ -647,7 +647,7 @@ class Caso
     /**
      * @return string
      */
-    public function getCodigoUsuarioSolucionaFk(): string
+    public function getCodigoUsuarioSolucionaFk()
     {
         return $this->codigoUsuarioSolucionaFk;
     }
@@ -727,7 +727,7 @@ class Caso
     /**
      * @return text
      */
-    public function getRespuestaSolicitudInformacion(): text
+    public function getRespuestaSolicitudInformacion()
     {
         return $this->respuestaSolicitudInformacion;
     }
@@ -743,7 +743,7 @@ class Caso
     /**
      * @return bool
      */
-    public function getEstadoEscalado(): bool
+    public function getEstadoEscalado()
     {
         return $this->estadoEscalado;
     }
@@ -759,7 +759,7 @@ class Caso
     /**
      * @return bool
      */
-    public function getEstadoReabierto(): bool
+    public function getEstadoReabierto()
     {
         return $this->estadoReabierto;
     }
@@ -775,7 +775,7 @@ class Caso
     /**
      * @return bool
      */
-    public function getEstadoSolucionado(): bool
+    public function getEstadoSolucionado()
     {
         return $this->estadoSolucionado;
     }
@@ -791,7 +791,7 @@ class Caso
     /**
      * @return int
      */
-    public function getCodigoClienteFk(): int
+    public function getCodigoClienteFk()
     {
         return $this->codigoClienteFk;
     }
