@@ -64,4 +64,46 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
             return $db;
 
         }
+
+    public function tableroSinAtender() {
+        $em = $this->getEntityManager();
+        $arrSinAtender = array('numero' => 0, 'arrLlamadas' => array());
+        $dql = "SELECT COUNT(l.codigoLlamadaPk) as numero FROM App:Llamada l "
+            . "WHERE l.estadoAtendido = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinAtender['numero'] = $arrayResultado[0]['numero'];
+        }
+        $dql = "SELECT l.codigoLlamadaPk, l.fechaRegistro, cli.nombreComercial  FROM App:Llamada l JOIN l.clienteRel cli "
+            . "WHERE l.estadoAtendido = 0 ORDER BY l.fechaRegistro";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(5);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinAtender['arrLlamadas'] = $arrayResultado;
+        }
+        return $arrSinAtender;
+    }
+
+    public function tableroSinSolucionar() {
+        $em = $this->getEntityManager();
+        $arrSinSolucionar = array('numero' => 0, 'arrLlamadas' => array());
+        $dql = "SELECT COUNT(l.codigoLlamadaPk) as numero FROM App:Llamada l "
+            . "WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinSolucionar['numero'] = $arrayResultado[0]['numero'];
+        }
+        $dql = "SELECT l.codigoLlamadaPk, l.fechaRegistro, cli.nombreComercial  FROM App:Llamada l JOIN l.clienteRel cli "
+            . "WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0 ORDER BY l.fechaRegistro";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(5);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinSolucionar['arrLlamadas'] = $arrayResultado;
+        }
+        return $arrSinSolucionar;
+    }
 }
