@@ -709,9 +709,9 @@ class Caso
     }
 
     /**
-     * @return string
+     * @return text
      */
-    public function getSolicitudInformacion()
+    public function getSolicitudInformacion(): text
     {
         return $this->solicitudInformacion;
     }
