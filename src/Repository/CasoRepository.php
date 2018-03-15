@@ -218,8 +218,6 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
     public function listarPorEstadoSolucionado($intCodigoEmpresa, $boolEstado)
     {
-
-
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb2 = $em->createQueryBuilder();
@@ -427,4 +425,29 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function tableroSinAtender() {
+        $em = $this->getEntityManager();
+        $sinAtender = 0;
+        $dql = "SELECT COUNT(c.codigoCasoPk) as sinAtender FROM App:Caso c "
+            . "WHERE c.estadoAtendido = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $sinAtender = $arrayResultado[0]['sinAtender'];
+        }
+        return $sinAtender;
+    }
+
+    public function tableroSinSolucionar() {
+        $em = $this->getEntityManager();
+        $sinSolucionar = 0;
+        $dql = "SELECT COUNT(c.codigoCasoPk) as sinAtender FROM App:Caso c "
+            . "WHERE c.estadoAtendido = 1 AND c.estadoSolucionado = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $sinSolucionar = $arrayResultado[0]['sinAtender'];
+        }
+        return $sinSolucionar;
+    }
 }
