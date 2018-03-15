@@ -717,7 +717,7 @@ class Caso
     }
 
     /**
-     * @param text $solicitudInformacion
+     * @param text
      */
     public function setSolicitudInformacion(text $solicitudInformacion): void
     {
