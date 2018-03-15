@@ -43,4 +43,16 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function apiListaCaso($intCodigoCasoFk){
+        $em = $this->getEntityManager();
+        $db = $em->createQueryBuilder()->from("App:Tarea", "t")
+            ->select("t.codigoTareaPk")
+            ->addSelect("t.fechaRegistro")
+            ->addSelect("t.codigoUsuarioAsignaFk")
+            ->addSelect("t.descripcion")
+            ->where("t.codigoCasoFk = {$intCodigoCasoFk}");
+        return $db->getQuery()->getResult();
+
+    }
+
 }
