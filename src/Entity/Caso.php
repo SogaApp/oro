@@ -708,9 +708,7 @@ class Caso
         $this->estadoRespuestaSolicitudInformacion = $estadoRespuestaSolicitudInformacion;
     }
 
-    /**
-     * @return text $solicitudInformacion
-     */
+
     public function getSolicitudInformacion()
     {
         return $this->solicitudInformacion;
