@@ -711,7 +711,7 @@ class Caso
     /**
      * @return text
      */
-    public function getSolicitudInformacion(): text
+    public function getSolicitudInformacion()
     {
         return $this->solicitudInformacion;
     }
