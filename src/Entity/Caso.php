@@ -719,9 +719,11 @@ class Caso
     /**
      * @param text
      */
-    public function setSolicitudInformacion(text $solicitudInformacion): void
+    public function setSolicitudInformacion(text $solicitudInformacion)
     {
         $this->solicitudInformacion = $solicitudInformacion;
+
+        return $this;
     }
 
     /**
