@@ -427,27 +427,46 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
     public function tableroSinAtender() {
         $em = $this->getEntityManager();
-        $sinAtender = 0;
-        $dql = "SELECT COUNT(c.codigoCasoPk) as sinAtender FROM App:Caso c "
+        $arrSinAtender = array('numero' => 0, 'arrCasos' => array());
+        $dql = "SELECT COUNT(c.codigoCasoPk) as numero FROM App:Caso c "
             . "WHERE c.estadoAtendido = 0 ";
         $query = $em->createQuery($dql);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
-            $sinAtender = $arrayResultado[0]['sinAtender'];
+            $arrSinAtender['numero'] = $arrayResultado[0]['numero'];
         }
-        return $sinAtender;
+        $dql = "SELECT c.codigoCasoPk, c.fechaRegistro, cli.nombreComercial FROM App:Caso c JOIN c.clienteRel cli "
+            . "WHERE c.estadoAtendido = 0 ORDER BY c.fechaRegistro";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(5);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinAtender['arrCasos'] = $arrayResultado;
+        }
+
+        return $arrSinAtender;
     }
 
     public function tableroSinSolucionar() {
         $em = $this->getEntityManager();
-        $sinSolucionar = 0;
-        $dql = "SELECT COUNT(c.codigoCasoPk) as sinAtender FROM App:Caso c "
+        $arrSinSolucionar = array('numero' => 0, 'arrCasos' => array());
+        $dql = "SELECT COUNT(c.codigoCasoPk) as numero FROM App:Caso c "
             . "WHERE c.estadoAtendido = 1 AND c.estadoSolucionado = 0 ";
         $query = $em->createQuery($dql);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
-            $sinSolucionar = $arrayResultado[0]['sinAtender'];
+            $arrSinSolucionar['numero'] = $arrayResultado[0]['numero'];
         }
-        return $sinSolucionar;
+        $dql = "SELECT c.codigoCasoPk, c.fechaRegistro, cli.nombreComercial FROM App:Caso c JOIN c.clienteRel cli "
+            . "WHERE c.estadoAtendido = 1 AND c.estadoSolucionado = 0 ORDER BY c.fechaRegistro";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(5);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinSolucionar['arrCasos'] = $arrayResultado;
+        }
+
+
+        return $arrSinSolucionar;
     }
 }
