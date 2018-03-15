@@ -9,7 +9,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Caso;
 
-class CasoApiController extends FOSRestController
+class ApiCasoController extends FOSRestController
 {
 
   /**
