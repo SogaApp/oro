@@ -377,7 +377,7 @@ class Tarea
     /**
      * @return string
      */
-    public function getComentario(): string
+    public function getComentario()
     {
         return $this->comentario;
     }
