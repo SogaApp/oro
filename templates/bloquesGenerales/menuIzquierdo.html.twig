@@ -93,6 +93,29 @@
                             {#</a></li>#}
                     </ul>
                 </li>
+
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-invert-colors"></i> <span> Tablero </span>
+                        <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ path('tablero_caso') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Casos</span>
+                            </a></li>
+                        <li><a href="{{ path('tablero_tarea') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Tareas</span>
+                            </a></li>
+                        <li><a href="{{ path('tablero_llamada') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Llamadas</span>
+                            </a></li>
+                        <li><a href="{{ path('tablero_error') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Error</span>
+                            </a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

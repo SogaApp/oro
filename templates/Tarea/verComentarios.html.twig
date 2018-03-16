@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box">
-                    <button type="button" class="close" onclick="window.close()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
                     {% for comentario in comentarios %}
                     <div class="row">
                         <div class="custom-dd dd" >
@@ -14,7 +14,7 @@
                                     <div class="col-md-4">
                                         <strong>Usuario: </strong>{{ comentario.codigoUsuarioFk }} -
 
-                                        <strong>Fecha creación: </strong>{{ comentario.fechaCreacion|date('y-m-d')}}
+                                        <strong>Fecha registro: </strong>{{ comentario.fechaRegistro|date('y-m-d')}}
                                     </div>
                                     <div class="col-md-12">
                                         <strong>Comentario: </strong>{{ comentario.comentario }}

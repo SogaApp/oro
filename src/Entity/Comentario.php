@@ -10,18 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Comentario
 {
     /**
+     * @var int
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_comentario_pk", type="integer", unique=true)
      */
     private $codigoComentarioPk;
 
 	/**
 	 * @var dateTime
 	 *
-	 * @ORM\Column(name="fecha_registro", type="datetime", length=30, nullable=true)
+	 * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
 	 */
-	private $fechaCreacion;
+	private $fechaRegistro;
 
 	/**
 	 * @var string
@@ -37,8 +38,6 @@ class Comentario
 	 */
 	private $codigoUsuarioFk;
 
-
-
 	/**
 	 * @var integer
 	 *
@@ -53,6 +52,11 @@ class Comentario
 	 */
 	private $codigoTareaFk;
 
+    /**
+     * @ORM\Column(name="cliente", type="boolean", nullable= true)
+     */
+    private $cliente;
+
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Caso", inversedBy="casosComentarioRel")
 	 * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk")
@@ -65,130 +69,156 @@ class Comentario
 	 */
 	private $tareaRel;
 
-	/**
-	 * @return mixed
-	 */
-	public function getCodigoComentarioPk() {
-		return $this->codigoComentarioPk;
-	}
+    /**
+     * @return int
+     */
+    public function getCodigoComentarioPk()
+    {
+        return $this->codigoComentarioPk;
+    }
 
-	/**
-	 * @param mixed $codigoComentarioPk
-	 */
-	public function setCodigoComentarioPk( $codigoComentarioPk ) {
-		$this->codigoComentarioPk = $codigoComentarioPk;
-		return $this;
-	}
+    /**
+     * @param int
+     */
+    public function setCodigoComentarioPk($codigoComentarioPk)
+    {
+        $this->codigoComentarioPk = $codigoComentarioPk;
+	    return $this;
+    }
 
-	/**
-	 * @return dateTime
-	 */
-	public function getFechaCreacion(){
-		return $this->fechaCreacion;
-	}
+    /**
+     * @return dateTime
+     */
+    public function getFechaRegistro()
+    {
+        return $this->fechaRegistro;
+    }
 
-	/**
-	 * @param dateTime $fechaCreacion
-	 */
-	public function setFechaCreacion( $fechaCreacion ){
-		$this->fechaCreacion = $fechaCreacion;
-		return $this;
-	}
+    /**
+     * @param dateTime
+     */
+    public function setFechaRegistro( $fechaRegistro)
+    {
+        $this->fechaRegistro = $fechaRegistro;
+	    return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getComentario() {
-		return $this->comentario;
-	}
+    /**
+     * @return string
+     */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
 
-	/**
-	 * @param string $comentario
-	 */
-	public function setComentario( $comentario ){
-		$this->comentario = $comentario;
-		return $this;
-	}
+    /**
+     * @param string
+     */
+    public function setComentario($comentario)
+    {
+        $this->comentario = $comentario;
+	    return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getCodigoUsuarioFk() {
-		return $this->codigoUsuarioFk;
-	}
+    /**
+     * @return string
+     */
+    public function getCodigoUsuarioFk()
+    {
+        return $this->codigoUsuarioFk;
+    }
 
-	/**
-	 * @param string $codigoUsuarioFk
-	 */
-	public function setCodigoUsuarioFk( $codigoUsuarioFk){
-		$this->codigoUsuarioFk = $codigoUsuarioFk;
-		return $this;
-	}
+    /**
+     * @param string
+     */
+    public function setCodigoUsuarioFk($codigoUsuarioFk)
+    {
+        $this->codigoUsuarioFk = $codigoUsuarioFk;
+    }
 
+    /**
+     * @return int
+     */
+    public function getCodigoCasoFk()
+    {
+        return $this->codigoCasoFk;
+    }
 
+    /**
+     * @param int
+     */
+    public function setCodigoCasoFk($codigoCasoFk)
+    {
+        $this->codigoCasoFk = $codigoCasoFk;
+	    return $this;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getCodigoCasoFk() {
-		return $this->codigoCasoFk;
-	}
+    /**
+     * @return int
+     */
+    public function getCodigoTareaFk()
+    {
+        return $this->codigoTareaFk;
+    }
 
-	/**
-	 * @param int $codigoCasoFk
-	 */
-	public function setCodigoCasoFk( $codigoCasoFk ){
-		$this->codigoCasoFk = $codigoCasoFk;
-		return $this;
-	}
+    /**
+     * @param int
+     */
+    public function setCodigoTareaFk($codigoTareaFk)
+    {
+        $this->codigoTareaFk = $codigoTareaFk;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getCodigoTareaFk(){
-		return $this->codigoTareaFk;
-	}
+    /**
+     * @return mixed
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
 
-	/**
-	 * @param int $codigoTareaFk
-	 */
-	public function setCodigoTareaFk($codigoTareaFk ) {
-		$this->codigoTareaFk = $codigoTareaFk;
-		return $this;
-	}
+    /**
+     * @param mixed
+     */
+    public function setCliente($cliente)
+    {
+        $this->cliente = $cliente;
+        return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getCasoRel() {
-		return $this->casoRel;
-	}
+    /**
+     * @return mixed
+     */
+    public function getCasoRel()
+    {
+        return $this->casoRel;
+    }
 
-	/**
-	 * @param mixed $casoRel
-	 */
-	public function setCasoRel( $casoRel ){
-		$this->casoRel = $casoRel;
-		return $this;
-	}
+    /**
+     * @param mixed
+     */
+    public function setCasoRel($casoRel)
+    {
+        $this->casoRel = $casoRel;
+	    return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getTareaRel() {
-		return $this->tareaRel;
-	}
+    /**
+     * @return mixed
+     */
+    public function getTareaRel()
+    {
+        return $this->tareaRel;
+    }
 
-	/**
-	 * @param mixed $tareaRel
-	 */
-	public function setTareaRel( $tareaRel ){
-		$this->tareaRel = $tareaRel;
-		return $this;
-	}
-
-
-
+    /**
+     * @param mixed
+     */
+    public function setTareaRel($tareaRel)
+    {
+        $this->tareaRel = $tareaRel;
+	    return $this;
+    }
 
 
 

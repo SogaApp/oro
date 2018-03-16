@@ -105,8 +105,8 @@
                                                     </td>
 
                                                     <td>{{ tarea.descripcion }}</td>
+                                                    <td>{% if tarea.casoRel.codigoCasoPk is defined %}<a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>{% endif %}</td>
 
-                                                    <td>{{ tarea.caso }}</td>
                                                     {% set isComentarios = 'none' %}
                                                     <td>{% for comentariosTarea in tarea.tareasComentarioRel %}
                                                             {% if comentariosTarea.codigoComentarioPk != null %}

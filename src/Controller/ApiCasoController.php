@@ -9,7 +9,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Caso;
 
-class CasoApiController extends FOSRestController
+class ApiCasoController extends FOSRestController
 {
 
   /**
@@ -358,7 +358,7 @@ class CasoApiController extends FOSRestController
   }
 
     /**
-     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}")
+     * @Rest\Post("/api/caso/respuesta/informacion/{codigoCaso}",requirements={"codigoCaso" = "\d+"}, defaults={"codigoCaso" = 0} )
      */
     public function respuestaInformacion(Request $request, $codigoCaso)
     {

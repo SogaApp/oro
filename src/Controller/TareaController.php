@@ -320,7 +320,7 @@ class TareaController extends Controller
             $idUser = $user->getCodigoUsuarioPk();
 
 
-            $arComentario->setFechaCreacion(new \DateTime('now'));
+            $arComentario->setFechaRegistro(new \DateTime('now'));
 	        $arComentario->setComentario($form->get('comentario')->getData());
 	        $arComentario->setCodigoUsuarioFk($idUser);
 	        $arComentario->setTareaRel($arTarea);

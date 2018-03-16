@@ -126,4 +126,26 @@ class ErrorRepository extends ServiceEntityRepository
         }
         return null;
     }
+
+    public function tableroSinAtender() {
+        $em = $this->getEntityManager();
+        $arrSinAtender = array('numero' => 0, 'arrErrores' => array());
+        $dql = "SELECT COUNT(e.codigoErrorPk) as numero FROM App:Error e "
+            . "WHERE e.estadoAtendido = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinAtender['numero'] = $arrayResultado[0]['numero'];
+        }
+        $dql = "SELECT e.codigoErrorPk, e.fecha, cli.nombreComercial  FROM App:Error e JOIN e.clienteRel cli "
+            . "WHERE e.estadoAtendido = 0 ORDER BY e.fecha";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(10);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinAtender['arrErrores'] = $arrayResultado;
+        }
+        return $arrSinAtender;
+    }
+
 }
