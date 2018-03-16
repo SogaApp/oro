@@ -295,17 +295,18 @@ class Caso
     /**
      * @return int
      */
-    public function getCodigoCasoPk(): int
+    public function getCodigoCasoPk()
     {
         return $this->codigoCasoPk;
     }
 
     /**
-     * @param int $codigoCasoPk
+     * @param int
      */
-    public function setCodigoCasoPk(int $codigoCasoPk): void
+    public function setCodigoCasoPk($codigoCasoPk)
     {
         $this->codigoCasoPk = $codigoCasoPk;
+	    return $this;
     }
 
     /**
@@ -317,11 +318,12 @@ class Caso
     }
 
     /**
-     * @param string $asunto
+     * @param string
      */
-    public function setAsunto(string $asunto): void
+    public function setAsunto($asunto)
     {
         $this->asunto = $asunto;
+	    return $this;
     }
 
     /**
@@ -333,11 +335,12 @@ class Caso
     }
 
     /**
-     * @param string $adjunto
+     * @param string
      */
-    public function setAdjunto(string $adjunto): void
+    public function setAdjunto($adjunto)
     {
         $this->adjunto = $adjunto;
+	    return $this;
     }
 
     /**
@@ -349,11 +352,12 @@ class Caso
     }
 
     /**
-     * @param string $correo
+     * @param string
      */
-    public function setCorreo(string $correo): void
+    public function setCorreo($correo)
     {
         $this->correo = $correo;
+	    return $this;
     }
 
     /**
@@ -365,11 +369,12 @@ class Caso
     }
 
     /**
-     * @param string $contacto
+     * @param string
      */
-    public function setContacto(string $contacto): void
+    public function setContacto($contacto)
     {
         $this->contacto = $contacto;
+	    return $this;
     }
 
     /**
@@ -381,11 +386,12 @@ class Caso
     }
 
     /**
-     * @param string $usuario
+     * @param string
      */
-    public function setUsuario(string $usuario): void
+    public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
+	    return $this;
     }
 
     /**
@@ -397,11 +403,12 @@ class Caso
     }
 
     /**
-     * @param string $telefono
+     * @param string
      */
-    public function setTelefono(string $telefono): void
+    public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
+	    return $this;
     }
 
     /**
@@ -413,11 +420,12 @@ class Caso
     }
 
     /**
-     * @param string $extension
+     * @param string
      */
-    public function setExtension(string $extension): void
+    public function setExtension($extension)
     {
         $this->extension = $extension;
+	    return $this;
     }
 
     /**
@@ -429,11 +437,12 @@ class Caso
     }
 
     /**
-     * @param string $descripcion
+     * @param string
      */
-    public function setDescripcion(string $descripcion): void
+    public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
+	    return $this;
     }
 
     /**
@@ -445,11 +454,12 @@ class Caso
     }
 
     /**
-     * @param string $soporte
+     * @param string
      */
-    public function setSoporte(string $soporte): void
+    public function setSoporte($soporte)
     {
         $this->soporte = $soporte;
+	    return $this;
     }
 
     /**
@@ -461,57 +471,60 @@ class Caso
     }
 
     /**
-     * @param string $solucion
+     * @param string
      */
-    public function setSolucion(string $solucion): void
+    public function setSolucion($solucion)
     {
         $this->solucion = $solucion;
+	    return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getFechaRegistro(): \DateTime
+    public function getFechaRegistro()
     {
         return $this->fechaRegistro;
     }
 
     /**
-     * @param \DateTime $fechaRegistro
+     * @param \DateTime
      */
-    public function setFechaRegistro(\DateTime $fechaRegistro): void
+    public function setFechaRegistro($fechaRegistro)
     {
         $this->fechaRegistro = $fechaRegistro;
+	    return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getFechaSolicitudInformacion(): \DateTime
+    public function getFechaSolicitudInformacion()
     {
         return $this->fechaSolicitudInformacion;
     }
 
     /**
-     * @param \DateTime $fechaSolicitudInformacion
+     * @param \DateTime
      */
-    public function setFechaSolicitudInformacion(\DateTime $fechaSolicitudInformacion): void
+    public function setFechaSolicitudInformacion ($fechaSolicitudInformacion)
     {
         $this->fechaSolicitudInformacion = $fechaSolicitudInformacion;
+	    return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getFechaRespuestaSolicitudInformacion(): \DateTime
+    public function getFechaRespuestaSolicitudInformacion()
     {
         return $this->fechaRespuestaSolicitudInformacion;
     }
 
     /**
-     * @param \DateTime $fechaRespuestaSolicitudInformacion
+     * @param \DateTime
      */
-    public function setFechaRespuestaSolicitudInformacion(\DateTime $fechaRespuestaSolicitudInformacion): void
+    public function setFechaRespuestaSolicitudInformacion($fechaRespuestaSolicitudInformacion)
     {
         $this->fechaRespuestaSolicitudInformacion = $fechaRespuestaSolicitudInformacion;
     }
@@ -519,31 +532,32 @@ class Caso
     /**
      * @return \DateTime
      */
-    public function getFechaGestion(): \DateTime
+    public function getFechaGestion()
     {
         return $this->fechaGestion;
     }
 
     /**
-     * @param \DateTime $fechaGestion
+     * @param \DateTime
      */
-    public function setFechaGestion(\DateTime $fechaGestion): void
+    public function setFechaGestion($fechaGestion)
     {
         $this->fechaGestion = $fechaGestion;
+	    return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getFechaSolucion(): \DateTime
+    public function getFechaSolucion()
     {
         return $this->fechaSolucion;
     }
 
     /**
-     * @param \DateTime $fechaSolucion
+     * @param \DateTime
      */
-    public function setFechaSolucion(\DateTime $fechaSolucion): void
+    public function setFechaSolucion($fechaSolucion)
     {
         $this->fechaSolucion = $fechaSolucion;
     }
@@ -557,11 +571,12 @@ class Caso
     }
 
     /**
-     * @param string $codigoCategoriaCasoFk
+     * @param string
      */
-    public function setCodigoCategoriaCasoFk(string $codigoCategoriaCasoFk): void
+    public function setCodigoCategoriaCasoFk($codigoCategoriaCasoFk)
     {
         $this->codigoCategoriaCasoFk = $codigoCategoriaCasoFk;
+	    return $this;
     }
 
     /**
@@ -573,9 +588,9 @@ class Caso
     }
 
     /**
-     * @param string $codigoCargoFk
+     * @param string
      */
-    public function setCodigoCargoFk(string $codigoCargoFk): void
+    public function setCodigoCargoFk($codigoCargoFk)
     {
         $this->codigoCargoFk = $codigoCargoFk;
     }
@@ -589,9 +604,9 @@ class Caso
     }
 
     /**
-     * @param string $codigoAreaFk
+     * @param string
      */
-    public function setCodigoAreaFk(string $codigoAreaFk): void
+    public function setCodigoAreaFk($codigoAreaFk)
     {
         $this->codigoAreaFk = $codigoAreaFk;
     }
@@ -605,11 +620,12 @@ class Caso
     }
 
     /**
-     * @param string $codigoPrioridadFk
+     * @param string
      */
-    public function setCodigoPrioridadFk(string $codigoPrioridadFk): void
+    public function setCodigoPrioridadFk($codigoPrioridadFk)
     {
         $this->codigoPrioridadFk = $codigoPrioridadFk;
+	    return $this;
     }
 
     /**
@@ -621,9 +637,9 @@ class Caso
     }
 
     /**
-     * @param string $codigoUsuarioAtiendeFk
+     * @param string
      */
-    public function setCodigoUsuarioAtiendeFk(string $codigoUsuarioAtiendeFk): void
+    public function setCodigoUsuarioAtiendeFk($codigoUsuarioAtiendeFk)
     {
         $this->codigoUsuarioAtiendeFk = $codigoUsuarioAtiendeFk;
     }
@@ -637,11 +653,12 @@ class Caso
     }
 
     /**
-     * @param string $codigoTareaFk
+     * @param string
      */
-    public function setCodigoTareaFk(string $codigoTareaFk): void
+    public function setCodigoTareaFk($codigoTareaFk)
     {
         $this->codigoTareaFk = $codigoTareaFk;
+	    return $this;
     }
 
     /**
@@ -653,59 +670,63 @@ class Caso
     }
 
     /**
-     * @param string $codigoUsuarioSolucionaFk
+     * @param string
      */
-    public function setCodigoUsuarioSolucionaFk(string $codigoUsuarioSolucionaFk): void
+    public function setCodigoUsuarioSolucionaFk($codigoUsuarioSolucionaFk)
     {
         $this->codigoUsuarioSolucionaFk = $codigoUsuarioSolucionaFk;
+	    return $this;
     }
 
     /**
      * @return bool
      */
-    public function getEstadoAtendido(): bool
+    public function getEstadoAtendido()
     {
         return $this->estadoAtendido;
     }
 
     /**
-     * @param bool $estadoAtendido
+     * @param bool
      */
-    public function setEstadoAtendido(bool $estadoAtendido): void
+    public function setEstadoAtendido( $estadoAtendido)
     {
         $this->estadoAtendido = $estadoAtendido;
+	    return $this;
     }
 
     /**
      * @return bool
      */
-    public function getEstadoSolicitudInformacion(): bool
+    public function getEstadoSolicitudInformacion()
     {
         return $this->estadoSolicitudInformacion;
     }
 
     /**
-     * @param bool $estadoSolicitudInformacion
+     * @param bool
      */
-    public function setEstadoSolicitudInformacion(bool $estadoSolicitudInformacion): void
+    public function setEstadoSolicitudInformacion($estadoSolicitudInformacion)
     {
         $this->estadoSolicitudInformacion = $estadoSolicitudInformacion;
+	    return $this;
     }
 
     /**
      * @return bool
      */
-    public function getEstadoRespuestaSolicitudInformacion(): bool
+    public function getEstadoRespuestaSolicitudInformacion()
     {
         return $this->estadoRespuestaSolicitudInformacion;
     }
 
     /**
-     * @param bool $estadoRespuestaSolicitudInformacion
+     * @param bool
      */
-    public function setEstadoRespuestaSolicitudInformacion(bool $estadoRespuestaSolicitudInformacion): void
+    public function setEstadoRespuestaSolicitudInformacion(bool $estadoRespuestaSolicitudInformacion)
     {
         $this->estadoRespuestaSolicitudInformacion = $estadoRespuestaSolicitudInformacion;
+	    return $this;
     }
 
     /**
@@ -737,9 +758,10 @@ class Caso
     /**
      * @param text
      */
-    public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion): void
+    public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion)
     {
         $this->respuestaSolicitudInformacion = $respuestaSolicitudInformacion;
+	    return $this;
     }
 
     /**
@@ -751,11 +773,12 @@ class Caso
     }
 
     /**
-     * @param bool $estadoEscalado
+     * @param bool
      */
-    public function setEstadoEscalado(bool $estadoEscalado): void
+    public function setEstadoEscalado( $estadoEscalado)
     {
         $this->estadoEscalado = $estadoEscalado;
+        return $this;
     }
 
     /**
@@ -767,11 +790,12 @@ class Caso
     }
 
     /**
-     * @param bool $estadoReabierto
+     * @param bool
      */
-    public function setEstadoReabierto(bool $estadoReabierto): void
+    public function setEstadoReabierto( $estadoReabierto)
     {
         $this->estadoReabierto = $estadoReabierto;
+	    return $this;
     }
 
     /**
@@ -783,11 +807,12 @@ class Caso
     }
 
     /**
-     * @param bool $estadoSolucionado
+     * @param bool
      */
-    public function setEstadoSolucionado(bool $estadoSolucionado): void
+    public function setEstadoSolucionado($estadoSolucionado)
     {
         $this->estadoSolucionado = $estadoSolucionado;
+	    return $this;
     }
 
     /**
@@ -799,11 +824,12 @@ class Caso
     }
 
     /**
-     * @param int $codigoClienteFk
+     * @param int
      */
-    public function setCodigoClienteFk(int $codigoClienteFk): void
+    public function setCodigoClienteFk($codigoClienteFk)
     {
         $this->codigoClienteFk = $codigoClienteFk;
+	    return $this;
     }
 
     /**
@@ -815,11 +841,12 @@ class Caso
     }
 
     /**
-     * @param mixed $clienteRel
+     * @param mixed
      */
-    public function setClienteRel($clienteRel): void
+    public function setClienteRel($clienteRel)
     {
         $this->clienteRel = $clienteRel;
+	    return $this;
     }
 
     /**
@@ -831,11 +858,12 @@ class Caso
     }
 
     /**
-     * @param mixed $categoriaRel
+     * @param mixed
      */
-    public function setCategoriaRel($categoriaRel): void
+    public function setCategoriaRel($categoriaRel)
     {
         $this->categoriaRel = $categoriaRel;
+	    return $this;
     }
 
     /**
@@ -847,11 +875,12 @@ class Caso
     }
 
     /**
-     * @param mixed $cargoRel
+     * @param mixed
      */
-    public function setCargoRel($cargoRel): void
+    public function setCargoRel($cargoRel)
     {
         $this->cargoRel = $cargoRel;
+	    return $this;
     }
 
     /**
@@ -863,9 +892,9 @@ class Caso
     }
 
     /**
-     * @param mixed $areaRel
+     * @param mixed
      */
-    public function setAreaRel($areaRel): void
+    public function setAreaRel($areaRel)
     {
         $this->areaRel = $areaRel;
     }
@@ -879,11 +908,12 @@ class Caso
     }
 
     /**
-     * @param mixed $prioridadRel
+     * @param mixed
      */
-    public function setPrioridadRel($prioridadRel): void
+    public function setPrioridadRel($prioridadRel)
     {
         $this->prioridadRel = $prioridadRel;
+	    return $this;
     }
 
     /**
@@ -895,11 +925,12 @@ class Caso
     }
 
     /**
-     * @param mixed $tareasCasoRel
+     * @param mixed
      */
-    public function setTareasCasoRel($tareasCasoRel): void
+    public function setTareasCasoRel($tareasCasoRel)
     {
         $this->tareasCasoRel = $tareasCasoRel;
+	    return $this;
     }
 
     /**
@@ -911,11 +942,12 @@ class Caso
     }
 
     /**
-     * @param mixed $casosComentarioRel
+     * @param mixed
      */
-    public function setCasosComentarioRel($casosComentarioRel): void
+    public function setCasosComentarioRel($casosComentarioRel)
     {
         $this->casosComentarioRel = $casosComentarioRel;
+	    return $this;
     }
 
 
