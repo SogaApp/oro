@@ -86,13 +86,13 @@ class Error
      * @var bool
      * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
      */
-    private $estadoAtendido;
+    private $estadoAtendido = false;
 
     /**
      * @var bool
      * @ORM\Column(name="estado_solucionado", type="boolean", nullable=true)
      */
-    private $estadoSolucionado;
+    private $estadoSolucionado  = false;
 
     /**
      * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
