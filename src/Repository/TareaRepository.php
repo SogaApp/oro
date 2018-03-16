@@ -68,7 +68,7 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
         $dql = "SELECT t.codigoTareaPk, t.fechaRegistro, t.codigoUsuarioAsignaFk FROM App:Tarea t "
             . "WHERE t.estadoTerminado = 1 AND t.estadoVerificado = 0 ORDER BY t.fechaRegistro";
         $query = $em->createQuery($dql);
-        $query->setMaxResults(5);
+        $query->setMaxResults(10);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
             $arrSinRevisar['arrTareas'] = $arrayResultado;

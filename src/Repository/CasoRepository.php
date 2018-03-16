@@ -438,7 +438,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
         $dql = "SELECT c.codigoCasoPk, c.fechaRegistro, cli.nombreComercial FROM App:Caso c JOIN c.clienteRel cli "
             . "WHERE c.estadoAtendido = 0 ORDER BY c.fechaRegistro";
         $query = $em->createQuery($dql);
-        $query->setMaxResults(5);
+        $query->setMaxResults(10);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
             $arrSinAtender['arrCasos'] = $arrayResultado;
@@ -460,7 +460,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
         $dql = "SELECT c.codigoCasoPk, c.fechaRegistro, cli.nombreComercial FROM App:Caso c JOIN c.clienteRel cli "
             . "WHERE c.estadoAtendido = 1 AND c.estadoSolucionado = 0 ORDER BY c.fechaRegistro";
         $query = $em->createQuery($dql);
-        $query->setMaxResults(5);
+        $query->setMaxResults(10);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
             $arrSinSolucionar['arrCasos'] = $arrayResultado;

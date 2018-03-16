@@ -99,7 +99,7 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
         $dql = "SELECT l.codigoLlamadaPk, l.fechaRegistro, cli.nombreComercial  FROM App:Llamada l JOIN l.clienteRel cli "
             . "WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0 ORDER BY l.fechaRegistro";
         $query = $em->createQuery($dql);
-        $query->setMaxResults(5);
+        $query->setMaxResults(10);
         $arrayResultado = $query->getResult();
         if ($arrayResultado) {
             $arrSinSolucionar['arrLlamadas'] = $arrayResultado;
