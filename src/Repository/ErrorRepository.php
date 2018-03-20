@@ -34,6 +34,8 @@ class ErrorRepository extends ServiceEntityRepository
             ->addSelect("e.codigo")
             ->addSelect("e.cliente")
             ->addSelect("e.mensaje")
+            ->addSelect("e.linea")
+            ->addSelect("e.archivo")
             ->addSelect("e.url")
             ->addSelect("e.estadoAtendido")
             ->addSelect("e.estadoSolucionado")
