@@ -139,8 +139,12 @@ class TareaController extends Controller
 //				$arTarea->setTareaTipoRel($arTareaTipoRel);
 			}
 			$arTarea->setFechaGestion(new \DateTime('now'));
+
 			if($arCaso->getEstadoAtendido() == true){
-				$em->persist($arTarea);
+				$arCaso->setEstadoTarea(1);
+				$em->persist($arCaso);
+
+			    $em->persist($arTarea);
 				$em->flush();
 				echo "<script>window.opener.location.reload();window.close()</script>";
 			} else{

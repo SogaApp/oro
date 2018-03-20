@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\SwiftmailerBundle;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CasoController extends Controller {
 
@@ -184,6 +185,7 @@ class CasoController extends Controller {
         }
         $formFiltro = $this::createFormBuilder ()
             ->add('clienteRel', EntityType::class,$propiedades)
+            ->add('estadoEscalado', ChoiceType::class, array('choices' => array('TODOS' => '2', 'ESCALADOS' => '1', 'SIN ESCALAR' => '0'), 'data' => $session->get('filtroCasoEstadoEscalado')))
             ->add ('btnFiltrar', SubmitType::class, array (
                 'label' => 'Filtrar',
                 'attr' => array (
