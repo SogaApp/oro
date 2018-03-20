@@ -119,18 +119,18 @@
 
                                                 </td>
                                                 <td>
-                                                    {% set desarrollo = '' %}
-                                                    {% for tarea in caso.tareasCasoRel %}
-                                                        {% if tarea.codigoTareaPk is defined  %}
-                                                            {% set desarrollo = 'true' %}
-
-
+                                                    {% if caso.estadoTarea == 1 %}
+                                                        {% if caso.estadoTareaTerminada == 1 %}
+                                                            {% if caso.estadoTareaRevisada == 1 %}
+                                                                <a {{ deshabilitar }} class ="btn btn-success waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
+                                                            {% else %}
+                                                                <a {{ deshabilitar }} class ="btn btn-warning waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <a {{ deshabilitar }} class ="btn btn-danger waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
                                                         {% endif %}
-                                                    {% endfor %}
-                                                    {% if desarrollo == 'true' %}
-                                                        <a {{ deshabilitar }} class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path("listaTareaCaso") }}/{{ caso.codigoCasoPk }}"> <i class="glyphicon glyphicon-eye-open"></i></a>
                                                     {% endif %}
-
+                                                </td>
                                                 <td>
                                                     {% if caso.estadoReabierto == true  %}
                                                         <a {{ deshabilitar }} onclick="return false" disabled=""

@@ -240,6 +240,21 @@ class Caso
     private $estadoSolucionado = false;
 
     /**
+     * @ORM\Column(name="estado_tarea", type="boolean", nullable=TRUE)
+     */
+    private $estadoTarea = false;
+
+    /**
+     * @ORM\Column(name="estado_tarea_terminada", type="boolean", nullable=TRUE)
+     */
+    private $estadoTareaTerminada = false;
+
+    /**
+     * @ORM\Column(name="estado_tarea_revisada", type="boolean", nullable=TRUE)
+     */
+    private $estadoTareaRevisada = false;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="codigo_cliente_fk", type="integer" ,nullable= TRUE)
@@ -950,6 +965,53 @@ class Caso
 	    return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEstadoTarea()
+    {
+        return $this->estadoTarea;
+    }
+
+    /**
+     * @param mixed $estadoTarea
+     */
+    public function setEstadoTarea($estadoTarea): void
+    {
+        $this->estadoTarea = $estadoTarea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoTareaTerminada()
+    {
+        return $this->estadoTareaTerminada;
+    }
+
+    /**
+     * @param mixed $estadoTareaTerminada
+     */
+    public function setEstadoTareaTerminada($estadoTareaTerminada): void
+    {
+        $this->estadoTareaTerminada = $estadoTareaTerminada;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoTareaRevisada()
+    {
+        return $this->estadoTareaRevisada;
+    }
+
+    /**
+     * @param mixed $estadoTareaRevisada
+     */
+    public function setEstadoTareaRevisada($estadoTareaRevisada): void
+    {
+        $this->estadoTareaRevisada = $estadoTareaRevisada;
+    }
 
 
 }

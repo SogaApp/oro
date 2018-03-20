@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 
+use App\Entity\Caso;
 use App\Entity\Comentario;
 use App\Forms\Type\FormTypeTarea;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -188,6 +189,13 @@ class TareaController extends Controller
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                 }
                 $em->persist($arTarea);
+
+                if($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaTerminada(1);
+                    $em->persist($arCaso);
+                }
+
             }
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
@@ -197,6 +205,11 @@ class TareaController extends Controller
                     $arTarea->setEstadoVerificado(true);
                 }
                 $em->persist($arTarea);
+                if($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaRevisada(1);
+                    $em->persist($arCaso);
+                }
             }
             $em->flush();
             return $this->redirect($this->generateUrl('listaTareaGeneral'));
