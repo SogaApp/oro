@@ -54,13 +54,18 @@ class Cliente
      *
      * @ORM\OneToMany(targetEntity="Caso", mappedBy="clienteRel")
      */
-
     private $casosClienteRel;
 
     /**
      * @ORM\OneToMany(targetEntity="Error", mappedBy="clienteRel", cascade={"persist", "remove"})
      */
     protected $erroresClienteRel;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Implementacion", mappedBy="clienteRel")
+     */
+    private $implementacionesClienteRel;
 
     /**
      * Constructor
@@ -238,5 +243,23 @@ class Cliente
         $this->erroresClienteRel = $erroresClienteRel;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImplementacionesClienteRel()
+    {
+        return $this->implementacionesClienteRel;
+    }
+
+    /**
+     * @param mixed $implementacionesClienteRel
+     */
+    public function setImplementacionesClienteRel($implementacionesClienteRel): void
+    {
+        $this->implementacionesClienteRel = $implementacionesClienteRel;
+    }
+
+
 
 }

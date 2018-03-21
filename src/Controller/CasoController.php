@@ -292,6 +292,10 @@ class CasoController extends Controller {
 
 		$formFiltro = $this::createFormBuilder ()
 		                   ->add('clienteRel', EntityType::class,$propiedades)
+                            ->add('estadoEscalado', ChoiceType::class, array('choices' => array('TODOS' => '2', 'ESCALADOS' => '1', 'SIN ESCALAR' => '0'), 'data' => $session->get('filtroCasoEstadoEscalado')))
+                            ->add('estadoTarea', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA' => '1', 'SIN TAREA' => '0'), 'data' => $session->get('filtroCasoEstadoTarea')))
+                            ->add('estadoTareaTerminada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA TERMINADA' => '1', 'TAREA SIN TERMINAR' => '0'), 'data' => $session->get('filtroCasoEstadoTareaTerminada')))
+                            ->add('estadoTareaRevisada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TATERA REVISADA' => '1', 'TAREA SIN REVISAR' => '0'), 'data' => $session->get('filtroCasoEstadoTareaRevisada')))
 		                   ->add ('btnFiltrar', SubmitType::class, array (
 			                   'label' => 'Filtrar',
 			                   'attr' => array (
