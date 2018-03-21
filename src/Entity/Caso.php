@@ -134,6 +134,11 @@ class Caso
     private $fechaSolucion;
 
     /**
+     * @ORM\Column(name="fecha_compromiso", type="date", nullable= true)
+     */
+    private $fechaCompromiso;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="codigo_categoria_caso_fk", type="string", length=50 )
@@ -1011,6 +1016,22 @@ class Caso
     public function setEstadoTareaRevisada($estadoTareaRevisada): void
     {
         $this->estadoTareaRevisada = $estadoTareaRevisada;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaCompromiso()
+    {
+        return $this->fechaCompromiso;
+    }
+
+    /**
+     * @param mixed $fechaCompromiso
+     */
+    public function setFechaCompromiso($fechaCompromiso): void
+    {
+        $this->fechaCompromiso = $fechaCompromiso;
     }
 
 

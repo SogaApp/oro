@@ -88,6 +88,7 @@
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Fecha</th>
+                                                    <th>F_C</th>
                                                     <th>Cliente</th>
                                                     <th>Soporte</th>
                                                     <th>Contacto</th>
@@ -108,7 +109,8 @@
                                                 {% for caso in casos %}
                                             <tr>
                                                 <td>{{ caso.codigoCasoPk }} {% if caso.estadoSolicitudInformacion == true and caso.estadoRespuestaSolicitudInformacion == false %}<i class=" glyphicon glyphicon-exclamation-sign " style="color:red;"></i> {% elseif caso.estadoSolicitudInformacion == true and caso.estadoRespuestaSolicitudInformacion == true %}<i class=" glyphicon glyphicon-exclamation-sign " style="color:green;">{% endif %}</td>
-                                                <td>{{ caso.fechaRegistro|date('y-m-d') }}</td>
+                                                <td> {{ caso.fechaRegistro|date('y-m-d') }}</td>
+                                                <td>{% if caso.fechaCompromiso != null %} {{ caso.fechaCompromiso|date('y-m-d') }}{%  endif %}</td>
                                                 <td>
                                                     <strong>{{ caso.clienteRel.nombreComercial }}</strong>
                                                 </td>
