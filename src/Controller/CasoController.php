@@ -142,16 +142,17 @@ class CasoController extends Controller {
 					        'text/html'
 				        );
 			        $mailer->send($message);
-			        $arCaso->setCodigoUsuarioSolucionaFk($user);
-			        if($arCaso->getEstadoAtendido() != true ){
-				        $arCaso->setEstadoAtendido(true);
-				        $arCaso->setFechaGestion(new \ DateTime('now'));
-			        }
-			        $arCaso->setEstadoSolucionado(true);
-			        $arCaso->setSolucion($form->get('solucion')->getData());
-			        $em->persist($arCaso);
-			        $em->flush();
+
 		        }
+		        $arCaso->setCodigoUsuarioSolucionaFk($user);
+		        if($arCaso->getEstadoAtendido() != true ){
+			        $arCaso->setEstadoAtendido(true);
+			        $arCaso->setFechaGestion(new \ DateTime('now'));
+		        }
+		        $arCaso->setEstadoSolucionado(true);
+		        $arCaso->setSolucion($form->get('solucion')->getData());
+		        $em->persist($arCaso);
+		        $em->flush();
 	        }
             echo "<script>window.opener.location.reload();window.close()</script>";
         }
