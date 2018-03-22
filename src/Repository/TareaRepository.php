@@ -43,4 +43,37 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function apiListaCaso($intCodigoCasoFk){
+        $em = $this->getEntityManager();
+        $db = $em->createQueryBuilder()->from("App:Tarea", "t")
+            ->select("t.codigoTareaPk")
+            ->addSelect("t.fechaRegistro")
+            ->addSelect("t.codigoUsuarioAsignaFk")
+            ->addSelect("t.descripcion")
+            ->where("t.codigoCasoFk = {$intCodigoCasoFk}");
+        return $db->getQuery()->getResult();
+
+    }
+
+    public function tableroSinRevisar() {
+        $em = $this->getEntityManager();
+        $arrSinRevisar = array('numero' => 0, 'arrTareas' => array());
+        $dql = "SELECT COUNT(t.codigoTareaPk) as numero FROM App:Tarea t "
+            . "WHERE t.estadoTerminado = 1 AND t.estadoVerificado = 0 ";
+        $query = $em->createQuery($dql);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinRevisar['numero'] = $arrayResultado[0]['numero'];
+        }
+        $dql = "SELECT t.codigoTareaPk, t.fechaRegistro, t.codigoUsuarioAsignaFk FROM App:Tarea t "
+            . "WHERE t.estadoTerminado = 1 AND t.estadoVerificado = 0 ORDER BY t.fechaRegistro";
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(10);
+        $arrayResultado = $query->getResult();
+        if ($arrayResultado) {
+            $arrSinRevisar['arrTareas'] = $arrayResultado;
+        }
+        return $arrSinRevisar;
+    }
+
 }

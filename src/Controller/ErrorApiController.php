@@ -35,6 +35,7 @@ class ErrorApiController extends Controller
         $error->setCliente($data['nombre_cliente'])
             ->setMensaje($data['mensaje'])
             ->setCodigo($data['codigo'])
+            ->setLinea($data['linea'])
             ->setRuta($data['ruta'])
             ->setArchivo($data['archivo'])
             ->setTraza($data['traza'])

@@ -29,6 +29,12 @@ class Error
     private $codigo;
 
     /**
+     * @var integer
+     * @ORM\Column(name="linea", type="integer", nullable=true)
+     */
+    private $linea;
+
+    /**
      * @var string
      * @ORM\Column(name="ruta", type="string", length=500, nullable=true)
      */
@@ -86,13 +92,13 @@ class Error
      * @var bool
      * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
      */
-    private $estadoAtendido;
+    private $estadoAtendido = false;
 
     /**
      * @var bool
      * @ORM\Column(name="estado_solucionado", type="boolean", nullable=true)
      */
-    private $estadoSolucionado;
+    private $estadoSolucionado  = false;
 
     /**
      * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
@@ -156,6 +162,24 @@ class Error
     public function setCodigo(int $codigo)
     {
         $this->codigo = $codigo;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLinea()
+    {
+        return $this->linea;
+    }
+
+    /**
+     * @param int $linea
+     * @return Error
+     */
+    public function setLinea(int $linea)
+    {
+        $this->linea = $linea;
         return $this;
     }
 

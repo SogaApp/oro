@@ -72,17 +72,18 @@ class Comentario
     /**
      * @return int
      */
-    public function getCodigoComentarioPk(): int
+    public function getCodigoComentarioPk()
     {
         return $this->codigoComentarioPk;
     }
 
     /**
-     * @param int $codigoComentarioPk
+     * @param int
      */
-    public function setCodigoComentarioPk(int $codigoComentarioPk): void
+    public function setCodigoComentarioPk($codigoComentarioPk)
     {
         $this->codigoComentarioPk = $codigoComentarioPk;
+	    return $this;
     }
 
     /**
@@ -94,41 +95,43 @@ class Comentario
     }
 
     /**
-     * @param dateTime $fechaRegistro
+     * @param dateTime
      */
-    public function setFechaRegistro( $fechaRegistro): void
+    public function setFechaRegistro( $fechaRegistro)
     {
         $this->fechaRegistro = $fechaRegistro;
+	    return $this;
     }
 
     /**
      * @return string
      */
-    public function getComentario(): string
+    public function getComentario()
     {
         return $this->comentario;
     }
 
     /**
-     * @param string $comentario
+     * @param string
      */
-    public function setComentario(string $comentario): void
+    public function setComentario($comentario)
     {
         $this->comentario = $comentario;
+	    return $this;
     }
 
     /**
      * @return string
      */
-    public function getCodigoUsuarioFk(): string
+    public function getCodigoUsuarioFk()
     {
         return $this->codigoUsuarioFk;
     }
 
     /**
-     * @param string $codigoUsuarioFk
+     * @param string
      */
-    public function setCodigoUsuarioFk(string $codigoUsuarioFk): void
+    public function setCodigoUsuarioFk($codigoUsuarioFk)
     {
         $this->codigoUsuarioFk = $codigoUsuarioFk;
     }
@@ -136,31 +139,32 @@ class Comentario
     /**
      * @return int
      */
-    public function getCodigoCasoFk(): int
+    public function getCodigoCasoFk()
     {
         return $this->codigoCasoFk;
     }
 
     /**
-     * @param int $codigoCasoFk
+     * @param int
      */
-    public function setCodigoCasoFk(int $codigoCasoFk): void
+    public function setCodigoCasoFk($codigoCasoFk)
     {
         $this->codigoCasoFk = $codigoCasoFk;
+	    return $this;
     }
 
     /**
      * @return int
      */
-    public function getCodigoTareaFk(): int
+    public function getCodigoTareaFk()
     {
         return $this->codigoTareaFk;
     }
 
     /**
-     * @param int $codigoTareaFk
+     * @param int
      */
-    public function setCodigoTareaFk(int $codigoTareaFk): void
+    public function setCodigoTareaFk($codigoTareaFk)
     {
         $this->codigoTareaFk = $codigoTareaFk;
     }
@@ -174,11 +178,12 @@ class Comentario
     }
 
     /**
-     * @param mixed $cliente
+     * @param mixed
      */
-    public function setCliente($cliente): void
+    public function setCliente($cliente)
     {
         $this->cliente = $cliente;
+        return $this;
     }
 
     /**
@@ -190,11 +195,12 @@ class Comentario
     }
 
     /**
-     * @param mixed $casoRel
+     * @param mixed
      */
-    public function setCasoRel($casoRel): void
+    public function setCasoRel($casoRel)
     {
         $this->casoRel = $casoRel;
+	    return $this;
     }
 
     /**
@@ -206,11 +212,12 @@ class Comentario
     }
 
     /**
-     * @param mixed $tareaRel
+     * @param mixed
      */
-    public function setTareaRel($tareaRel): void
+    public function setTareaRel($tareaRel)
     {
         $this->tareaRel = $tareaRel;
+	    return $this;
     }
 
 

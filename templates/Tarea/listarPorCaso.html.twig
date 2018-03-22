@@ -41,6 +41,7 @@
 
                                             <thead>
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Registra</th>
                                                 <th>Fecha</th>
                                                 <th>Tipo</th>
@@ -52,7 +53,8 @@
                                                 <th>Caso</th>
                                                 <th>Comentario</th>
                                                 <th>Prioridad</th>
-
+                                                <th>Resuelto</th>
+                                                <th>Verificado</th>
                                                 <th title="Ver">Ver</th>
                                             </tr>
                                             </thead>
@@ -60,26 +62,22 @@
 
                                             {% for tarea in tareas %}
                                                 <tr>
+                                                    <td>{{ tarea.codigoTareaPk }}</td>
                                                     <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
-
                                                     <td>{% if tarea.fechaRegistro != null %}
                                                             {{ tarea.fechaRegistro|date('y-m-d') }}
                                                         {% endif %}
                                                     </td>
-
                                                     <td>{% if tarea.tareaTipoRel != null %}
                                                             <span class="label label-default">{{ tarea.tareaTipoRel.codigoTareaTipoPk }}</span>
                                                         {% endif %}
                                                     </td>
-
                                                     <td>
                                                         {% if tarea.fechaGestion != null %}
                                                             {{ tarea.fechaGestion|date('y-m-d') }}
                                                         {% endif %}
                                                     </td>
-
                                                     <td>{{ tarea.codigoUsuarioAsignaFk }}</td>
-
                                                     <td>
                                                         {% if tarea.fechaSolucion != null %}
                                                             {{ tarea.fechaSolucion|date('y-m-d') }}
@@ -98,16 +96,16 @@
 
                                                     <td>{{ tarea.comentario }}</td>
                                                     <td>
-                                                    <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
-                                                        {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}
-                                                            {{ tarea.prioridadRel.nombre }}
-                                                        {% else %}
-                                                            Sin prioridad
-                                                        {% endif %}
-                                                    </span>
+                                                        <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
+                                                            {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}
+                                                                {{ tarea.prioridadRel.nombre }}
+                                                            {% else %}
+                                                                Sin prioridad
+                                                            {% endif %}
+                                                        </span>
                                                     </td>
-
-
+                                                    <td>{% if tarea.estadoTerminado == 1 %} SI {% else %} NO {% endif %}</td>
+                                                    <td>{% if tarea.estadoVerificado == 1 %} SI {% else %} NO {% endif %}</td>
                                                     <td>
                                                         <a class ="btn btn-green waves-effect waves-light btn-xs m-b-5" href="{{ path('verTarea') }}/{{ tarea.codigoTareaPk }}"><i class="glyphicon glyphicon-eye-open"></i></a>
                                                     </td>
