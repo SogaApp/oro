@@ -51,6 +51,13 @@ class Tarea
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="fecha_ejecucion", type="datetime", nullable=true)
+     */
+    private $fechaEjecucion;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
      */
     private $fechaRegistro;
@@ -61,6 +68,11 @@ class Tarea
      * @ORM\Column(name="fecha_verificado", type="datetime", nullable=true)
      */
     private $fechaVerificado;
+
+    /**
+     * @ORM\Column(name="estado_ejecucion", type="boolean", nullable=true)
+     */
+    private $estadoEjecucion = false;
 
     /**
      * @var bool
@@ -148,8 +160,13 @@ class Tarea
 	 *
 	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="tareaRel")
 	 */
-
 	private $tareasComentarioRel;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Usuario", mappedBy="tareaRel")
+     */
+    private $usuariosTareaRel;
 
     /**
      * @return int
@@ -474,6 +491,54 @@ class Tarea
     {
         $this->tareasComentarioRel = $tareasComentarioRel;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoEjecucion()
+    {
+        return $this->estadoEjecucion;
+    }
+
+    /**
+     * @param mixed $estadoEjecucion
+     */
+    public function setEstadoEjecucion($estadoEjecucion): void
+    {
+        $this->estadoEjecucion = $estadoEjecucion;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFechaEjecucion(): \DateTime
+    {
+        return $this->fechaEjecucion;
+    }
+
+    /**
+     * @param \DateTime $fechaEjecucion
+     */
+    public function setFechaEjecucion(\DateTime $fechaEjecucion): void
+    {
+        $this->fechaEjecucion = $fechaEjecucion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsuariosTareaRel()
+    {
+        return $this->usuariosTareaRel;
+    }
+
+    /**
+     * @param mixed $usuariosTareaRel
+     */
+    public function setUsuariosTareaRel($usuariosTareaRel): void
+    {
+        $this->usuariosTareaRel = $usuariosTareaRel;
     }
 
 

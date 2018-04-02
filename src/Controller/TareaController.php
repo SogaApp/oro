@@ -279,6 +279,26 @@ class TareaController extends Controller
             }
         }
         if ($form->isSubmitted() && $form->isValid()) { // actualiza el estado de las llamadas
+            if ($request->request->has('TareaEjecucion')) {
+                $codigoTarea = $request->request->get('TareaEjecucion');
+                $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+                if ($arTarea->getEstadoEjecucion() == 0) {
+                    $arTarea->setEstadoEjecucion(true);
+                    $arTarea->setFechaEjecucion(new \DateTime('now'));
+                    $em->persist($arTarea);
+
+                    $arUsuario = $em->getRepository('App:Usuario')->find($this->getUser()->getCodigoUsuarioPk());
+                    $arUsuario->setTareaRel($arTarea);
+                    $em->persist($arUsuario);
+                } else {
+                    $arTarea->setEstadoEjecucion(false);
+                    $em->persist($arTarea);
+
+                    $arUsuario = $em->getRepository('App:Usuario')->find($this->getUser()->getCodigoUsuarioPk());
+                    $arUsuario->setTareaRel(null);
+                    $em->persist($arUsuario);
+                }
+            }
             if ($request->request->has('TareaSolucionar')) {
                 $codigoTarea = $request->request->get('TareaSolucionar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
@@ -286,10 +306,12 @@ class TareaController extends Controller
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                     $em->persist($arTarea);
-
+                    $arUsuario = $em->getRepository('App:Usuario')->find($this->getUser()->getCodigoUsuarioPk());
+                    if($arUsuario->getCodigoTareaFk() == $codigoTarea) {
+                        $arUsuario->setTareaRel(null);
+                        $em->persist($arUsuario);
+                    }
                 }
-
-
             }
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');

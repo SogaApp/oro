@@ -57,6 +57,11 @@ class Usuario implements UserInterface, \Serializable
 	 */
 	private $codigoClienteFk;
 
+    /**
+     * @ORM\Column(name="codigo_tarea_fk", type="integer", nullable=true)
+     */
+    private $codigoTareaFk;
+
 	/**
 	 * @ORM\Column(name="codigo_rol_fk", type="integer", nullable=true)
 	 */
@@ -69,6 +74,12 @@ class Usuario implements UserInterface, \Serializable
 //     * @ORM\JoinColumn(name="codigo_rol_fk", referencedColumnName="codigo_rol_pk")
 //     */
 	private $rolRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tarea", inversedBy="usuariosTareaRel")
+     * @ORM\JoinColumn(name="codigo_tarea_fk", referencedColumnName="codigo_tarea_pk")
+     */
+    private $tareaRel;
 
 
 
@@ -362,4 +373,39 @@ class Usuario implements UserInterface, \Serializable
 	{
 		return $this->rolRel;
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTareaFk()
+    {
+        return $this->codigoTareaFk;
+    }
+
+    /**
+     * @param mixed $codigoTareaFk
+     */
+    public function setCodigoTareaFk($codigoTareaFk): void
+    {
+        $this->codigoTareaFk = $codigoTareaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTareaRel()
+    {
+        return $this->tareaRel;
+    }
+
+    /**
+     * @param mixed $tareaRel
+     */
+    public function setTareaRel($tareaRel): void
+    {
+        $this->tareaRel = $tareaRel;
+    }
+
+
+
 }
