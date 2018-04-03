@@ -266,7 +266,7 @@ class TareaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $arTarea = $em->getRepository('App:Tarea')->findBy(array('codigoUsuarioAsignaFk' => $user->getCodigoUsuarioPk()), array('estadoTerminado' => 'ASC', 'estadoVerificado' => 'ASC', 'fechaGestion' => 'DESC'));// consulta llamadas por usuario logueado
+        $arTarea = $em->getRepository('App:Tarea')->findBy(array('codigoUsuarioAsignaFk' => $user->getCodigoUsuarioPk(), 'estadoTerminado' => false), array('estadoTerminado' => 'ASC', 'estadoVerificado' => 'ASC', 'fechaGestion' => 'DESC'));// consulta llamadas por usuario logueado
         $form = $this::createFormBuilder()->getForm(); // form para manejar actualizacion de estado de llamadas
         $form->handleRequest($request);
         $sinTerminar = 0;
