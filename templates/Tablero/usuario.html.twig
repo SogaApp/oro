@@ -16,6 +16,7 @@
                             <tr>
                                 <th>USUARIO</th>
                                 <th>C_T</th>
+                                <th>DESCRIPCION</th>
                             </tr>
                             {% for arUsuario in arUsuarios %}
                                 <tr>
@@ -23,6 +24,11 @@
                                     <td>{{ arUsuario.codigoTareaFk }}
                                         {% if arUsuario.codigoTareaFk != null %}
                                             {{ arUsuario.tareaRel.fechaEjecucion | date('Y-m-d H:i') }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if arUsuario.codigoTareaFk != null %}
+                                            {{ arUsuario.tareaRel.descripcion }}
                                         {% endif %}
                                     </td>
                                 </tr>
