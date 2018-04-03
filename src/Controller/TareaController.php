@@ -311,6 +311,14 @@ class TareaController extends Controller
                         $arUsuario->setTareaRel(null);
                         $em->persist($arUsuario);
                     }
+                    $em->persist($arTarea);
+                    if($arTarea->getCodigoCasoFk()) {
+                        $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                        $arCaso->setEstadoTareaTerminada(1);
+                        $em->persist($arCaso);
+                    }
+
+
                 }
             }
             if ($request->request->has('TareaVerificar')) {
@@ -320,6 +328,13 @@ class TareaController extends Controller
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }
+                $em->persist($arTarea);
+                if($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaRevisada(1);
+                    $em->persist($arCaso);
+                }
+
             }
 
             $em->flush();
