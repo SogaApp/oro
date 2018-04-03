@@ -29,9 +29,25 @@ class TableroUsuarioController extends Controller {
      */
     public function lista(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $arUsuarios = $em->getRepository(Usuario::class)->findAll();
+        $arrTareas = array();
+        $arUsuarios = $em->getRepository(Usuario::class)->findBy(array('control' => 1));
+        foreach ($arUsuarios as $arUsuario) {
+            $arTareas = $em->getRepository(Tarea::class)->findBy(
+                array('codigoUsuarioAsignaFk' => $arUsuario->getCodigoUsuarioPk(), 'estadoTerminado' => false),
+                array('fechaRegistro' => 'ASC') , 5);
+            foreach ($arTareas as $arTarea) {
+                $arrTareas[] = array(
+                    'usuario' => $arUsuario->getCodigoUsuarioPk(),
+                    'id' => $arTarea->getCodigoTareaPk(),
+                    'fechaRegistro' => $arTarea->getFechaRegistro(),
+                    'caso' => $arTarea->getCodigoCasoFk(),
+                    'descripcion' => $arTarea->getDescripcion());
+            }
+
+        }
         return $this->render('Tablero/usuario.html.twig', [
-            'arUsuarios' => $arUsuarios
+            'arUsuarios' => $arUsuarios,
+            'arrTareas' => $arrTareas
         ]);
     }
 

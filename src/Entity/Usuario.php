@@ -67,7 +67,10 @@ class Usuario implements UserInterface, \Serializable
 	 */
 	private $codigoRolFk;
 
-
+    /**
+     * @ORM\Column(name="control", type="boolean", nullable=true)
+     */
+    private $control;
 
 //    /**
 //     * @ORM\ManyToOne(targetEntity="Rol", inversedBy="usuarioRolRel")
@@ -404,6 +407,22 @@ class Usuario implements UserInterface, \Serializable
     public function setTareaRel($tareaRel): void
     {
         $this->tareaRel = $tareaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getControl()
+    {
+        return $this->control;
+    }
+
+    /**
+     * @param mixed $control
+     */
+    public function setControl($control): void
+    {
+        $this->control = $control;
     }
 
 
