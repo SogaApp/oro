@@ -79,21 +79,21 @@ class Caso
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="string", length=5000)
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="soporte", type="string", length=5000, nullable=true)
+     * @ORM\Column(name="soporte", type="text", nullable=true)
      */
     private $soporte;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="solucion", type="string", length=5000, nullable=true)
+     * @ORM\Column(name="solucion", type="text", nullable=true)
      */
     private $solucion;
 
