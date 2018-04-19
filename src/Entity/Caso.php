@@ -122,14 +122,14 @@ class Caso
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_gestion", type="datetime" ,nullable= TRUE)
+     * @ORM\Column(name="fecha_gestion", type="datetime", nullable= TRUE)
      */
     private $fechaGestion;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_solucion", type="datetime" ,nullable= TRUE)
+     * @ORM\Column(name="fecha_solucion", type="datetime", nullable= TRUE)
      */
     private $fechaSolucion;
 
@@ -169,49 +169,49 @@ class Caso
     /**
      * @var string
      *
-     * @ORM\Column(name="codigo_usuario_atiende_fk", type="string", length=50 ,nullable= TRUE)
+     * @ORM\Column(name="codigo_usuario_atiende_fk", type="string", length=50, nullable= TRUE)
      */
     private $codigoUsuarioAtiendeFk;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="codigo_tarea_fk", type="integer", length=50 ,nullable= TRUE)
+	 * @ORM\Column(name="codigo_tarea_fk", type="integer", length=50, nullable= TRUE)
 	 */
 	private $codigoTareaFk;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="codigo_usuario_soluciona_fk", type="string", length=50 ,nullable= TRUE)
+     * @ORM\Column(name="codigo_usuario_soluciona_fk", type="string", length=50, nullable= TRUE)
      */
     private $codigoUsuarioSolucionaFk;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="estado_atendido", type="boolean" ,nullable= TRUE)
+     * @ORM\Column(name="estado_atendido", type="boolean", nullable= TRUE)
      */
     private $estadoAtendido = false;
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="estado_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 * @ORM\Column(name="estado_solicitud_informacion", type="boolean", nullable= TRUE)
 	 */
 	private $estadoSolicitudInformacion = false;
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="estado_respuesta_solicitud_informacion", type="boolean" ,nullable= TRUE)
+	 * @ORM\Column(name="estado_respuesta_solicitud_informacion", type="boolean", nullable= TRUE)
 	 */
 	private $estadoRespuestaSolicitudInformacion = false;
 
 	/**
 	 * @var text
 	 *
-	 * @ORM\Column(name="solicitud_informacion", type="text" ,nullable= TRUE)
+	 * @ORM\Column(name="solicitud_informacion", type="text", nullable= TRUE)
 	 */
 	private $solicitudInformacion;
 
@@ -219,28 +219,28 @@ class Caso
 	/**
 	 * @var text
 	 *
-	 * @ORM\Column(name="respuesta_solicitud_informacion", type="text" ,nullable= TRUE)
+	 * @ORM\Column(name="respuesta_solicitud_informacion", type="text", nullable= TRUE)
 	 */
 	private $respuestaSolicitudInformacion;
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="estado_escalado", type="boolean" ,nullable= TRUE)
+	 * @ORM\Column(name="estado_escalado", type="boolean", nullable= TRUE)
 	 */
 	private $estadoEscalado = false;
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="estado_reabierto", type="boolean" ,nullable= TRUE)
+	 * @ORM\Column(name="estado_reabierto", type="boolean", nullable= TRUE)
 	 */
 	private $estadoReabierto = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="estado_solucionado", type="boolean" ,nullable= TRUE)
+     * @ORM\Column(name="estado_solucionado", type="boolean", nullable= TRUE)
      */
     private $estadoSolucionado = false;
 
@@ -262,7 +262,7 @@ class Caso
     /**
      * @var int
      *
-     * @ORM\Column(name="codigo_cliente_fk", type="integer" ,nullable= TRUE)
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable= TRUE)
      */
     private $codigoClienteFk;
 
