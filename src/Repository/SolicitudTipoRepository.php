@@ -15,7 +15,7 @@ class SolicitudTipoRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->from("App:SolicitudTipo", "st")
-            ->select("st.codigoSolicitudPk")
+            ->select("st.codigoSolicitudTipoPk")
             ->addSelect("st.nombre");
         return $qb->getQuery()->getResult();
     }
