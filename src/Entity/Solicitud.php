@@ -19,7 +19,6 @@ class Solicitud
 {
 
     /**
-     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="codigo_solicitud_pk", type="integer", unique=true )
@@ -32,15 +31,6 @@ class Solicitud
     private $codigoClienteFk;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="codigo_usuario_registra_fk", type="string", length=50)
-     */
-    private $codigoUsuarioRegistraFk;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="$codigoSolicitudTipoFk", type="string", length=10, nullable=true)
      */
     private $codigoSolicitudTipoFk;
@@ -84,17 +74,17 @@ class Solicitud
     private $solicitudTipoRel;
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getCodigoSolicitudPk(): int
+    public function getCodigoSolicitudPk()
     {
         return $this->codigoSolicitudPk;
     }
 
     /**
-     * @param int $codigoSolicitudPk
+     * @param mixed $codigoSolicitudPk
      */
-    public function setCodigoSolicitudPk(int $codigoSolicitudPk): void
+    public function setCodigoSolicitudPk($codigoSolicitudPk): void
     {
         $this->codigoSolicitudPk = $codigoSolicitudPk;
     }
@@ -116,33 +106,17 @@ class Solicitud
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoUsuarioRegistraFk(): string
-    {
-        return $this->codigoUsuarioRegistraFk;
-    }
-
-    /**
-     * @param string $codigoUsuarioRegistraFk
-     */
-    public function setCodigoUsuarioRegistraFk(string $codigoUsuarioRegistraFk): void
-    {
-        $this->codigoUsuarioRegistraFk = $codigoUsuarioRegistraFk;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCodigoSolicitudTipoFk(): string
+    public function getCodigoSolicitudTipoFk()
     {
         return $this->codigoSolicitudTipoFk;
     }
 
     /**
-     * @param string $codigoSolicitudTipoFk
+     * @param mixed $codigoSolicitudTipoFk
      */
-    public function setCodigoSolicitudTipoFk(string $codigoSolicitudTipoFk): void
+    public function setCodigoSolicitudTipoFk($codigoSolicitudTipoFk): void
     {
         $this->codigoSolicitudTipoFk = $codigoSolicitudTipoFk;
     }
@@ -258,4 +232,5 @@ class Solicitud
     {
         $this->solicitudTipoRel = $solicitudTipoRel;
     }
+
 }

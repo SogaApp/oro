@@ -46,4 +46,25 @@ class SolicitudRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function listarPorSolicitud($intCodigoCliente, $intCodigoSolicitud)
+    {
+        $em = $this->getEntityManager();
+        $db = $em->createQueryBuilder()->from("App:Solicitud", "s")
+            ->select("s.codigoSolicitudPk")
+            ->addSelect("s.fechaSolicitud")
+            ->addSelect("s.fechaAtencion")
+            ->addSelect("s.estadoAtendido")
+            ->addSelect("s.estadoCerrado")
+            ->addSelect("s.descripcion")
+            ->addSelect("solicitudTipoRel.codigoSolicitudTipoPk")
+            ->addSelect("clienteRel.nombreComercial")
+            ->addSelect("solicitudTipoRel.nombre")
+            ->join("s.clienteRel", "clienteRel")
+            ->join("s.solicitudTipoRel", "solicitudTipoRel")
+            ->where("s.codigoClienteFk = {$intCodigoCliente}")
+            ->andWhere("s.codigoSolicitudPk = {$intCodigoSolicitud}");
+        return $db->getQuery()->getResult();
+
+    }
+
 }
