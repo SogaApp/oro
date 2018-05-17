@@ -31,7 +31,7 @@ class Solicitud
     private $codigoClienteFk;
 
     /**
-     * @ORM\Column(name="codigoSolicitudTipoFk", type="string", length=10, nullable=true)
+     * @ORM\Column(name="codigo_solicitud_tipo_fk", type="string", length=10, nullable=true)
      */
     private $codigoSolicitudTipoFk;
 
