@@ -10,4 +10,14 @@ namespace App\Repository;
  */
 class SolicitudTipoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function listar()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->from("App:SolicitudTipo", "st")
+            ->select("st.codigoSolicitudPk")
+            ->addSelect("st.nombre");
+        return $qb->getQuery()->getResult();
+    }
+
 }
