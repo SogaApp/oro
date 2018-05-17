@@ -32,7 +32,7 @@ class ApiSolicitudController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/api/caso/nuevo/{intCodigoSolicitudPk}", requirements={"intCodigoSolicitudPk" = "\d+" } ,defaults={"intCodigoSolicitudPk" = 0})
+     * @Rest\Post("/api/solicitud/nuevo/{intCodigoSolicitudPk}", requirements={"intCodigoSolicitudPk" = "\d+" } ,defaults={"intCodigoSolicitudPk" = 0})
      */
     public function nuevo(Request $request, $intCodigoSolicitudPk)
     {
