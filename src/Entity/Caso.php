@@ -20,7 +20,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Caso
 {
     /**
-     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="codigo_caso_pk", type="integer", unique=true)
@@ -28,77 +27,63 @@ class Caso
     private $codigoCasoPk;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="asunto", type="string", length=255)
      */
     private $asunto;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\Column(name="adjunto", type="string", length=255, nullable =true)
 	 */
 	private $adjunto;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="correo", type="string", length=200)
      */
     private $correo;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="contacto", type="string", length=200)
      */
     private $contacto;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="usuario", type="string", length=100, nullable=true)
      */
     private $usuario;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="telefono", type="string", length=100)
      */
     private $telefono;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="extension", type="string", length=50)
      */
     private $extension;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="soporte", type="text", nullable=true)
      */
     private $soporte;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="solucion", type="text", nullable=true)
      */
     private $solucion;
 
     /**
-     * @var \DateTime
      *
      * @ORM\Column(name="fecha_registro", type="datetime", nullable= TRUE)
      */
@@ -106,28 +91,24 @@ class Caso
 
 
 	/**
-	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="fecha_solicitud_informacion", type="datetime", nullable= TRUE)
 	 */
 	private $fechaSolicitudInformacion;
 
 	/**
-	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="fecha_respuesta_solicitud_informacion", type="datetime", nullable= TRUE)
 	 */
 	private $fechaRespuestaSolicitudInformacion;
 
     /**
-     * @var \DateTime
      *
      * @ORM\Column(name="fecha_gestion", type="datetime", nullable= TRUE)
      */
     private $fechaGestion;
 
     /**
-     * @var \DateTime
      *
      * @ORM\Column(name="fecha_solucion", type="datetime", nullable= TRUE)
      */
@@ -139,77 +120,66 @@ class Caso
     private $fechaCompromiso;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_categoria_caso_fk", type="string", length=50 )
      */
     private $codigoCategoriaCasoFk;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_cargo_fk", type="string", length=50, nullable=true)
      */
     private $codigoCargoFk;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_area_fk", type="string", length=50, nullable=true)
      */
     private $codigoAreaFk;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_prioridad_fk", type="string", length=50, nullable= TRUE)
      */
     private $codigoPrioridadFk;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_usuario_atiende_fk", type="string", length=50, nullable= TRUE)
      */
     private $codigoUsuarioAtiendeFk;
 
 	/**
-	 * @var string
 	 *
 	 * @ORM\Column(name="codigo_tarea_fk", type="integer", length=50, nullable= TRUE)
 	 */
 	private $codigoTareaFk;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="codigo_usuario_soluciona_fk", type="string", length=50, nullable= TRUE)
      */
     private $codigoUsuarioSolucionaFk;
 
     /**
-     * @var boolean
      *
      * @ORM\Column(name="estado_atendido", type="boolean", nullable= TRUE)
      */
     private $estadoAtendido = false;
 
 	/**
-	 * @var boolean
 	 *
 	 * @ORM\Column(name="estado_solicitud_informacion", type="boolean", nullable= TRUE)
 	 */
 	private $estadoSolicitudInformacion = false;
 
 	/**
-	 * @var boolean
 	 *
 	 * @ORM\Column(name="estado_respuesta_solicitud_informacion", type="boolean", nullable= TRUE)
 	 */
 	private $estadoRespuestaSolicitudInformacion = false;
 
 	/**
-	 * @var text
 	 *
 	 * @ORM\Column(name="solicitud_informacion", type="text", nullable= TRUE)
 	 */
@@ -217,28 +187,24 @@ class Caso
 
 
 	/**
-	 * @var text
 	 *
 	 * @ORM\Column(name="respuesta_solicitud_informacion", type="text", nullable= TRUE)
 	 */
 	private $respuestaSolicitudInformacion;
 
 	/**
-	 * @var boolean
 	 *
 	 * @ORM\Column(name="estado_escalado", type="boolean", nullable= TRUE)
 	 */
 	private $estadoEscalado = false;
 
 	/**
-	 * @var boolean
 	 *
 	 * @ORM\Column(name="estado_reabierto", type="boolean", nullable= TRUE)
 	 */
 	private $estadoReabierto = false;
 
     /**
-     * @var boolean
      *
      * @ORM\Column(name="estado_solucionado", type="boolean", nullable= TRUE)
      */
@@ -260,7 +226,6 @@ class Caso
     private $estadoTareaRevisada = false;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable= TRUE)
      */
@@ -313,257 +278,257 @@ class Caso
 	private $casosComentarioRel;
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getCodigoCasoPk(): int
+    public function getCodigoCasoPk()
     {
         return $this->codigoCasoPk;
     }
 
     /**
-     * @param int $codigoCasoPk
+     * @param mixed $codigoCasoPk
      */
-    public function setCodigoCasoPk(int $codigoCasoPk): void
+    public function setCodigoCasoPk($codigoCasoPk): void
     {
         $this->codigoCasoPk = $codigoCasoPk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getAsunto(): string
+    public function getAsunto()
     {
         return $this->asunto;
     }
 
     /**
-     * @param string $asunto
+     * @param mixed $asunto
      */
-    public function setAsunto(string $asunto): void
+    public function setAsunto($asunto): void
     {
         $this->asunto = $asunto;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getAdjunto(): string
+    public function getAdjunto()
     {
         return $this->adjunto;
     }
 
     /**
-     * @param string $adjunto
+     * @param mixed $adjunto
      */
-    public function setAdjunto(string $adjunto): void
+    public function setAdjunto($adjunto): void
     {
         $this->adjunto = $adjunto;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCorreo(): string
+    public function getCorreo()
     {
         return $this->correo;
     }
 
     /**
-     * @param string $correo
+     * @param mixed $correo
      */
-    public function setCorreo(string $correo): void
+    public function setCorreo($correo): void
     {
         $this->correo = $correo;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getContacto(): string
+    public function getContacto()
     {
         return $this->contacto;
     }
 
     /**
-     * @param string $contacto
+     * @param mixed $contacto
      */
-    public function setContacto(string $contacto): void
+    public function setContacto($contacto): void
     {
         $this->contacto = $contacto;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getUsuario(): string
+    public function getUsuario()
     {
         return $this->usuario;
     }
 
     /**
-     * @param string $usuario
+     * @param mixed $usuario
      */
-    public function setUsuario(string $usuario): void
+    public function setUsuario($usuario): void
     {
         $this->usuario = $usuario;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getTelefono(): string
+    public function getTelefono()
     {
         return $this->telefono;
     }
 
     /**
-     * @param string $telefono
+     * @param mixed $telefono
      */
-    public function setTelefono(string $telefono): void
+    public function setTelefono($telefono): void
     {
         $this->telefono = $telefono;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getExtension(): string
+    public function getExtension()
     {
         return $this->extension;
     }
 
     /**
-     * @param string $extension
+     * @param mixed $extension
      */
-    public function setExtension(string $extension): void
+    public function setExtension($extension): void
     {
         $this->extension = $extension;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getDescripcion(): string
+    public function getDescripcion()
     {
         return $this->descripcion;
     }
 
     /**
-     * @param string $descripcion
+     * @param mixed $descripcion
      */
-    public function setDescripcion(string $descripcion): void
+    public function setDescripcion($descripcion): void
     {
         $this->descripcion = $descripcion;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getSoporte(): string
+    public function getSoporte()
     {
         return $this->soporte;
     }
 
     /**
-     * @param string $soporte
+     * @param mixed $soporte
      */
-    public function setSoporte(string $soporte): void
+    public function setSoporte($soporte): void
     {
         $this->soporte = $soporte;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getSolucion(): string
+    public function getSolucion()
     {
         return $this->solucion;
     }
 
     /**
-     * @param string $solucion
+     * @param mixed $solucion
      */
-    public function setSolucion(string $solucion): void
+    public function setSolucion($solucion): void
     {
         $this->solucion = $solucion;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaRegistro(): \DateTime
+    public function getFechaRegistro()
     {
         return $this->fechaRegistro;
     }
 
     /**
-     * @param \DateTime $fechaRegistro
+     * @param mixed $fechaRegistro
      */
-    public function setFechaRegistro(\DateTime $fechaRegistro): void
+    public function setFechaRegistro($fechaRegistro): void
     {
         $this->fechaRegistro = $fechaRegistro;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaSolicitudInformacion(): \DateTime
+    public function getFechaSolicitudInformacion()
     {
         return $this->fechaSolicitudInformacion;
     }
 
     /**
-     * @param \DateTime $fechaSolicitudInformacion
+     * @param mixed $fechaSolicitudInformacion
      */
-    public function setFechaSolicitudInformacion(\DateTime $fechaSolicitudInformacion): void
+    public function setFechaSolicitudInformacion($fechaSolicitudInformacion): void
     {
         $this->fechaSolicitudInformacion = $fechaSolicitudInformacion;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaRespuestaSolicitudInformacion(): \DateTime
+    public function getFechaRespuestaSolicitudInformacion()
     {
         return $this->fechaRespuestaSolicitudInformacion;
     }
 
     /**
-     * @param \DateTime $fechaRespuestaSolicitudInformacion
+     * @param mixed $fechaRespuestaSolicitudInformacion
      */
-    public function setFechaRespuestaSolicitudInformacion(\DateTime $fechaRespuestaSolicitudInformacion): void
+    public function setFechaRespuestaSolicitudInformacion($fechaRespuestaSolicitudInformacion): void
     {
         $this->fechaRespuestaSolicitudInformacion = $fechaRespuestaSolicitudInformacion;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaGestion(): \DateTime
+    public function getFechaGestion()
     {
         return $this->fechaGestion;
     }
 
     /**
-     * @param \DateTime $fechaGestion
+     * @param mixed $fechaGestion
      */
-    public function setFechaGestion(\DateTime $fechaGestion): void
+    public function setFechaGestion($fechaGestion): void
     {
         $this->fechaGestion = $fechaGestion;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaSolucion(): \DateTime
+    public function getFechaSolucion()
     {
         return $this->fechaSolucion;
     }
 
     /**
-     * @param \DateTime $fechaSolucion
+     * @param mixed $fechaSolucion
      */
-    public function setFechaSolucion(\DateTime $fechaSolucion): void
+    public function setFechaSolucion($fechaSolucion): void
     {
         $this->fechaSolucion = $fechaSolucion;
     }
@@ -585,241 +550,241 @@ class Caso
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoCategoriaCasoFk(): string
+    public function getCodigoCategoriaCasoFk()
     {
         return $this->codigoCategoriaCasoFk;
     }
 
     /**
-     * @param string $codigoCategoriaCasoFk
+     * @param mixed $codigoCategoriaCasoFk
      */
-    public function setCodigoCategoriaCasoFk(string $codigoCategoriaCasoFk): void
+    public function setCodigoCategoriaCasoFk($codigoCategoriaCasoFk): void
     {
         $this->codigoCategoriaCasoFk = $codigoCategoriaCasoFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoCargoFk(): string
+    public function getCodigoCargoFk()
     {
         return $this->codigoCargoFk;
     }
 
     /**
-     * @param string $codigoCargoFk
+     * @param mixed $codigoCargoFk
      */
-    public function setCodigoCargoFk(string $codigoCargoFk): void
+    public function setCodigoCargoFk($codigoCargoFk): void
     {
         $this->codigoCargoFk = $codigoCargoFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoAreaFk(): string
+    public function getCodigoAreaFk()
     {
         return $this->codigoAreaFk;
     }
 
     /**
-     * @param string $codigoAreaFk
+     * @param mixed $codigoAreaFk
      */
-    public function setCodigoAreaFk(string $codigoAreaFk): void
+    public function setCodigoAreaFk($codigoAreaFk): void
     {
         $this->codigoAreaFk = $codigoAreaFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoPrioridadFk(): string
+    public function getCodigoPrioridadFk()
     {
         return $this->codigoPrioridadFk;
     }
 
     /**
-     * @param string $codigoPrioridadFk
+     * @param mixed $codigoPrioridadFk
      */
-    public function setCodigoPrioridadFk(string $codigoPrioridadFk): void
+    public function setCodigoPrioridadFk($codigoPrioridadFk): void
     {
         $this->codigoPrioridadFk = $codigoPrioridadFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoUsuarioAtiendeFk(): string
+    public function getCodigoUsuarioAtiendeFk()
     {
         return $this->codigoUsuarioAtiendeFk;
     }
 
     /**
-     * @param string $codigoUsuarioAtiendeFk
+     * @param mixed $codigoUsuarioAtiendeFk
      */
-    public function setCodigoUsuarioAtiendeFk(string $codigoUsuarioAtiendeFk): void
+    public function setCodigoUsuarioAtiendeFk($codigoUsuarioAtiendeFk): void
     {
         $this->codigoUsuarioAtiendeFk = $codigoUsuarioAtiendeFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoTareaFk(): string
+    public function getCodigoTareaFk()
     {
         return $this->codigoTareaFk;
     }
 
     /**
-     * @param string $codigoTareaFk
+     * @param mixed $codigoTareaFk
      */
-    public function setCodigoTareaFk(string $codigoTareaFk): void
+    public function setCodigoTareaFk($codigoTareaFk): void
     {
         $this->codigoTareaFk = $codigoTareaFk;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getCodigoUsuarioSolucionaFk(): string
+    public function getCodigoUsuarioSolucionaFk()
     {
         return $this->codigoUsuarioSolucionaFk;
     }
 
     /**
-     * @param string $codigoUsuarioSolucionaFk
+     * @param mixed $codigoUsuarioSolucionaFk
      */
-    public function setCodigoUsuarioSolucionaFk(string $codigoUsuarioSolucionaFk): void
+    public function setCodigoUsuarioSolucionaFk($codigoUsuarioSolucionaFk): void
     {
         $this->codigoUsuarioSolucionaFk = $codigoUsuarioSolucionaFk;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoAtendido(): bool
+    public function getEstadoAtendido()
     {
         return $this->estadoAtendido;
     }
 
     /**
-     * @param bool $estadoAtendido
+     * @param mixed $estadoAtendido
      */
-    public function setEstadoAtendido(bool $estadoAtendido): void
+    public function setEstadoAtendido($estadoAtendido): void
     {
         $this->estadoAtendido = $estadoAtendido;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoSolicitudInformacion(): bool
+    public function getEstadoSolicitudInformacion()
     {
         return $this->estadoSolicitudInformacion;
     }
 
     /**
-     * @param bool $estadoSolicitudInformacion
+     * @param mixed $estadoSolicitudInformacion
      */
-    public function setEstadoSolicitudInformacion(bool $estadoSolicitudInformacion): void
+    public function setEstadoSolicitudInformacion($estadoSolicitudInformacion): void
     {
         $this->estadoSolicitudInformacion = $estadoSolicitudInformacion;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoRespuestaSolicitudInformacion(): bool
+    public function getEstadoRespuestaSolicitudInformacion()
     {
         return $this->estadoRespuestaSolicitudInformacion;
     }
 
     /**
-     * @param bool $estadoRespuestaSolicitudInformacion
+     * @param mixed $estadoRespuestaSolicitudInformacion
      */
-    public function setEstadoRespuestaSolicitudInformacion(bool $estadoRespuestaSolicitudInformacion): void
+    public function setEstadoRespuestaSolicitudInformacion($estadoRespuestaSolicitudInformacion): void
     {
         $this->estadoRespuestaSolicitudInformacion = $estadoRespuestaSolicitudInformacion;
     }
 
     /**
-     * @return text
+     * @return mixed
      */
-    public function getSolicitudInformacion(): text
+    public function getSolicitudInformacion()
     {
         return $this->solicitudInformacion;
     }
 
     /**
-     * @param text $solicitudInformacion
+     * @param mixed $solicitudInformacion
      */
-    public function setSolicitudInformacion(text $solicitudInformacion): void
+    public function setSolicitudInformacion($solicitudInformacion): void
     {
         $this->solicitudInformacion = $solicitudInformacion;
     }
 
     /**
-     * @return text
+     * @return mixed
      */
-    public function getRespuestaSolicitudInformacion(): text
+    public function getRespuestaSolicitudInformacion()
     {
         return $this->respuestaSolicitudInformacion;
     }
 
     /**
-     * @param text $respuestaSolicitudInformacion
+     * @param mixed $respuestaSolicitudInformacion
      */
-    public function setRespuestaSolicitudInformacion(text $respuestaSolicitudInformacion): void
+    public function setRespuestaSolicitudInformacion($respuestaSolicitudInformacion): void
     {
         $this->respuestaSolicitudInformacion = $respuestaSolicitudInformacion;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoEscalado(): bool
+    public function getEstadoEscalado()
     {
         return $this->estadoEscalado;
     }
 
     /**
-     * @param bool $estadoEscalado
+     * @param mixed $estadoEscalado
      */
-    public function setEstadoEscalado(bool $estadoEscalado): void
+    public function setEstadoEscalado($estadoEscalado): void
     {
         $this->estadoEscalado = $estadoEscalado;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoReabierto(): bool
+    public function getEstadoReabierto()
     {
         return $this->estadoReabierto;
     }
 
     /**
-     * @param bool $estadoReabierto
+     * @param mixed $estadoReabierto
      */
-    public function setEstadoReabierto(bool $estadoReabierto): void
+    public function setEstadoReabierto($estadoReabierto): void
     {
         $this->estadoReabierto = $estadoReabierto;
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isEstadoSolucionado(): bool
+    public function getEstadoSolucionado()
     {
         return $this->estadoSolucionado;
     }
 
     /**
-     * @param bool $estadoSolucionado
+     * @param mixed $estadoSolucionado
      */
-    public function setEstadoSolucionado(bool $estadoSolucionado): void
+    public function setEstadoSolucionado($estadoSolucionado): void
     {
         $this->estadoSolucionado = $estadoSolucionado;
     }
@@ -873,17 +838,17 @@ class Caso
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getCodigoClienteFk(): int
+    public function getCodigoClienteFk()
     {
         return $this->codigoClienteFk;
     }
 
     /**
-     * @param int $codigoClienteFk
+     * @param mixed $codigoClienteFk
      */
-    public function setCodigoClienteFk(int $codigoClienteFk): void
+    public function setCodigoClienteFk($codigoClienteFk): void
     {
         $this->codigoClienteFk = $codigoClienteFk;
     }
@@ -999,7 +964,5 @@ class Caso
     {
         $this->casosComentarioRel = $casosComentarioRel;
     }
-
-
 
 }
