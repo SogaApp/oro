@@ -78,6 +78,13 @@ class Solicitud
     private $solicitudTipoRel;
 
     /**
+     *
+     * @ORM\OneToMany(targetEntity="Comentario", mappedBy="solicitudRel")
+     */
+
+    private $solicitudesComentarioRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoSolicitudPk()
@@ -192,6 +199,22 @@ class Solicitud
     /**
      * @return mixed
      */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDescripcion()
     {
         return $this->descripcion;
@@ -240,17 +263,17 @@ class Solicitud
     /**
      * @return mixed
      */
-    public function getNombre()
+    public function getSolicitudesComentarioRel()
     {
-        return $this->nombre;
+        return $this->solicitudesComentarioRel;
     }
 
     /**
-     * @param mixed $nombre
+     * @param mixed $solicitudesComentarioRel
      */
-    public function setNombre($nombre): void
+    public function setSolicitudesComentarioRel($solicitudesComentarioRel): void
     {
-        $this->nombre = $nombre;
+        $this->solicitudesComentarioRel = $solicitudesComentarioRel;
     }
     
 }

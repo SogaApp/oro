@@ -10,67 +10,67 @@ use Doctrine\ORM\Mapping as ORM;
 class Comentario
 {
     /**
-     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="codigo_comentario_pk", type="integer", unique=true)
      */
     private $codigoComentarioPk;
 
-	/**
-	 * @var dateTime
-	 *
-	 * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
-	 */
-	private $fechaRegistro;
+    /**
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
+     */
+    private $fechaRegistro;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="comentario", type="string", length=500, nullable=true)
-	 */
-	private $comentario;
+    /**
+     * @ORM\Column(name="comentario", type="string", length=500, nullable=true)
+     */
+    private $comentario;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="codigo_ususario_fk", type="string", length=50, nullable=true)
-	 */
-	private $codigoUsuarioFk;
+    /**
+     * @ORM\Column(name="codigo_ususario_fk", type="string", length=50, nullable=true)
+     */
+    private $codigoUsuarioFk;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="codigo_caso_fk", type="integer",  nullable=true)
-	 */
-	private $codigoCasoFk;
+    /**
+     * @ORM\Column(name="codigo_caso_fk", type="integer",  nullable=true)
+     */
+    private $codigoCasoFk;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="codigo_tarea_fk", type="integer", nullable=true)
-	 */
-	private $codigoTareaFk;
+    /**
+     * @ORM\Column(name="codigo_tarea_fk", type="integer", nullable=true)
+     */
+    private $codigoTareaFk;
+
+    /**
+     * @ORM\Column(name="codigo_solicitud_fk", type="integer",  nullable=true)
+     */
+    private $codigoSolicitudFk;
 
     /**
      * @ORM\Column(name="cliente", type="boolean", nullable= true)
      */
     private $cliente;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Caso", inversedBy="casosComentarioRel")
-	 * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk")
-	 */
-	private $casoRel;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Tarea", inversedBy="tareasComentarioRel")
-	 * @ORM\JoinColumn(name="codigo_tarea_fk", referencedColumnName="codigo_tarea_pk")
-	 */
-	private $tareaRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caso", inversedBy="casosComentarioRel")
+     * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk")
+     */
+    private $casoRel;
 
     /**
-     * @return int
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tarea", inversedBy="tareasComentarioRel")
+     * @ORM\JoinColumn(name="codigo_tarea_fk", referencedColumnName="codigo_tarea_pk")
+     */
+    private $tareaRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Solicitud", inversedBy="solicitudesComentarioRel")
+     * @ORM\JoinColumn(name="codigo_solicitud_fk", referencedColumnName="codigo_solicitud_pk")
+     */
+    private $solicitudRel;
+
+    /**
+     * @return mixed
      */
     public function getCodigoComentarioPk()
     {
@@ -78,16 +78,15 @@ class Comentario
     }
 
     /**
-     * @param int
+     * @param mixed $codigoComentarioPk
      */
-    public function setCodigoComentarioPk($codigoComentarioPk)
+    public function setCodigoComentarioPk($codigoComentarioPk): void
     {
         $this->codigoComentarioPk = $codigoComentarioPk;
-	    return $this;
     }
 
     /**
-     * @return dateTime
+     * @return mixed
      */
     public function getFechaRegistro()
     {
@@ -95,16 +94,15 @@ class Comentario
     }
 
     /**
-     * @param dateTime
+     * @param mixed $fechaRegistro
      */
-    public function setFechaRegistro( $fechaRegistro)
+    public function setFechaRegistro($fechaRegistro): void
     {
         $this->fechaRegistro = $fechaRegistro;
-	    return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getComentario()
     {
@@ -112,16 +110,15 @@ class Comentario
     }
 
     /**
-     * @param string
+     * @param mixed $comentario
      */
-    public function setComentario($comentario)
+    public function setComentario($comentario): void
     {
         $this->comentario = $comentario;
-	    return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCodigoUsuarioFk()
     {
@@ -129,15 +126,15 @@ class Comentario
     }
 
     /**
-     * @param string
+     * @param mixed $codigoUsuarioFk
      */
-    public function setCodigoUsuarioFk($codigoUsuarioFk)
+    public function setCodigoUsuarioFk($codigoUsuarioFk): void
     {
         $this->codigoUsuarioFk = $codigoUsuarioFk;
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getCodigoCasoFk()
     {
@@ -145,16 +142,15 @@ class Comentario
     }
 
     /**
-     * @param int
+     * @param mixed $codigoCasoFk
      */
-    public function setCodigoCasoFk($codigoCasoFk)
+    public function setCodigoCasoFk($codigoCasoFk): void
     {
         $this->codigoCasoFk = $codigoCasoFk;
-	    return $this;
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getCodigoTareaFk()
     {
@@ -162,11 +158,27 @@ class Comentario
     }
 
     /**
-     * @param int
+     * @param mixed $codigoTareaFk
      */
-    public function setCodigoTareaFk($codigoTareaFk)
+    public function setCodigoTareaFk($codigoTareaFk): void
     {
         $this->codigoTareaFk = $codigoTareaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoSolicitudFk()
+    {
+        return $this->codigoSolicitudFk;
+    }
+
+    /**
+     * @param mixed $codigoSolicitudFk
+     */
+    public function setCodigoSolicitudFk($codigoSolicitudFk): void
+    {
+        $this->codigoSolicitudFk = $codigoSolicitudFk;
     }
 
     /**
@@ -178,12 +190,11 @@ class Comentario
     }
 
     /**
-     * @param mixed
+     * @param mixed $cliente
      */
-    public function setCliente($cliente)
+    public function setCliente($cliente): void
     {
         $this->cliente = $cliente;
-        return $this;
     }
 
     /**
@@ -195,12 +206,11 @@ class Comentario
     }
 
     /**
-     * @param mixed
+     * @param mixed $casoRel
      */
-    public function setCasoRel($casoRel)
+    public function setCasoRel($casoRel): void
     {
         $this->casoRel = $casoRel;
-	    return $this;
     }
 
     /**
@@ -212,14 +222,27 @@ class Comentario
     }
 
     /**
-     * @param mixed
+     * @param mixed $tareaRel
      */
-    public function setTareaRel($tareaRel)
+    public function setTareaRel($tareaRel): void
     {
         $this->tareaRel = $tareaRel;
-	    return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSolicitudRel()
+    {
+        return $this->solicitudRel;
+    }
 
-
+    /**
+     * @param mixed $solicitudRel
+     */
+    public function setSolicitudRel($solicitudRel): void
+    {
+        $this->solicitudRel = $solicitudRel;
+    }
+    
 }
