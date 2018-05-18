@@ -22,7 +22,7 @@ class ApiComentarioController extends FOSRestController
         set_time_limit(0);
         ini_set("memory_limit", -1);
 
-        if ($codigoCaso != 0) {
+        if ($codigoCaso != 0 || $codigoSolicitud != 0) {
             $jsonRestResult = $this->getDoctrine()->getRepository(Comentario::class)->apiLista($codigoCaso, $codigoSolicitud);
         }
 
