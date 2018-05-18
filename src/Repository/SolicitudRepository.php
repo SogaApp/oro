@@ -39,7 +39,7 @@ class SolicitudRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect("s.nombre")
             ->addSelect("s.descripcion")
             ->addSelect("clienteRel.nombreComercial")
-            ->addSelect("solicitudTipoRel.nombre")
+            ->addSelect("solicitudTipoRel.nombre AS nombreSolicitudTipo")
             ->join("s.clienteRel", "clienteRel")
             ->join("s.solicitudTipoRel", "solicitudTipoRel")
             ->where("s.codigoClienteFk = {$intCodigoCliente}");
@@ -60,7 +60,7 @@ class SolicitudRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect("s.descripcion")
             ->addSelect("solicitudTipoRel.codigoSolicitudTipoPk")
             ->addSelect("clienteRel.nombreComercial")
-            ->addSelect("solicitudTipoRel.nombre")
+            ->addSelect("solicitudTipoRel.nombre AS nombreSolicitudTipo")
             ->join("s.clienteRel", "clienteRel")
             ->join("s.solicitudTipoRel", "solicitudTipoRel")
             ->where("s.codigoClienteFk = {$intCodigoCliente}")
