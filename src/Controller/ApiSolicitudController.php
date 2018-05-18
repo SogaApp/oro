@@ -45,6 +45,7 @@ class ApiSolicitudController extends FOSRestController
         if ($intCodigoSolicitudPk == 0 && $data != null) {
             //captura datos del post
             $descripcion = $data['descripcion'];
+            $nombre = $data['nombre'];
             $intCodigoClienteFk = $data['codigo_cliente_fk'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
 
@@ -58,11 +59,12 @@ class ApiSolicitudController extends FOSRestController
             $arSolicitud->setFechaSolicitud(new \DateTime('now'));
             $arSolicitud->setSolicitudTipoRel($arSolicitudTipo);
             $arSolicitud->setDescripcion($descripcion);
+            $arSolicitud->setNombre($nombre);
 
         }
         if ($data != null && $intCodigoSolicitudPk != 0) {
             $descripcion = $data['descripcion'];
-            $intCodigoClienteFk = $data['codigo_cliente_fk'];
+            $nombre = $data['nombre'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
 
             $arSolicitud = $em->getRepository('App:Solicitud')->find($intCodigoSolicitudPk);
@@ -76,6 +78,9 @@ class ApiSolicitudController extends FOSRestController
                 }
                 if ($descripcion != null) {
                     $arSolicitud->setDescripcion($descripcion);
+                }
+                if ($nombre != null) {
+                    $arSolicitud->setNombre($nombre);
                 }
             }
 

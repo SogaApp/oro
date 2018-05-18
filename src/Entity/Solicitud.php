@@ -45,7 +45,6 @@ class Solicitud
      */
     private $fechaAtencion;
 
-
     /**
      * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
      */
@@ -55,6 +54,11 @@ class Solicitud
      * @ORM\Column(name="estado_cerrado", type="boolean", nullable=true)
      */
     private $estadoCerrado = false;
+
+    /**
+     * @ORM\Column(name="nombre", type="string", length=25, nullable=true)
+     */
+    private $nombre;
 
     /**
      * @ORM\Column(name="descripcion", type="text", nullable=true)
@@ -233,4 +237,20 @@ class Solicitud
         $this->solicitudTipoRel = $solicitudTipoRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+    
 }
