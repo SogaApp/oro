@@ -113,4 +113,26 @@ class ApiSolicitudController extends FOSRestController
         }
         return $jsonRestResult;
     }
+
+    /**
+     * @Rest\Get("/api/solicitud/aprobar/{intCodigoSolicitud}", requirements={"intCodigoSolicitud" = "\d+"}, defaults={"intCodigoSolicitud" = 0} )
+     */
+
+    public function aprobarSolicitud(Request $request, $intCodigoSolicitud)
+    {
+
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+
+        $em = $this->getDoctrine()->getManager();
+        if ($intCodigoSolicitud != 0) {
+            $arSolicitud = $em->getRepository("App:Solicitud")->find($intCodigoSolicitud);
+            $arSolicitud->setEstadoAprobado(true);
+            $em->persist($arSolicitud);
+            $em->flush();
+        }
+
+        return true;
+    }
+
 }

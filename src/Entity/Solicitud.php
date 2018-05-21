@@ -46,6 +46,11 @@ class Solicitud
     private $fechaAtencion;
 
     /**
+     * @ORM\Column(name="fecha_entrega", type="datetime", nullable=true)
+     */
+    private $fechaEntrega;
+
+    /**
      * @ORM\Column(name="estado_atendido", type="boolean", nullable=true)
      */
     private $estadoAtendido = false;
@@ -54,6 +59,16 @@ class Solicitud
      * @ORM\Column(name="estado_cerrado", type="boolean", nullable=true)
      */
     private $estadoCerrado = false;
+
+    /**
+     * @ORM\Column(name="estado_aprobado", type="boolean", nullable=true)
+     */
+    private $estadoAprobado = false;
+
+    /**
+     * @ORM\Column(name="vr_inversion", type="float")
+     */
+    private $vrInversion = 0;
 
     /**
      * @ORM\Column(name="nombre", type="string", length=25, nullable=true)
@@ -167,6 +182,22 @@ class Solicitud
     /**
      * @return mixed
      */
+    public function getFechaEntrega()
+    {
+        return $this->fechaEntrega;
+    }
+
+    /**
+     * @param mixed $fechaEntrega
+     */
+    public function setFechaEntrega($fechaEntrega): void
+    {
+        $this->fechaEntrega = $fechaEntrega;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getEstadoAtendido()
     {
         return $this->estadoAtendido;
@@ -194,6 +225,38 @@ class Solicitud
     public function setEstadoCerrado($estadoCerrado): void
     {
         $this->estadoCerrado = $estadoCerrado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoAprobado()
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param mixed $estadoAprobado
+     */
+    public function setEstadoAprobado($estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrInversion()
+    {
+        return $this->vrInversion;
+    }
+
+    /**
+     * @param mixed $vrInversion
+     */
+    public function setVrInversion($vrInversion): void
+    {
+        $this->vrInversion = $vrInversion;
     }
 
     /**
@@ -275,5 +338,5 @@ class Solicitud
     {
         $this->solicitudesComentarioRel = $solicitudesComentarioRel;
     }
-    
+
 }

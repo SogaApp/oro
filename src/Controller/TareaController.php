@@ -9,7 +9,6 @@
 namespace App\Controller;
 
 
-
 use App\Entity\Caso;
 use App\Entity\Comentario;
 use App\Forms\Type\FormTypeTarea;
@@ -75,92 +74,92 @@ class TareaController extends Controller
         );
     }
 
-  /**
-   * @Route("/tarea/ver/{codigoTarea}", requirements={"codigoTarea":"\d+"}, name="verTarea")
-   */
-  /*
-   * Ver una tarea y sus comentarios
-   */
-  public function verTarea(Request $request, $codigoTarea = null)
-  {
-
     /**
-     * @var Usuario $arUser
-     **/
-    $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+     * @Route("/tarea/ver/{codigoTarea}", requirements={"codigoTarea":"\d+"}, name="verTarea")
+     */
+    /*
+     * Ver una tarea y sus comentarios
+     */
+    public function verTarea(Request $request, $codigoTarea = null)
+    {
 
-    if ($codigoTarea) {
-      $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+        /**
+         * @var Usuario $arUser
+         **/
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+
+        if ($codigoTarea) {
+            $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+        }
+
+
+        return $this->render('Tarea/verTarea.html.twig',
+            array(
+                'tarea' => $arTarea,
+            )
+        );
     }
 
+    /**
+     * @Route("/tarea/nuevo/caso/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarTareaDesdeCaso")
+     *
+     */
+    /*
+     * Registra una tarea desde caso
+     */
+    public function nuevoTareaDesdeCaso(Request $request, $codigoCaso = null)
+    {
 
-    return $this->render('Tarea/verTarea.html.twig',
-      array(
-        'tarea' => $arTarea,
-      )
-    );
-  }
+        /**
+         * @var Usuario $arUser
+         **/
 
-	/**
-	 * @Route("/tarea/nuevo/caso/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarTareaDesdeCaso")
-   *
-	 */
-	/*
-	 * Registra una tarea desde caso
-	 */
-	public function nuevoTareaDesdeCaso(Request $request, $codigoCaso = null)
-	{
-
-		/**
-		 * @var Usuario $arUser
-		 **/
-
-		$em = $this->getDoctrine()->getManager(); // instancia el entity manager
-		$user = $this->getUser(); // trae el usuario actual
-		$arTarea = new Tarea(); //instance class
-		if($codigoCaso != null) {
-			$arCaso = $em->getRepository( 'App:Caso' )->find( $codigoCaso );
-		}
-		$form = $this->createForm(FormTypeTarea::class,$arTarea); //create form
-		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid()) {
-			$arTarea->setCasoRel( $arCaso );
-			$arTarea->setCodigoUsuarioRegistraFk($user->getCodigoUsuarioPk());
-			$arTarea->setFechaRegistro(new \DateTime('now'));
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $user = $this->getUser(); // trae el usuario actual
+        $arTarea = new Tarea(); //instance class
+        if ($codigoCaso != null) {
+            $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+        }
+        $form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $arTarea->setCasoRel($arCaso);
+            $arTarea->setCodigoUsuarioRegistraFk($user->getCodigoUsuarioPk());
+            $arTarea->setFechaRegistro(new \DateTime('now'));
 
 //			$prioridadRel = $form->get('prioridadRel')->getData();
 //			$tareaTipoRel = $form->get('tareaTipoRel')->getData();
 //			$arPrioridadRel = $em->getRepository('App:Prioridad')->find($prioridadRel);
 //			$arTareaTipoRel = $em->getRepository('App:TareaTipo')->find($tareaTipoRel);
-			$usuarioAsignado = $form->get('codigoUsuarioAsignaFk')->getData();
-			if($usuarioAsignado != null){
-				$arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
+            $usuarioAsignado = $form->get('codigoUsuarioAsignaFk')->getData();
+            if ($usuarioAsignado != null) {
+                $arTarea->setCodigoUsuarioAsignaFk($usuarioAsignado->getCodigoUsuarioPk());
 //				$arTarea->setPrioridadRel($arPrioridadRel);
 //				$arTarea->setTareaTipoRel($arTareaTipoRel);
-			}
-			$arTarea->setFechaGestion(new \DateTime('now'));
+            }
+            $arTarea->setFechaGestion(new \DateTime('now'));
 
-			if($arCaso->getEstadoAtendido() == true){
-				$arCaso->setEstadoTarea(1);
-				$em->persist($arCaso);
+            if ($arCaso->getEstadoAtendido() == true) {
+                $arCaso->setEstadoTarea(1);
+                $em->persist($arCaso);
 
-			    $em->persist($arTarea);
-				$em->flush();
-				echo "<script>window.opener.location.reload();window.close()</script>";
-			} else{
-				echo "<script>alert('El caso debe estar atendido para asignar una tarea');window.close()</script>";
-			}
+                $em->persist($arTarea);
+                $em->flush();
+                echo "<script>window.opener.location.reload();window.close()</script>";
+            } else {
+                echo "<script>alert('El caso debe estar atendido para asignar una tarea');window.close()</script>";
+            }
 
 
-		}
+        }
 
-		return $this->render('Tarea/crearDesdeCaso.html.twig',
-			array(
-				'form' => $form->createView(),
-				'caso' => $arCaso
-			)
-		);
-	}
+        return $this->render('Tarea/crearDesdeCaso.html.twig',
+            array(
+                'form' => $form->createView(),
+                'caso' => $arCaso
+            )
+        );
+    }
 
 
     /**
@@ -194,7 +193,7 @@ class TareaController extends Controller
                 }
                 $em->persist($arTarea);
 
-                if($arTarea->getCodigoCasoFk()) {
+                if ($arTarea->getCodigoCasoFk()) {
                     $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
                     $arCaso->setEstadoTareaTerminada(1);
                     $em->persist($arCaso);
@@ -209,7 +208,7 @@ class TareaController extends Controller
                     $arTarea->setEstadoVerificado(true);
                 }
                 $em->persist($arTarea);
-                if($arTarea->getCodigoCasoFk()) {
+                if ($arTarea->getCodigoCasoFk()) {
                     $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
                     $arCaso->setEstadoTareaRevisada(1);
                     $em->persist($arCaso);
@@ -246,17 +245,18 @@ class TareaController extends Controller
         ]);
     }
 
-	/**
-	 * @Route("/tarea/comentarios/{codigoTareaPk}",requirements={"codigoTareaPk":"\d+"}, name="verComentariosTarea")
-	 */
+    /**
+     * @Route("/tarea/comentarios/{codigoTareaPk}",requirements={"codigoTareaPk":"\d+"}, name="verComentariosTarea")
+     */
 
-	public function verComentariosTarea($codigoTareaPk){
-		$em = $this->getDoctrine()->getManager();
-		$comentarios = $em->getRepository('App:Comentario')->findBy(array('codigoTareaFk'=>$codigoTareaPk));
-		return $this->render('Tarea/verComentarios.html.twig', array(
-			'comentarios' => $comentarios
-		));
-	}
+    public function verComentariosTarea($codigoTareaPk)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $comentarios = $em->getRepository('App:Comentario')->findBy(array('codigoTareaFk' => $codigoTareaPk));
+        return $this->render('Tarea/verComentarios.html.twig', array(
+            'comentarios' => $comentarios
+        ));
+    }
 
     /**
      * @Route("/tarea/lista/usuario", name="listaTareaUsuario")
@@ -307,12 +307,12 @@ class TareaController extends Controller
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                     $em->persist($arTarea);
                     $arUsuario = $em->getRepository('App:Usuario')->find($this->getUser()->getCodigoUsuarioPk());
-                    if($arUsuario->getCodigoTareaFk() == $codigoTarea) {
+                    if ($arUsuario->getCodigoTareaFk() == $codigoTarea) {
                         $arUsuario->setTareaRel(null);
                         $em->persist($arUsuario);
                     }
                     $em->persist($arTarea);
-                    if($arTarea->getCodigoCasoFk()) {
+                    if ($arTarea->getCodigoCasoFk()) {
                         $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
                         $arCaso->setEstadoTareaTerminada(1);
                         $em->persist($arCaso);
@@ -329,7 +329,7 @@ class TareaController extends Controller
                     $arTarea->setEstadoVerificado(true);
                 }
                 $em->persist($arTarea);
-                if($arTarea->getCodigoCasoFk()) {
+                if ($arTarea->getCodigoCasoFk()) {
                     $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
                     $arCaso->setEstadoTareaRevisada(1);
                     $em->persist($arCaso);
@@ -354,32 +354,40 @@ class TareaController extends Controller
 
 
     /**
-     * @Route("/tarea/comentario/registrar/{codigoTarea}",requirements={"codigoTarea":"\d+"}, name="registrarComentario")
+     * @Route("/tarea/comentario/registrar/{codigoTarea}/{codigoSolicitud}",requirements={"codigoTarea":"\d+","codigoSolicitud":"\d+"}, name="registrarComentario")
      */
-    public function registrarComentario(Request $request, $codigoTarea = null){
+    public function registrarComentario(Request $request, $codigoTarea = 0, $codigoSolicitud = 0)
+    {
 
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
-        $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $user = $em->getRepository('App:Usuario')->find($arTarea->getCodigoUsuarioAsignaFk());
-
         $arComentario = new Comentario();
         $form = $this->createFormBuilder()
-        	->add('comentario', TextareaType::class)
-	        ->add('btnGuardar', SubmitType::class)
-	        ->getForm();
+            ->add('comentario', TextareaType::class)
+            ->add('btnGuardar', SubmitType::class)
+            ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idUser = $user->getCodigoUsuarioPk();
-
-
+            if ($codigoTarea != 0) {
+                $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+                $user = $em->getRepository('App:Usuario')->find($arTarea->getCodigoUsuarioAsignaFk());
+                $idUser = $user->getCodigoUsuarioPk();
+            }
+            if ($codigoSolicitud != 0) {
+                $arSolicitud = $em->getRepository("App:Solicitud")->find($codigoSolicitud);
+                $idUser = $this->getUser()->getCodigoUsuarioPk();
+            }
             $arComentario->setFechaRegistro(new \DateTime('now'));
-	        $arComentario->setComentario($form->get('comentario')->getData());
-	        $arComentario->setCodigoUsuarioFk($idUser);
-	        $arComentario->setTareaRel($arTarea);
-
-	        $em->persist($arComentario);
+            $arComentario->setComentario($form->get('comentario')->getData());
+            $arComentario->setCodigoUsuarioFk($idUser);
+            if ($codigoTarea != 0) {
+                $arComentario->setTareaRel($arTarea);
+            }
+            if ($codigoSolicitud != 0) {
+                $arComentario->setSolicitudRel($arSolicitud);
+            }
+            $em->persist($arComentario);
 
 
             $em->flush();
@@ -440,26 +448,26 @@ class TareaController extends Controller
         $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql($session->get('filtroEstado'));
     }
 
-  /**
-   * @Route("/tarea/lista/{intCodigoCasoFk}", requirements={"intCodigoCasoFk":"\d+"}, name="listaTareaCaso")
-   */
-  public function listaTareaCaso(Request $request ,$intCodigoCasoFk = 0)
-  {
+    /**
+     * @Route("/tarea/lista/{intCodigoCasoFk}", requirements={"intCodigoCasoFk":"\d+"}, name="listaTareaCaso")
+     */
+    public function listaTareaCaso(Request $request, $intCodigoCasoFk = 0)
+    {
 
-    $em = $this->getDoctrine()->getManager();
-    if($intCodigoCasoFk != 0 ){
-      $arTareas = $em->getRepository('App:Tarea')->listaPorCaso($intCodigoCasoFk);
+        $em = $this->getDoctrine()->getManager();
+        if ($intCodigoCasoFk != 0) {
+            $arTareas = $em->getRepository('App:Tarea')->listaPorCaso($intCodigoCasoFk);
+        }
+        $sinTerminar = 0;
+        $sinVerificar = 0;
+
+        return $this->render('Tarea/listarPorCaso.html.twig', array(
+            'tareas' => $arTareas,
+            'codigoCaso' => $intCodigoCasoFk
+
+        ));
+
     }
-    $sinTerminar = 0;
-    $sinVerificar = 0;
-
-    return $this->render('Tarea/listarPorCaso.html.twig',array(
-      'tareas' => $arTareas,
-      'codigoCaso' => $intCodigoCasoFk
-
-    ));
-
-  }
 
 
 }

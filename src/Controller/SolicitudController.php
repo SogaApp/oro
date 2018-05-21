@@ -2,24 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Caso;
-use App\Entity\Cliente;
 use App\Entity\Solicitud;
-use App\Forms\Type\FormTypeCaso;
-use Doctrine\DBAL\Types\IntegerType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Forms\Type\FormTypeSolicitud;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use App\Entity\Llamada;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Bundle\SwiftmailerBundle;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SolicitudController extends Controller
@@ -56,6 +45,15 @@ class SolicitudController extends Controller
                 $em->persist($arSolicitud);
 
             }
+            if ($request->request->has('arSolicitudCerrar')) {
+                $codigoSolicitud = $request->request->get('arSolicitudCerrar');
+                $arSolicitud = $em->getRepository('App:Solicitud')->find($codigoSolicitud);
+                if (!$arSolicitud->getEstadoCerrado()) {
+                    $arSolicitud->setEstadoCerrado(true);
+                }
+                $em->persist($arSolicitud);
+
+            }
             $em->flush();
             return $this->redirect($this->generateUrl('solicitud_lista'));
 
@@ -67,9 +65,10 @@ class SolicitudController extends Controller
         /** @var  $arSolicitud Solicitud */
         $arSolicitudes = $em->createQuery($this->strDqlLista)->getResult();
         foreach ($arSolicitudes as $key => $arSolicitud) {
-            if (!$arSolicitud->getEstadoAtendido() == null) {
+            if (!$arSolicitud->getEstadoAtendido()) {
                 $sinAtender++;
-            } else if (!$arSolicitud->getEstadoCerrado()) {
+            }
+            if (!$arSolicitud->getEstadoCerrado()) {
                 $sinCerrar++;
             }
         }
@@ -82,6 +81,44 @@ class SolicitudController extends Controller
             'formFiltro' => $formFiltro->createView(),
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/solicitud/comentarios/{codigoSolicitud}",requirements={"codigoSolicitudPk":"\d+"}, name="verComentariosSolicitud")
+     */
+    public function verComentariosSolicitud($codigoSolicitud)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $comentarios = $em->getRepository('App:Comentario')->findBy(array('codigoSolicitudFk' => $codigoSolicitud));
+        return $this->render('Tarea/verComentarios.html.twig', array(
+            'comentarios' => $comentarios
+        ));
+    }
+
+    /**
+     * @Route("/solicitud/modificar/{codigoSolicitud}",requirements={"codigoSolicitudPk":"\d+"}, name="modificarSolicitud")
+     * @param Request $request
+     * @param $codigoSolicitud
+     */
+    public function modificarSolicitudAction(Request $request, $codigoSolicitud)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arSolicitud = $em->getRepository("App:Solicitud")->find($codigoSolicitud);
+        if ($arSolicitud->getFechaEntrega() == null) {
+            $arSolicitud->setFechaEntrega(new \DateTime('now'));
+        }
+        $form = $this->createForm(FormTypeSolicitud::class, $arSolicitud);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($arSolicitud);
+            $em->flush();
+            echo "<script>window.opener.location.reload();window.close()</script>";
+        }
+        return $this->render('Solicitud/modificar.html.twig', array(
+            'arSolicitud' => $arSolicitud,
+            'form' => $form->createView()
+        ));
+
     }
 
     private function formularioFiltro()
@@ -115,6 +152,5 @@ class SolicitudController extends Controller
         $session = new Session();
         $this->strDqlLista = $em->getRepository("App:Solicitud")->listaDql($session->get('filtroEstado'));
     }
-
 
 }
