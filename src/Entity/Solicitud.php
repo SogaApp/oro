@@ -87,7 +87,7 @@ class Solicitud
     private $clienteRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SolicitudTipo", inversedBy="tsolicitudesSolicitudTipoRel")
+     * @ORM\ManyToOne(targetEntity="SolicitudTipo", inversedBy="solicitudesSolicitudTipoRel")
      * @ORM\JoinColumn(name="codigo_solicitud_tipo_fk", referencedColumnName="codigo_solicitud_tipo_pk")
      */
     private $solicitudTipoRel;
