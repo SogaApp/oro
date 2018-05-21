@@ -104,8 +104,7 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        <a style='display:{{ isComentarios }};'
-                                                           href="javascript:abrirVentana('{{ path('verComentariosSolicitud', { 'codigoSolicitud':   arSolicitud.codigoSolicitudPk}) }}','Ver comentarios',600, 900)"
+                                                        <a href="javascript:abrirVentana('{{ path('verComentariosSolicitud', { 'codigoSolicitud':   arSolicitud.codigoSolicitudPk}) }}','Ver comentarios',600, 900)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
                                                                     class="glyphicon glyphicon-eye-open"
                                                                     style="padding: 3px;"></i></a>
