@@ -51,7 +51,7 @@ class SolicitudController extends Controller
                 $arSolicitud = $em->getRepository('App:Solicitud')->find($codigoSolicitud);
                 if (!$arSolicitud->getEstadoAtendido()) {
                     $arSolicitud->setEstadoAtendido(true);
-                    $arSolicitud->setFechaAtendido(new \DateTime('now'));
+                    $arSolicitud->setFechaAtencion(new \DateTime('now'));
                 }
                 $em->persist($arSolicitud);
 
