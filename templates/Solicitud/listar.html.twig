@@ -41,6 +41,7 @@
                                             <thead>
                                             <tr>
                                                 <th>Código</th>
+                                                <th>Cliente</th>
                                                 <th>Nombre</th>
                                                 <th>Tipo</th>
                                                 <th>Fecha solicitud</th>
@@ -58,6 +59,9 @@
                                             {% for arSolicitud in arSolicitudes %}
                                                 <tr>
                                                     <td>{{ arSolicitud.codigoSolicitudPk }}</td>
+                                                    <td>
+                                                        <strong>{{ arSolicitud.clienteRel.nombreComercial }}</strong>
+                                                    </td>
                                                     <td>{{ arSolicitud.nombre }}</td>
                                                     <td>
                                                         <span class="label label-default">{{ arSolicitud.solicitudTipoRel.nombre }}</span>
@@ -104,17 +108,17 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:abrirVentana('{{ path('verComentariosSolicitud', { 'codigoSolicitud':   arSolicitud.codigoSolicitudPk}) }}','Ver comentarios',600, 900)"
-                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
-                                                                    class="glyphicon glyphicon-eye-open"
-                                                                    style="padding: 3px;"></i></a>
-                                                    </td>
-                                                    <td>
                                                         <a href="javascript:abrirVentana('{{ path('registrarComentario', { 'codigoTarea':  0, 'codigoSolicitud': arSolicitud.codigoSolicitudPk }) }}','Agregar comentario',600, 900)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
                                                                     class="glyphicon glyphicon-pushpin"
                                                                     style="padding: 3px;"></i>
                                                         </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:abrirVentana('{{ path('verComentariosSolicitud', { 'codigoSolicitud':   arSolicitud.codigoSolicitudPk}) }}','Ver comentarios',600, 900)"
+                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
+                                                                    class="glyphicon glyphicon-eye-open"
+                                                                    style="padding: 3px;"></i></a>
                                                     </td>
                                                     <td>
                                                         <a href="javascript:abrirVentana('{{ path('modificarSolicitud', { 'codigoSolicitud':  arSolicitud.codigoSolicitudPk }) }}','Modificar',600, 900)"

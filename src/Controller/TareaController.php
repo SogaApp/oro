@@ -363,7 +363,7 @@ class TareaController extends Controller
         $arComentario = new Comentario();
         $form = $this->createFormBuilder()
             ->add('comentario', TextareaType::class)
-            ->add('btnGuardar', SubmitType::class)
+            ->add('btnGuardar', SubmitType::class, ['label'=>'Guardar'])
             ->getForm();
 
         $form->handleRequest($request);
