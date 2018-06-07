@@ -163,7 +163,7 @@ class SolicitudController extends Controller
                             $this->renderView(
                             // templates/emails/registration.html.twig
                                 'Correo/Solicitud/solicitudInformacion.html.twig',
-                                array('$arSolicitud' => $arSolicitud,
+                                array('arSolicitud' => $arSolicitud,
                                     'mensaje' => $form->get('solucion')->getData())
                             ),
                             'text/html'
