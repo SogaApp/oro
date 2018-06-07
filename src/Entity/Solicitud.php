@@ -104,6 +104,12 @@ class Solicitud
     private $descripcion;
 
     /**
+     * @ORM\Column(name="solucion", type="text", nullable=true)
+     */
+    private $solucion;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="solicitudesClienteRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
@@ -424,6 +430,22 @@ class Solicitud
     public function setExtension($extension): void
     {
         $this->extension = $extension;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSolucion()
+    {
+        return $this->solucion;
+    }
+
+    /**
+     * @param mixed $solucion
+     */
+    public function setSolucion($solucion): void
+    {
+        $this->solucion = $solucion;
     }
 
 }

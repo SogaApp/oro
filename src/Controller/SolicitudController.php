@@ -6,6 +6,7 @@ use App\Entity\Solicitud;
 use App\Forms\Type\FormTypeSolicitud;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -119,6 +120,67 @@ class SolicitudController extends Controller
             'form' => $form->createView()
         ));
 
+    }
+
+    /**
+     * @Route("/solicitud/cerrar/{codigoSolicitud}",requirements={"codigoSolicitud":"\d+"}, name="cerrarSolicitud")
+     */
+    public function cerrarSolicitudAction(Request $request, $codigoSolicitud = null, \Swift_Mailer $mailer)
+    {
+
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+
+        $arSolicitud = $em->getRepository('App:Solicitud')->find($codigoSolicitud);
+        $user = $this->getUser()->getCodigoUsuarioPk();
+
+        $form = $this->createFormBuilder()
+            ->add('solucion', TextareaType::class, array(
+                'attr' => array(
+                    'id' => '_solucion',
+                    'name' => '_solucion',
+                    'class' => 'form-control',
+
+                ),
+                'required' => false
+            ))
+            ->add('btnEnviar', SubmitType::class, array(
+                'attr' => array(
+                    'id' => '_btnEnviar',
+                    'name' => '_btnEnviar'
+                ), 'label' => 'Enviar'
+            ))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnEnviar')->isClicked()) {
+                if (filter_var($arSolicitud->getCorreo(), FILTER_VALIDATE_EMAIL)) {
+                    $message = (new \Swift_Message('Solicitud ampliación de información de caso - AppSoga' . ' - ' . $arSolicitud->getCodigoCasoPk()))
+                        ->setFrom('sogainformacion@gmail.com')
+                        ->setTo($arSolicitud->getCorreo())
+                        ->setBody(
+                            $this->renderView(
+                            // templates/emails/registration.html.twig
+                                'Correo/Solicitud/solicitudInformacion.html.twig',
+                                array('$arSolicitud' => $arSolicitud,
+                                    'mensaje' => $form->get('solucion')->getData())
+                            ),
+                            'text/html'
+                        );
+                    $mailer->send($message);
+                }
+                $arSolicitud->setSolucion($form->get('solucion')->getData());
+                $arSolicitud->setEstadoCerrado(true);
+                $em->persist($arSolicitud);
+                $em->flush();
+            }
+            echo "<script>window.opener.location.reload();window.close()</script>";
+        }
+        return $this->render('Solicitud/solucion.html.twig', [
+            'form' => $form->createView(),
+            'arSolicitud' => $arSolicitud
+        ]);
     }
 
     private function formularioFiltro()
