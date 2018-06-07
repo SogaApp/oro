@@ -46,6 +46,10 @@ class ApiSolicitudController extends FOSRestController
             //captura datos del post
             $descripcion = $data['descripcion'];
             $nombre = $data['nombre'];
+            $contacto = $data['contacto'];
+            $telefono = $data['telefono'];
+            $extension = $data['extension'];
+            $correo = $data['correo'];
             $intCodigoClienteFk = $data['codigo_cliente_fk'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
 
@@ -60,11 +64,19 @@ class ApiSolicitudController extends FOSRestController
             $arSolicitud->setSolicitudTipoRel($arSolicitudTipo);
             $arSolicitud->setDescripcion($descripcion);
             $arSolicitud->setNombre($nombre);
+            $arSolicitud->setCorreo($correo);
+            $arSolicitud->setContacto($contacto);
+            $arSolicitud->setTelefono($telefono);
+            $arSolicitud->setExtension($extension);
 
         }
         if ($data != null && $intCodigoSolicitudPk != 0) {
             $descripcion = $data['descripcion'];
             $nombre = $data['nombre'];
+            $contacto = $data['contacto'];
+            $telefono = $data['telefono'];
+            $extension = $data['extension'];
+            $correo = $data['correo'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
 
             $arSolicitud = $em->getRepository('App:Solicitud')->find($intCodigoSolicitudPk);
@@ -81,6 +93,18 @@ class ApiSolicitudController extends FOSRestController
                 }
                 if ($nombre != null) {
                     $arSolicitud->setNombre($nombre);
+                }
+                if ($correo != null) {
+                    $arSolicitud->setCorreo($correo);
+                }
+                if ($contacto != null) {
+                    $arSolicitud->setContacto($contacto);
+                }
+                if ($telefono != null) {
+                    $arSolicitud->setTelefono($telefono);
+                }
+                if ($extension != null) {
+                    $arSolicitud->setExtension($extension);
                 }
             }
 

@@ -76,6 +76,29 @@ class Solicitud
     private $nombre;
 
     /**
+     * @ORM\Column(name="correo", type="string", length=200)
+     */
+    private $correo;
+
+    /**
+     *
+     * @ORM\Column(name="contacto", type="string", length=200)
+     */
+    private $contacto;
+
+    /**
+     *
+     * @ORM\Column(name="telefono", type="string", length=100)
+     */
+    private $telefono;
+
+    /**
+     *
+     * @ORM\Column(name="extension", type="string", length=50)
+     */
+    private $extension;
+
+    /**
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
@@ -337,6 +360,70 @@ class Solicitud
     public function setSolicitudesComentarioRel($solicitudesComentarioRel): void
     {
         $this->solicitudesComentarioRel = $solicitudesComentarioRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
+
+    /**
+     * @param mixed $correo
+     */
+    public function setCorreo($correo): void
+    {
+        $this->correo = $correo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContacto()
+    {
+        return $this->contacto;
+    }
+
+    /**
+     * @param mixed $contacto
+     */
+    public function setContacto($contacto): void
+    {
+        $this->contacto = $contacto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param mixed $telefono
+     */
+    public function setTelefono($telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param mixed $extension
+     */
+    public function setExtension($extension): void
+    {
+        $this->extension = $extension;
     }
 
 }
