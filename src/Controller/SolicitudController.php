@@ -156,7 +156,7 @@ class SolicitudController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnEnviar')->isClicked()) {
                 if (filter_var($arSolicitud->getCorreo(), FILTER_VALIDATE_EMAIL)) {
-                    $message = (new \Swift_Message('Solución de solicitud - AppSoga' . ' - ' . $arSolicitud->getCodigoCasoPk()))
+                    $message = (new \Swift_Message('Solución de solicitud - AppSoga' . ' - ' . $arSolicitud->getCodigoSolicitudPk()))
                         ->setFrom('sogainformacion@gmail.com')
                         ->setTo($arSolicitud->getCorreo())
                         ->setBody(
