@@ -48,6 +48,7 @@
                                                 <th>Fecha solicitud</th>
                                                 <th>Fecha atendido</th>
                                                 <th>Descripción</th>
+                                                <th>Respuesta</th>
                                                 <th title="Aprobado">Ap</th>
                                                 <th title="Atender">At</th>
                                                 <th title="Cerrar">Ce</th>
@@ -78,6 +79,7 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>{{ arSolicitud.descripcion }}</td>
+                                                    <td>{{ arSolicitud.solucion }}</td>
                                                     <td>{% if arSolicitud.estadoAprobado == 1 %}<span
                                                                 class="label label-success">SI</span>{% elseif arSolicitud.estadoAprobado == 0 %}
                                                             <span class="label label-danger">NO</span>{% endif %}</td>

@@ -108,6 +108,11 @@ class Solicitud
      */
     private $solucion;
 
+    /**
+     * @ORM\Column(name="horas", type="time", nullable=true)
+     */
+    private $horas;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="solicitudesClienteRel")
@@ -446,6 +451,22 @@ class Solicitud
     public function setSolucion($solucion): void
     {
         $this->solucion = $solucion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHoras()
+    {
+        return $this->horas;
+    }
+
+    /**
+     * @param mixed $horas
+     */
+    public function setHoras($horas): void
+    {
+        $this->horas = $horas;
     }
 
 }
