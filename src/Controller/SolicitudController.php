@@ -208,8 +208,8 @@ class SolicitudController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $estado = ($session->get('filtroEstado') == 0 || $session->get('filtroEstado') == 1) ? $session->get('filtroEstado') : 2;
-        dump($estado,$session->get('filtroEstado'));
+        $estado = $session->get('filtroEstado') == null ? 2 : $session->get('filtroEstado');
+        dump($estado);
         $this->strDqlLista = $em->getRepository("App:Solicitud")->listaDql($estado);
     }
 
