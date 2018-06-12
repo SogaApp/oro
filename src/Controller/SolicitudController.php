@@ -193,7 +193,7 @@ class SolicitudController extends Controller
         };
         $formFiltro = $this::createFormBuilder()
             ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'Sin atender' => '0', 'Atendido' => '1'),
-                'label' => 'Atendido', 'data' => $session->get('filtroEstado', 2)))
+                'label' => 'Atendido', 'data' => 2))
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
