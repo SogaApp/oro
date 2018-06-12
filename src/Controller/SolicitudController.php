@@ -187,13 +187,9 @@ class SolicitudController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $estado = "";
-        if ($session->get('estado')) {
-            $arTarea = $em->getRepository('App:Solicitud')->findAll();
-        };
         $formFiltro = $this::createFormBuilder()
             ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'Sin atender' => '0', 'Atendido' => '1'),
-                'label' => 'Atendido', 'data' => 2))
+                'label' => 'Atendido', 'data' => '2'))
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
@@ -212,7 +208,8 @@ class SolicitudController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $this->strDqlLista = $em->getRepository("App:Solicitud")->listaDql($session->get('filtroEstado'));
+        $estado = $session->get('filtroEstado') == 0 || 1 ? $session->get('filtroEstado') : 2;
+        $this->strDqlLista = $em->getRepository("App:Solicitud")->listaDql($estado);
     }
 
 }
