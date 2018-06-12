@@ -209,7 +209,6 @@ class SolicitudController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
         $estado = $session->get('filtroEstado') == null ? 2 : $session->get('filtroEstado');
-        dump($estado);
         $this->strDqlLista = $em->getRepository("App:Solicitud")->listaDql($estado);
     }
 
