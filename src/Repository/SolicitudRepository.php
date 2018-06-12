@@ -17,11 +17,13 @@ class SolicitudRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $db = $em->createQueryBuilder()->from("App:Solicitud", "s")->select("s")
             ->orderBy("s.fechaSolicitud", "DESC");
-        if ($estado == 0) {
-            $db->andWhere("s.estadoAtendido = 0");
-        }
-        if ($estado == 1) {
-            $db->andWhere("s.estadoAtendido = 1");
+        if ($estado != 2) {
+            if ($estado == 0) {
+                $db->andWhere("s.estadoAtendido = 0");
+            }
+            if ($estado == 1) {
+                $db->andWhere("s.estadoAtendido = 1");
+            }
         }
         return $db;
 
