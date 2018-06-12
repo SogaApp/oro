@@ -50,6 +50,7 @@ class ApiSolicitudController extends FOSRestController
             $telefono = $data['telefono'];
             $extension = $data['extension'];
             $correo = $data['correo'];
+            $horas = $data['horas'];
             $intCodigoClienteFk = $data['codigo_cliente_fk'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
 
@@ -68,6 +69,11 @@ class ApiSolicitudController extends FOSRestController
             $arSolicitud->setContacto($contacto);
             $arSolicitud->setTelefono($telefono);
             $arSolicitud->setExtension($extension);
+            if ($horas != "") {
+                $arSolicitud->setHoras(new \DateTime($horas));
+            } else {
+                $arSolicitud->setHoras(new \DateTime('00:00:00'));
+            }
 
         }
         if ($data != null && $intCodigoSolicitudPk != 0) {
@@ -78,6 +84,7 @@ class ApiSolicitudController extends FOSRestController
             $extension = $data['extension'];
             $correo = $data['correo'];
             $codigoSolicitudTipo = $data['codigo_solicitud_tipo_fk'];
+            $horas = $data['horas'];
 
             $arSolicitud = $em->getRepository('App:Solicitud')->find($intCodigoSolicitudPk);
 
@@ -105,6 +112,9 @@ class ApiSolicitudController extends FOSRestController
                 }
                 if ($extension != null) {
                     $arSolicitud->setExtension($extension);
+                }
+                if ($horas != "") {
+                    $arSolicitud->setHoras(new \DateTime($horas));
                 }
             }
 
