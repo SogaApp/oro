@@ -43,9 +43,14 @@ class ImplementacionDetalle
     private $codigoImplementacionTemaFK;
 
     /**
-     * @ORM\Column(name="adjunto", type="string", length=255, nullable =true)
+     * @ORM\Column(name="estado_terminado", type="boolean", nullable =true)
      */
-    private $adjunto;
+    private $estadoTerminado;
+
+    /**
+     * @ORM\Column(name="estado_capacitado", type="boolean", nullable =true)
+     */
+    private $estadoCapacitado;
 
     /**
      * @ORM\ManyToOne(targetEntity="Implementacion", inversedBy="implementacionesDetallesImplementacionRel")
@@ -193,5 +198,36 @@ class ImplementacionDetalle
         $this->implementacionTemaRel = $implementacionTemaRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEstadoTerminado()
+    {
+        return $this->estadoTerminado;
+    }
+
+    /**
+     * @param mixed $estadoTerminado
+     */
+    public function setEstadoTerminado($estadoTerminado): void
+    {
+        $this->estadoTerminado = $estadoTerminado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoCapacitado()
+    {
+        return $this->estadoCapacitado;
+    }
+
+    /**
+     * @param mixed $estadoCapacitado
+     */
+    public function setEstadoCapacitado($estadoCapacitado): void
+    {
+        $this->estadoCapacitado = $estadoCapacitado;
+    }
 
 }
