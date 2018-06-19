@@ -13,4 +13,19 @@ use Doctrine\ORM\Mapping;
 class ImplementacionDetalleRepository extends \Doctrine\ORM\EntityRepository
 {
 
+  public function apiDetalle($codigoImplementacion)
+  {
+      $em = $this->getEntityManager();
+      $qb = $em->createQueryBuilder()->from("App:ImplementacionDetalle", "id")
+          ->select("id.codigoImplementacionDetallePk")
+          ->addSelect("ig.nombre AS nombreGrupo")
+          ->addSelect("it.nombre AS nombreTema")
+          ->join("id.implementacionRel", "i")
+          ->join("id.implementacionGrupoRel","ig")
+          ->join("id.implementacionTemaRel","it")
+          ->where("id.codigoImplementacionFK = {$codigoImplementacion}");
+      return $qb->getQuery()->getResult();
+
+  }
+
 }
