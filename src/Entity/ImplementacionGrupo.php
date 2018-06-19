@@ -33,6 +33,12 @@ class ImplementacionGrupo
     private $implementacionesDetallesImplementacionGrupoRel;
 
     /**
+     *
+     * @ORM\OneToMany(targetEntity="ImplementacionTema", mappedBy="implementacionGrupoRel")
+     */
+    private $implementacionesTemasImplementacionGrupoRel;
+
+    /**
      * @return int
      */
     public function getCodigoImplementacionGrupoPk(): int
@@ -79,5 +85,22 @@ class ImplementacionGrupo
     {
         $this->implementacionesDetallesImplementacionGrupoRel = $implementacionesDetallesImplementacionGrupoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImplementacionesTemasImplementacionGrupoRel()
+    {
+        return $this->implementacionesTemasImplementacionGrupoRel;
+    }
+
+    /**
+     * @param mixed $implementacionesTemasImplementacionGrupoRel
+     */
+    public function setImplementacionesTemasImplementacionGrupoRel($implementacionesTemasImplementacionGrupoRel): void
+    {
+        $this->implementacionesTemasImplementacionGrupoRel = $implementacionesTemasImplementacionGrupoRel;
+    }
+
 
 }

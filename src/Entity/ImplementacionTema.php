@@ -27,6 +27,12 @@ class ImplementacionTema
     private $nombre;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ImplementacionGrupo", inversedBy="implementacionesTemasImplementacionGrupoRel")
+     * @ORM\JoinColumn(name="codigo_implementacion_grupo_fk", referencedColumnName="codigo_implementacion_grupo_pk")
+     */
+    private $implementacionGrupoRel;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="ImplementacionDetalle", mappedBy="implementacionTemaRel")
      */
@@ -78,6 +84,22 @@ class ImplementacionTema
     public function setImplementacionesDetallesImplementacionTemaRel($implementacionesDetallesImplementacionTemaRel): void
     {
         $this->implementacionesDetallesImplementacionTemaRel = $implementacionesDetallesImplementacionTemaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImplementacionGrupoRel()
+    {
+        return $this->implementacionGrupoRel;
+    }
+
+    /**
+     * @param mixed $implementacionGrupoRel
+     */
+    public function setImplementacionGrupoRel($implementacionGrupoRel): void
+    {
+        $this->implementacionGrupoRel = $implementacionGrupoRel;
     }
 
 }
