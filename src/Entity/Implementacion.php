@@ -12,11 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
-* Caso
-*
-* @ORM\Table(name="implementacion")
-* @ORM\Entity(repositoryClass="App\Repository\ImplementacionRepository")
-*/
+ * Caso
+ *
+ * @ORM\Table(name="implementacion")
+ * @ORM\Entity(repositoryClass="App\Repository\ImplementacionRepository")
+ */
 class Implementacion
 {
     /**
@@ -37,6 +37,11 @@ class Implementacion
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
     private $clienteRel;
+
+    /**
+     * @ORM\Column(name="descripcion",type="text", nullable=true)
+     */
+    private $descripcion;
 
     /**
      * @return int
@@ -86,6 +91,20 @@ class Implementacion
         $this->clienteRel = $clienteRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
 
+    /**
+     * @param mixed $descripcion
+     */
+    public function setDescripcion($descripcion): void
+    {
+        $this->descripcion = $descripcion;
+    }
 
 }
