@@ -33,15 +33,21 @@ class Implementacion
     private $codigoClienteFk;
 
     /**
+     * @ORM\Column(name="descripcion",type="text", nullable=true)
+     */
+    private $descripcion;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="implementacionesClienteRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
     private $clienteRel;
 
     /**
-     * @ORM\Column(name="descripcion",type="text", nullable=true)
+     *
+     * @ORM\OneToMany(targetEntity="ImplementacionDetalle", mappedBy="implementacionRel")
      */
-    private $descripcion;
+    private $implementacionesDetallesImplementacionRel;
 
     /**
      * @return int
@@ -78,6 +84,22 @@ class Implementacion
     /**
      * @return mixed
      */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * @param mixed $descripcion
+     */
+    public function setDescripcion($descripcion): void
+    {
+        $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getClienteRel()
     {
         return $this->clienteRel;
@@ -94,17 +116,17 @@ class Implementacion
     /**
      * @return mixed
      */
-    public function getDescripcion()
+    public function getImplementacionesDetallesImplementacionRel()
     {
-        return $this->descripcion;
+        return $this->implementacionesDetallesImplementacionRel;
     }
 
     /**
-     * @param mixed $descripcion
+     * @param mixed $implementacionesDetallesImplementacionRel
      */
-    public function setDescripcion($descripcion): void
+    public function setImplementacionesDetallesImplementacionRel($implementacionesDetallesImplementacionRel): void
     {
-        $this->descripcion = $descripcion;
+        $this->implementacionesDetallesImplementacionRel = $implementacionesDetallesImplementacionRel;
     }
 
 }

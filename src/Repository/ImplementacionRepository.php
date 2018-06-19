@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping;
+
 /**
  * CasoRepository
  *
@@ -11,4 +14,30 @@ namespace App\Repository;
 class ImplementacionRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    /**
+     * @return string
+     */
+    public function listaDql()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()->from("App:Implementacion", "i")->select("i")
+            ->where("i.codigoImplementacionPk <> 0")
+            ->orderBy("i.codigoImplementacionPk", "DESC");
+        $dql = $qb->getDQL();
+        return $dql;
+    }
+
+    public function apiLista($codigoCliente)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()->from("App:Implementacion", "i")
+            ->select("i.codigoImplementacionPk")
+            ->addSelect("c.nombreComercial")
+            ->addSelect("i.descripcion")
+            ->join("i.clienteRel", "c")
+            ->where("i.codigoClienteFk = {$codigoCliente}");
+
+        return $qb->getQuery()->getResult();
+
+    }
 }
