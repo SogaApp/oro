@@ -9,26 +9,28 @@ namespace App\Repository;
  * repository methods below.
  */
 class LlamadaRepository extends \Doctrine\ORM\EntityRepository
-{    
-    public function getPendientes() {
+{
+    public function getPendientes()
+    {
         $em = $this->getEntityManager();
         $pendientes = 0;
-        $dql   = "SELECT COUNT(l.codigoLlamadaPk) AS pendientes FROM App:Llamada l WHERE l.estadoAtendido = 0 AND l.estadoSolucionado = 0";
+        $dql = "SELECT COUNT(l.codigoLlamadaPk) AS pendientes FROM App:Llamada l WHERE l.estadoAtendido = 0 AND l.estadoSolucionado = 0";
         $query = $em->createQuery($dql);
         $arrLlamadas = $query->getSingleResult();
-        if($arrLlamadas) {
+        if ($arrLlamadas) {
             $pendientes = $arrLlamadas['pendientes'];
         }
         return $pendientes;
-    }  
-    
-    public function getAtendidasPendientes() {
+    }
+
+    public function getAtendidasPendientes()
+    {
         $em = $this->getEntityManager();
         $atendidasPendientes = 0;
-        $dql   = "SELECT COUNT(l.codigoLlamadaPk) AS atendidasPendientes FROM App:Llamada l WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0";
+        $dql = "SELECT COUNT(l.codigoLlamadaPk) AS atendidasPendientes FROM App:Llamada l WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0";
         $query = $em->createQuery($dql);
         $arrLlamadas = $query->getSingleResult();
-        if($arrLlamadas) {
+        if ($arrLlamadas) {
             $atendidasPendientes = $arrLlamadas['atendidasPendientes'];
         }
         return $atendidasPendientes;
@@ -39,7 +41,7 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
         $atendidasPendientesusuario = 0;
-        $dql = "SELECT COUNT(l.codigoLlamadaPk) AS atendidasPendientesUsuario FROM App:Llamada l WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0 AND l.codigoUsuarioAtiendeFk = '" . $codigoUsuarioAtiende."'";
+        $dql = "SELECT COUNT(l.codigoLlamadaPk) AS atendidasPendientesUsuario FROM App:Llamada l WHERE l.estadoAtendido = 1 AND l.estadoSolucionado = 0 AND l.codigoUsuarioAtiendeFk = '" . $codigoUsuarioAtiende . "'";
         $query = $em->createQuery($dql);
         $arrLlamadas = $query->getSingleResult();
         if ($arrLlamadas) {
@@ -49,23 +51,28 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function listaDql($codigoClientePk = "")
-        {
-            $em = $this->getEntityManager();
-            $db = $em->createQueryBuilder()->from("App:Llamada", "l")
-                ->select("l")
-                ->andWhere("l.codigoLlamadaPk <> 0")
-                ->orderBy("l.fechaRegistro","DESC");
+    {
+        $em = $this->getEntityManager();
+        $db = $em->createQueryBuilder()->from("App:Llamada", "l")
+            ->select("l,c,m,ct,lnc")
+            ->leftJoin("l.clienteRel", "c")
+            ->leftJoin("l.moduloRel", "m")
+            ->leftJoin("l.categoriaRel", "ct")
+            ->leftJoin("l.llamadasNoContestanRel", "lnc")
+            ->andWhere("l.codigoLlamadaPk <> 0")
+            ->orderBy("l.fechaRegistro", "DESC");
 //                ->orderBy("l.estadoAtendido", "ASC")
 //                ->addOrderBy("l.estadoSolucionado", "ASC");
-            if ($codigoClientePk != "") {
-                $db->andWhere("l.codigoClienteFk = {$codigoClientePk}");
-            }
-
-            return $db;
-
+        if ($codigoClientePk != "") {
+            $db->andWhere("l.codigoClienteFk = {$codigoClientePk}");
         }
 
-    public function tableroSinAtender() {
+        return $db;
+
+    }
+
+    public function tableroSinAtender()
+    {
         $em = $this->getEntityManager();
         $arrSinAtender = array('numero' => 0, 'arrLlamadas' => array());
         $dql = "SELECT COUNT(l.codigoLlamadaPk) as numero FROM App:Llamada l "
@@ -86,7 +93,8 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
         return $arrSinAtender;
     }
 
-    public function tableroSinSolucionar() {
+    public function tableroSinSolucionar()
+    {
         $em = $this->getEntityManager();
         $arrSinSolucionar = array('numero' => 0, 'arrLlamadas' => array());
         $dql = "SELECT COUNT(l.codigoLlamadaPk) as numero FROM App:Llamada l "
