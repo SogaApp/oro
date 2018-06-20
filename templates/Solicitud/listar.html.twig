@@ -74,7 +74,7 @@
                                                             {{ arSolicitud.fechaSolicitud|date('y-m-d') }}
                                                         {% endif %}
                                                     </td>
-                                                    <td>{{ arSolicitud.horas }}</td>
+                                                    <td>{{ arSolicitud.horas|date('H:m') }}</td>
                                                     <td>
                                                         {% if arSolicitud.fechaAtencion != null %}
                                                             {{ arSolicitud.fechaAtencion|date('y-m-d') }}

@@ -40,4 +40,18 @@ class ImplementacionRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
 
     }
+
+    public function apiCabezera($codigoImplementacion)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()->from("App:Implementacion", "i")
+            ->select("i.codigoImplementacionPk")
+            ->addSelect("c.nombreComercial")
+            ->addSelect("i.descripcion")
+            ->join("i.clienteRel", "c")
+            ->where("i.codigoImplementacionPk = {$codigoImplementacion}");
+
+        return $qb->getQuery()->getResult();
+
+    }
 }
