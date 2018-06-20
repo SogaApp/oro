@@ -27,6 +27,11 @@ class ImplementacionTema
     private $nombre;
 
     /**
+     * @ORM\Column(name="codigo_implementacion_grupo_fk", type="integer", nullable=true)
+     */
+    private $codigoImplementacionGrupoFK;
+
+    /**
      * @ORM\ManyToOne(targetEntity="ImplementacionGrupo", inversedBy="implementacionesTemasImplementacionGrupoRel")
      * @ORM\JoinColumn(name="codigo_implementacion_grupo_fk", referencedColumnName="codigo_implementacion_grupo_pk")
      */
@@ -100,6 +105,22 @@ class ImplementacionTema
     public function setImplementacionGrupoRel($implementacionGrupoRel): void
     {
         $this->implementacionGrupoRel = $implementacionGrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoImplementacionGrupoFK()
+    {
+        return $this->codigoImplementacionGrupoFK;
+    }
+
+    /**
+     * @param mixed $codigoImplementacionGrupoFK
+     */
+    public function setCodigoImplementacionGrupoFK($codigoImplementacionGrupoFK): void
+    {
+        $this->codigoImplementacionGrupoFK = $codigoImplementacionGrupoFK;
     }
 
 }

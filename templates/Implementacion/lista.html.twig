@@ -37,7 +37,8 @@
                                                 <th>Código</th>
                                                 <th>Cliente</th>
                                                 <th>Descripción</th>
-                                                <th></th>
+                                                <th>edit</th>
+                                                <th>ver</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -51,7 +52,17 @@
                                                         {{ arImplementaciones.descripcion }}
                                                     </td>
                                                     <td>
-
+                                                        <a href="{{ path('implementacion_nuevo', { 'codigoImplementacion':  arImplementaciones.codigoImplementacionPk }) }}"
+                                                           class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i
+                                                                    class="glyphicon glyphicon-pencil"
+                                                                    style="padding: 3px;"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('implementacion_detalle', { 'codigoImplementacion':  arImplementaciones.codigoImplementacionPk }) }}"
+                                                           class="btn btn-info waves-effect waves-light btn-xs"><i
+                                                                    class="glyphicon glyphicon-eye-open"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
