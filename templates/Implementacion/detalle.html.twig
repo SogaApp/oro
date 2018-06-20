@@ -72,6 +72,8 @@
                                 </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">ADJ
                                 </th>
+                                <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">ORD
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -134,12 +136,18 @@
                                                 style="padding: 1px;"></i>
                                     </a>
                                 </td>
+                                <td>{{ arImplementacionDetalles.orden }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     {{ form_end(form) }}
+                    <div class="panel-footer" style="text-align: right;">
+                        <a class="btn btn-default btn-sm" href="{{ path('implementacion_lista') }}"
+                           style="float:left">VOLVER</a>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
         </div>

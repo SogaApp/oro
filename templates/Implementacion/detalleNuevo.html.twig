@@ -29,8 +29,12 @@
                                         {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true'} }) }}
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Tema:</label>
-                                            <div class="col-md-10">
+                                            <div class="col-md-4">
                                                 {{ form_widget(form.implementacionTemaRel) }}
+                                            </div>
+                                            <label class="col-md-2 control-label">Orden:</label>
+                                            <div class="col-md-4">
+                                                {{ form_widget(form.orden) }}
                                             </div>
                                         </div>
                                         <hr/>

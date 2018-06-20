@@ -20,7 +20,7 @@ class ImplementacionDetalleRepository extends \Doctrine\ORM\EntityRepository
             ->join("id.implementacionGrupoRel", "ig")
             ->join("id.implementacionTemaRel", "it")
             ->where("id.codigoImplementacionFK = {$codigoImplementacion}")
-            ->orderBy("id.codigoImplementacionGrupoFK", "ASC");
+            ->orderBy("id.codigoImplementacionGrupoFK, id.orden", "ASC");
 
         return $qb->getQuery()->getResult();
     }
@@ -36,11 +36,12 @@ class ImplementacionDetalleRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect("it.nombre AS nombreTema")
             ->addSelect("id.codigoImplementacionGrupoFK")
             ->join("id.implementacionRel", "i")
-            ->join("id.implementacionGrupoRel","ig")
-            ->join("id.implementacionTemaRel","it")
-            ->where("id.codigoImplementacionFK = {$codigoImplementacion}");
+            ->join("id.implementacionGrupoRel", "ig")
+            ->join("id.implementacionTemaRel", "it")
+            ->where("id.codigoImplementacionFK = {$codigoImplementacion}")
+            ->orderBy("id.codigoImplementacionGrupoFK, id.orden", "ASC");
         return $qb->getQuery()->getResult();
 
-  }
+    }
 
 }

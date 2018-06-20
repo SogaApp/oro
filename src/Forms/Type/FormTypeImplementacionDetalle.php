@@ -8,10 +8,8 @@ namespace App\Forms\Type;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class FormTypeImplementacionDetalle extends AbstractType
@@ -32,6 +30,7 @@ class FormTypeImplementacionDetalle extends AbstractType
                 },
                 'choice_label' => 'nombre',
                 'required' => true))
+            ->add("orden", IntegerType::class)
             ->add('btnGuardar', SubmitType::class, array(
                 'attr' => array(
                     'id' => '_btnGuardar',

@@ -53,6 +53,11 @@ class ImplementacionDetalle
     private $estadoCapacitado;
 
     /**
+     * @ORM\Column(name="orden", type="integer", nullable =true)
+     */
+    private $orden;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Implementacion", inversedBy="implementacionesDetallesImplementacionRel")
      * @ORM\JoinColumn(name="codigo_implementacion_fk", referencedColumnName="codigo_implementacion_pk")
      */
@@ -228,6 +233,22 @@ class ImplementacionDetalle
     public function setEstadoCapacitado($estadoCapacitado): void
     {
         $this->estadoCapacitado = $estadoCapacitado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param mixed $orden
+     */
+    public function setOrden($orden): void
+    {
+        $this->orden = $orden;
     }
 
 }
