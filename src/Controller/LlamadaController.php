@@ -64,7 +64,7 @@ class LlamadaController extends Controller
     public function lista(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//		$paginator = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $session = new session;
         $session->set('clienteRel', "");
         /** declara variables auxiliares para organizar el objeto final a devolver*/
@@ -123,8 +123,7 @@ class LlamadaController extends Controller
             return $this->redirect($this->generateUrl('listadoLlamadas'));
         }
 
-//		$arLlamadas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
-        $arLlamadas = $em->createQuery($this->strDqlLista)->getResult();
+        $arLlamadas = $paginator->paginate($this->strDqlLista, $request->query->getInt('page', 1), 100);
         return $this->render('Llamada/listar.html.twig', array(
             'llamadas' => $arLlamadas,
             'atendidasPendientes' => $atendidasPendientes,
