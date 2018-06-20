@@ -64,6 +64,8 @@
                                 </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">TEMA
                                 </th>
+                                <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">T.DESC
+                                </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">CAP
                                 </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">TER
@@ -81,7 +83,7 @@
                                 {% if(codigoGrupo != arImplementacionDetalles.codigoImplementacionGrupoFk) %}
                                     {% set codigoGrupo = arImplementacionDetalles.codigoImplementacionGrupoFk %}
                                     <tr class="bg-primary">
-                                        <td colspan="6">
+                                        <td colspan="9">
                                             <strong>{{ arImplementacionDetalles.implementacionGrupoRel.nombre }}</strong>
                                         </td>
                                     </tr>
@@ -91,6 +93,9 @@
                                 </td>
                                 <td><span
                                             class="tablesaw-cell-content">{{ arImplementacionDetalles.implementacionTemaRel.nombre }}</span>
+                                </td>
+                                <td><span
+                                            class="tablesaw-cell-content">{{ arImplementacionDetalles.implementacionTemaRel.descripcion }}</span>
                                 </td>
                                 <td>
                                     {% if arImplementacionDetalles.estadoCapacitado == false %}

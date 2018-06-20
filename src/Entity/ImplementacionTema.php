@@ -22,7 +22,7 @@ class ImplementacionTema
     private $codigoImplementacionTemaPk;
 
     /**
-     * @ORM\Column(name="nombre", type="string", length=50, nullable= TRUE)
+     * @ORM\Column(name="nombre", type="string", length=250, nullable=true)
      */
     private $nombre;
 
@@ -30,6 +30,11 @@ class ImplementacionTema
      * @ORM\Column(name="codigo_implementacion_grupo_fk", type="integer", nullable=true)
      */
     private $codigoImplementacionGrupoFK;
+
+    /**
+     * @ORM\Column(name="descripcion", type="text", nullable =true)
+     */
+    private $descripcion;
 
     /**
      * @ORM\ManyToOne(targetEntity="ImplementacionGrupo", inversedBy="implementacionesTemasImplementacionGrupoRel")
@@ -121,6 +126,22 @@ class ImplementacionTema
     public function setCodigoImplementacionGrupoFK($codigoImplementacionGrupoFK): void
     {
         $this->codigoImplementacionGrupoFK = $codigoImplementacionGrupoFK;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * @param mixed $descripcion
+     */
+    public function setDescripcion($descripcion): void
+    {
+        $this->descripcion = $descripcion;
     }
 
 }
