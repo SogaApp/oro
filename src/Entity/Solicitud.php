@@ -113,6 +113,11 @@ class Solicitud
      */
     private $horas;
 
+    /**
+     * @ORM\Column(name="descripcion_cierre", type="text", nullable=true)
+     */
+    private $descripcionCierre;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="solicitudesClienteRel")
@@ -467,6 +472,22 @@ class Solicitud
     public function setHoras($horas): void
     {
         $this->horas = $horas;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescripcionCierre()
+    {
+        return $this->descripcionCierre;
+    }
+
+    /**
+     * @param mixed $descripcionCierre
+     */
+    public function setDescripcionCierre($descripcionCierre): void
+    {
+        $this->descripcionCierre = $descripcionCierre;
     }
 
 }
