@@ -96,6 +96,12 @@ class ImplementacionController extends Controller
                 }
                 $em->persist($arImplementacionDetalle);
             }
+            if($request->request->has('BtnImprimir')){
+                $codigoImplementacionDetalle = $request->request->get('BtnImprimir');
+                $arImplementacionDetalle = $em->getRepository('App:ImplementacionDetalle')->find($codigoImplementacionDetalle);
+                $objActaCapacitacion = new \App\Formatos\FormatoActaCapacitacion();
+                $objActaCapacitacion->Generar($em,$arImplementacionDetalle);
+            }
             $em->flush();
             return $this->redirectToRoute("implementacion_detalle", ['codigoImplementacion' => $codigoImplementacion]);
         }
