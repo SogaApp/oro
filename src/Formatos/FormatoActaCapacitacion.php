@@ -20,7 +20,7 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->AliasNbPages();
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("ActaCapacitacion".self::$arImplementacionDetalle->getCodigoImplementacionDetallePk().".pdf", 'D');
+        $pdf->Output("ActaCapacitacion".self::$arImplementacionDetalle->getCodigoImplementacionDetallePk().".pdf", 'I');
 
 
     }
@@ -86,29 +86,29 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(194, 9, "ASISTENCIA ", 1, 0, 'C');
         $pdf->SetFont('Arial', 'b', 8);
         $pdf->SetXY(10,51.9);
-        $pdf->Cell(35.5, 7, "FECHA: ", 1, 0, 'L');
-        $pdf->Cell(75.5, 7, "", 1, 0, 'L');
-        $pdf->Cell(45.5, 7, "AREA:", 1, 0, 'L');
+        $pdf->Cell(28.5, 7, "FECHA: ", 1, 0, 'L');
+        $pdf->Cell(120.5, 7, "", 1, 0, 'L');
+        $pdf->Cell(13.5, 7, "AREA:", 1, 0, 'L');
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(37.5, 7, self::$arImplementacionDetalle->getImplementacionGrupoRel()->getNombre(), 1, 0, 'L');
+        $pdf->Cell(31.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionGrupoRel()->getNombre()), 1, 0, 'L');
         $pdf->SetFont('Arial', 'b', 8);
         $pdf->SetY(59);
-        $pdf->Cell(35.5, 7, "TEMA Y/O EVENTO: ", 1, 0, 'L');
+        $pdf->Cell(28.5, 7, "TEMA Y/O EVENTO: ", 1, 0, 'L');
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(75.5, 7, self::$arImplementacionDetalle->getImplementacionTemaRel()->getNombre(), 1, 0, 'L');
+        $pdf->Cell(120.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getNombre()), 1, 0, 'L');
         $pdf->SetFont('Arial', 'b', 8);
 
-        $pdf->Cell(45.5, 7, "HORA:", 1, 0, 'L');
-        $pdf->Cell(37.5, 7, "", 1, 0, 'L');
+        $pdf->Cell(13.5, 7, "HORA:", 1, 0, 'L');
+        $pdf->Cell(31.5, 7, "", 1, 0, 'L');
         $pdf->SetY(66);
-        $pdf->Cell(35.5, 7, "RESPONSABLE: ", 1, 0, 'L');
-        $pdf->Cell(75.5, 7, "", 1, 0, 'L');
-        $pdf->Cell(45.5, 7, "CARGO: ", 1, 0, 'L');
-        $pdf->Cell(37.5, 7, "", 1, 0, 'L');
+        $pdf->Cell(28.5, 7, "RESPONSABLE: ", 1, 0, 'L');
+        $pdf->Cell(120.5, 7, "", 1, 0, 'L');
+        $pdf->Cell(13.5, 7, "CARGO: ", 1, 0, 'L');
+        $pdf->Cell(31.5, 7, "", 1, 0, 'L');
         $pdf->SetY(73);
-        $pdf->Cell(35.5, 7, "EMPRESA: ", 1, 0, 'L');
+        $pdf->Cell(28.5, 7, "EMPRESA: ", 1, 0, 'L');
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(158.5, 7, self::$arImplementacionDetalle->getImplementacionRel()->getClienteRel()->getNombreComercial(), 1, 0, 'L');
+        $pdf->Cell(165.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionRel()->getClienteRel()->getNombreComercial()), 1, 0, 'L');
 
 
 
@@ -137,12 +137,8 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(194, 10, "TEMAS ESPECIFICOS ", 1, 0, 'C');
         $pdf->SetY($y += 10);
         $pdf->SetFont('Arial', '', 12);
-        $pdf->MultiCell(194, 30,"", 1, 'L');
-        $pdf->Text(12,216,self::$arImplementacionDetalle->getImplementacionTemaRel()->getDescripcion());
-
-
-
-
+        $pdf->Rect(10,211,194,60);
+        $pdf->MultiCell(194, 5,utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getDescripcion()), 0, 'L');
 
 
 
