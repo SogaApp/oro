@@ -20,7 +20,7 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->AliasNbPages();
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("ActaCapacitacion".self::$arImplementacionDetalle->getCodigoImplementacionDetallePk().".pdf", 'I');
+        $pdf->Output("ActaCapacitacion".self::$arImplementacionDetalle->getCodigoImplementacionDetallePk().".pdf", 'D');
 
 
     }
@@ -89,12 +89,12 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(28.5, 7, "FECHA: ", 1, 0, 'L');
         $pdf->Cell(120.5, 7, "", 1, 0, 'L');
         $pdf->Cell(13.5, 7, "AREA:", 1, 0, 'L');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(31.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionGrupoRel()->getNombre()), 1, 0, 'L');
         $pdf->SetFont('Arial', 'b', 8);
         $pdf->SetY(59);
         $pdf->Cell(28.5, 7, "TEMA Y/O EVENTO: ", 1, 0, 'L');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(120.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getNombre()), 1, 0, 'L');
         $pdf->SetFont('Arial', 'b', 8);
 
@@ -107,7 +107,7 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(31.5, 7, "", 1, 0, 'L');
         $pdf->SetY(73);
         $pdf->Cell(28.5, 7, "EMPRESA: ", 1, 0, 'L');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(165.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionRel()->getClienteRel()->getNombreComercial()), 1, 0, 'L');
 
 
@@ -130,13 +130,13 @@ class FormatoActaCapacitacion extends \FPDF {
             $pdf->SetY($y += 7);
         }
         $pdf->Cell(64.6, 7, "NRO ACTA", 1, 0, 'C');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(129.2, 7, self::$arImplementacionDetalle->getCodigoImplementacionDetallePk(), 1, 0, 'C');
         $pdf->SetY($y += 7);
         $pdf->SetFont('Arial', 'b', 12);
         $pdf->Cell(194, 10, "TEMAS ESPECIFICOS ", 1, 0, 'C');
         $pdf->SetY($y += 10);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 8);
         $pdf->Rect(10,211,194,60);
         $pdf->MultiCell(194, 5,utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getDescripcion()), 0, 'L');
 
