@@ -33,7 +33,7 @@ class FormatoActaCapacitacion extends \FPDF {
         $this->Line(10, 5, 60, 5);
         $this->Line(10, 5, 10, 26);
         $this->Line(10, 26, 60, 26);
-        $this->Image('imagenes/logos/logo.jpg', 12, 7, 35, 17);
+        $this->Image('imagenes/logos/blanco.jpg', 12, 7, 35, 17);
 
         $this->SetXY(50, 5);
         $this->SetFont('Arial', 'b', 12);
