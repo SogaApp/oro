@@ -58,6 +58,12 @@ class ImplementacionDetalle
     private $orden;
 
     /**
+     *
+     * @ORM\Column(name="fecha_capacitacion", type="date" ,nullable=true)
+     */
+    private $fechaCapacitacion;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Implementacion", inversedBy="implementacionesDetallesImplementacionRel")
      * @ORM\JoinColumn(name="codigo_implementacion_fk", referencedColumnName="codigo_implementacion_pk")
      */
@@ -249,6 +255,22 @@ class ImplementacionDetalle
     public function setOrden($orden): void
     {
         $this->orden = $orden;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaCapacitacion()
+    {
+        return $this->fechaCapacitacion;
+    }
+
+    /**
+     * @param mixed $fechaCapacitacion
+     */
+    public function setFechaCapacitacion($fechaCapacitacion): void
+    {
+        $this->fechaCapacitacion = $fechaCapacitacion;
     }
 
 }

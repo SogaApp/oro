@@ -5,12 +5,13 @@ namespace App\Formatos;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class FormatoActaCapacitacion extends \FPDF {
+class FormatoActaCapacitacion extends \FPDF
+{
 
     public static $em;
     public static $arImplementacionDetalle;
 
-    public function Generar($em,$arImplementacionDetalle)
+    public function Generar($em, $arImplementacionDetalle)
     {
         ob_clean();
         self::$em = $em;
@@ -20,12 +21,13 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->AliasNbPages();
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("ActaCapacitacion".self::$arImplementacionDetalle->getCodigoImplementacionDetallePk().".pdf", 'D');
+        $pdf->Output("ActaCapacitacion" . self::$arImplementacionDetalle->getCodigoImplementacionDetallePk() . ".pdf", 'D');
 
 
     }
 
-    public function Header() {
+    public function Header()
+    {
 
         $this->SetFillColor(272, 272, 272);
         $this->SetFont('Arial', 'b', 8);
@@ -51,13 +53,14 @@ class FormatoActaCapacitacion extends \FPDF {
         $this->SetXY(177, 5);
         $this->Cell(27, 10, utf8_decode('Página ') . $this->PageNo() . ' de {nb}', 1, 0, 'C', 1);
         $this->SetXY(150, 15);
-        $this->Cell(54, 11, utf8_decode("Fecha: ".date("Y-m-d")), 1, 0, 'L', 1);
+        $this->Cell(54, 11, utf8_decode("Fecha: " . date("Y-m-d")), 1, 0, 'L', 1);
 
 
         $this->EncabezadoDetalles();
     }
 
-    public function EncabezadoDetalles() {
+    public function EncabezadoDetalles()
+    {
         $this->Ln(14);
 
         $header = array();
@@ -81,7 +84,8 @@ class FormatoActaCapacitacion extends \FPDF {
         $this->Ln(4);
     }
 
-    public function Body($pdf) {
+    public function Body($pdf)
+    {
 
 
         $pdf->Ln(10);
@@ -89,9 +93,11 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->SetX(10);
         $pdf->Cell(194, 9, "ASISTENCIA ", 1, 0, 'C');
         $pdf->SetFont('Arial', 'b', 8);
-        $pdf->SetXY(10,51.9);
+        $pdf->SetXY(10, 51.9);
         $pdf->Cell(28.5, 7, "FECHA: ", 1, 0, 'L');
-        $pdf->Cell(120.5, 7, "", 1, 0, 'L');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(120.5, 7, self::$arImplementacionDetalle->getFechaCapacitacion() != "" ? self::$arImplementacionDetalle->getFechaCapacitacion()->format('Y-m-d') : "", 1, 0, 'L');
+        $pdf->SetFont('Arial', 'b', 8);
         $pdf->Cell(13.5, 7, "AREA:", 1, 0, 'L');
         $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(31.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionGrupoRel()->getNombre()), 1, 0, 'L');
@@ -115,13 +121,11 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(165.5, 7, utf8_decode(self::$arImplementacionDetalle->getImplementacionRel()->getClienteRel()->getNombreComercial()), 1, 0, 'L');
 
 
-
-
         $pdf->Ln(20);
         $pdf->SetFont('Arial', 'b', 12);
         $pdf->SetX(10);
         $pdf->Cell(194, 10, "ASISTENCIA ", 1, 0, 'C');
-        $pdf->SetXY(10,103);
+        $pdf->SetXY(10, 103);
         $pdf->Cell(64.6, 7, "CARGO", 1, 0, 'C');
         $pdf->Cell(64.6, 7, "NOMBRE Y APELLIDO", 1, 0, 'C');
         $pdf->Cell(64.6, 7, "FIRMAS DE ASISTENCIA", 1, 0, 'C');
@@ -141,11 +145,8 @@ class FormatoActaCapacitacion extends \FPDF {
         $pdf->Cell(194, 10, "TEMAS ESPECIFICOS ", 1, 0, 'C');
         $pdf->SetY($y += 10);
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Rect(10,211,194,60);
-        $pdf->MultiCell(194, 5,utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getDescripcion()), 0, 'L');
-
-
-
+        $pdf->Rect(10, 211, 194, 60);
+        $pdf->MultiCell(194, 5, utf8_decode(self::$arImplementacionDetalle->getImplementacionTemaRel()->getDescripcion()), 0, 'L');
 
 
 //        $pdf->SetFont('Arial', 'B', 7);
@@ -165,7 +166,8 @@ class FormatoActaCapacitacion extends \FPDF {
 
     }
 
-    public function Footer() {
+    public function Footer()
+    {
 
         $this->SetFont('Arial', '', 8);
         $this->Text(170, 290, utf8_decode('Página ') . $this->PageNo() . ' de {nb}');

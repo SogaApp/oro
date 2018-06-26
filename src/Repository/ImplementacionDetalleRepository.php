@@ -36,6 +36,7 @@ class ImplementacionDetalleRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect("it.nombre AS nombreTema")
             ->addSelect("id.codigoImplementacionGrupoFK")
             ->addSelect("it.descripcion")
+            ->addSelect("id.fechaCapacitacion")
             ->join("id.implementacionRel", "i")
             ->join("id.implementacionGrupoRel", "ig")
             ->join("id.implementacionTemaRel", "it")

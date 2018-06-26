@@ -85,6 +85,7 @@ class ImplementacionController extends Controller
                 $arImplementacionDetalle = $em->getRepository('App:ImplementacionDetalle')->find($codigoImplementacionDetalle);
                 if (!$arImplementacionDetalle->getEstadoCapacitado()) {
                     $arImplementacionDetalle->setEstadoCapacitado(true);
+                    $arImplementacionDetalle->setFechaCapacitacion(new \DateTime('now'));
                 }
                 $em->persist($arImplementacionDetalle);
             }
@@ -96,11 +97,11 @@ class ImplementacionController extends Controller
                 }
                 $em->persist($arImplementacionDetalle);
             }
-            if($request->request->has('BtnImprimir')){
+            if ($request->request->has('BtnImprimir')) {
                 $codigoImplementacionDetalle = $request->request->get('BtnImprimir');
                 $arImplementacionDetalle = $em->getRepository('App:ImplementacionDetalle')->find($codigoImplementacionDetalle);
                 $objActaCapacitacion = new \App\Formatos\FormatoActaCapacitacion();
-                $objActaCapacitacion->Generar($em,$arImplementacionDetalle);
+                $objActaCapacitacion->Generar($em, $arImplementacionDetalle);
             }
             $em->flush();
             return $this->redirectToRoute("implementacion_detalle", ['codigoImplementacion' => $codigoImplementacion]);
@@ -124,6 +125,7 @@ class ImplementacionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arImplementacion = $em->getRepository("App:Implementacion")->find($codigoImplementacion);
         $arImplementacionDetalle = new ImplementacionDetalle();
+        $arImplementacionDetalle->setFechaCapacitacion(new \DateTime('now'));
         if ($codigoImplementacionDetalle != 0) {
             $arImplementacionDetalle = $em->getRepository("App:ImplementacionDetalle")->find($codigoImplementacionDetalle);
         }

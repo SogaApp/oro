@@ -73,6 +73,8 @@
                                 </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">T.DESC
                                 </th>
+                                <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">F.CAP
+                                </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">CAP
                                 </th>
                                 <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">TER
@@ -106,6 +108,7 @@
                                 <td><span
                                             class="tablesaw-cell-content">{{ arImplementacionDetalles.implementacionTemaRel.descripcion }}</span>
                                 </td>
+                                <td>{{ arImplementacionDetalles.fechaCapacitacion | date('Y-m-d') }}</td>
                                 <td>
                                     {% if arImplementacionDetalles.estadoCapacitado == false %}
                                         <button class="btn btn-danger btn-xs" type="submit"
