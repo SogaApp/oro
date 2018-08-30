@@ -42,7 +42,7 @@
                                 {#{{ dump(caso) }}#}
                                 <strong>Categoria: </strong> <span>
                                         {#style="padding: 2px;border-radius: 5px;">{{ caso.categoria }}</span><br><br>#}
-                                <strong>Prioridad:</strong> <span>
+                                    <strong>Prioridad:</strong> <span>
                                         {#style=" padding: 2px;border-radius: 5px;">{{ caso.prioridad }}</span>#}
                             </div>
                         </div>
@@ -156,10 +156,131 @@
                             </div>
                         </div>
                         <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Adjuntos:</h4>
+                                <table class="tablesaw m-t-20 table m-b-0 tablesaw-stack" data-tablesaw-mode="stack"
+                                       id="table-2285">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="persist">
+                                            Titulo
+                                        </th>
+                                        {#<th scope="col" data-tablesaw-sortable-col=""#}
+                                        {#data-tablesaw-sortable-default-col="" data-tablesaw-priority="3">Fecha#}
+                                        {#</th>#}
+                                        {#<th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="2">#}
+                                        {#Tamaño#}
+                                        {#</th>#}
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">Tipo
+                                        </th>
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">Bajar
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for archivo in arrArchivos %}
+                                        <tr>
+                                            <td><span
+                                                        class="tablesaw-cell-content">{{ archivo.nombre }}</span></td>
+                                            {#<td><b class="tablesaw-cell-label">Rank</b><span#}
+                                            {#class="tablesaw-cell-content">{{ archivo.fecha|date('Y/m/d') }}</span>#}
+                                            {#</td>#}
+                                            {#<td><span#}
+                                            {#class="tablesaw-cell-content">{{ archivo.tamano }}</span></td>#}
+                                            <td><span
+                                                        class="tablesaw-cell-content">{{ archivo.tipo }}</span></td>
+                                            <td><span
+                                                        class="tablesaw-cell-content"><a
+                                                            href="{{ path('archivo_descarga',{'codigoArchivo':archivo.codigoArchivoPk}) }}"><i
+                                                                class="glyphicon glyphicon-cloud-download"></i> Descargar</a></span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Comentarios:</h4>
+                                <div id="comentarios">
+                                    <div class="card card-block">
+                                        <div class="timeline">
+                                            {% if arrComentarios is defined and arrComentarios|length > 0 %}
+                                                {% for comentario in arrComentarios %}
+                                                    <article class="timeline-item alt">
+                                                        <div class="timeline-desk" style="">
+                                                            <div class="panel">
+                                                                <div class="timeline-box">
+                                                                    <span class="arrow-alt"></span>
+                                                                    <span class="timeline-icon"><i
+                                                                                class="mdi mdi-checkbox-blank-circle-outline"></i></span>
+                                                                    <h4 class="">{{ comentario.fechaRegistro|date('Y/m/d') }}</h4>
+                                                                    <p class="timeline-date text-muted">
+                                                                        <small>{{ comentario.fechaRegistro|date('H:m') }}</small>
+                                                                    </p>
+                                                                    <p>{{ comentario.comentario }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                {% endfor %}
+                                            {% else %}
+                                                <article class="timeline-item alt">
+                                                    <div class="timeline-desk">
+                                                        <div class="panel">
+                                                            <div class="timeline-box">
+                                                                <p>Sin Comentarios para este caso</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Tareas:</h4>
+                                <div class="timeline timeline-left">
+                                    {% if arrTareas is defined and arrTareas|length > 0 %}
+                                        {% for tarea in arrTareas %}
+                                            <article class="timeline-item">
+                                                <div class="timeline-desk">
+                                                    <div class="panel">
+                                                        <div class="timeline-box">
+                                                            {#<span class="arrow"></span>#}
+                                                            {#<span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>#}
+                                                            <h4 class="">{{ tarea.fechaRegistro|date('Y/m/d') }}</h4>
+                                                            <p class="timeline-date text-muted">
+                                                                <small>Asignada a : {{ tarea.codigoUsuarioAsignaFk }}</small>
+                                                            </p>
+                                                            <p>{{ tarea.descripcion }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        {% endfor %}
+                                    {% else %}
 
-
+                                        <article class="timeline-item">
+                                            <div class="timeline-desk">
+                                                <div class="panel">
+                                                    <div class="timeline-box">
+                                                        {#<span class="arrow"></span>#}
+                                                        {#<span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>#}
+                                                        {#<h4 class="">1 hour ago</h4>#}
+                                                        {#<p class="timeline-date text-muted"><small>08:25 am</small></p>#}
+                                                        <p><i>No hay tareas para este caso.</i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            </div>
+                        <hr>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -353,12 +353,18 @@ class CasoController extends Controller {
 	 */
 	public function listaUno(Request $request, $codigoCaso) {
 		$em = $this->getDoctrine()->getManager();
+        $arrArchivos = $em->getRepository('App:Archivo')->apiLista(1, $codigoCaso);
+        $arrComentarios = $em->getRepository('App:Comentario')->apiLista($codigoCaso, 0);
+        $arrTareas = $em->getRepository('App:Tarea')->apiListaCaso($codigoCaso);
 		if($codigoCaso != null){
 			$arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
 		}
 
 		return $this->render('Caso/detalle.html.twig', [
 			'caso' => $arCaso,
+            'arrArchivos' => $arrArchivos,
+            'arrComentarios'=> $arrComentarios,
+            'arrTareas' => $arrTareas
 		]);
 	}
 }
