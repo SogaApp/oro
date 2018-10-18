@@ -46,7 +46,7 @@ class ErrorApiController extends Controller
             ->setEmail($data['email']);
         $em->persist($error);
         $em->flush();
-        return $error->getId() != null;
+        return $error->getCodigoErrorPk() != null;
     }
 
     /**
