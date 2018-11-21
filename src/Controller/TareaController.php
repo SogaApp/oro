@@ -64,7 +64,11 @@ class TareaController extends Controller
             }
             $em->persist($arTarea);
             $em->flush();
-            return $this->redirect($this->generateUrl('listaTareaGeneral'));
+            if ($codigoTarea) {
+                echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }else{
+                return $this->redirect($this->generateUrl('listaTareaGeneral'));
+            }
         }
 
         return $this->render('Tarea/crear.html.twig',
@@ -168,7 +172,7 @@ class TareaController extends Controller
     public function listaGeneral(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//        $paginator = $this->get('knp_paginator');
+//        $paginator = $this->get('knp_paginator');z
 //        $arTarea = new \App\Entity\Tarea();
         //   $session = $this->get('session');
 //        $session->set('filtroEstado', 2);

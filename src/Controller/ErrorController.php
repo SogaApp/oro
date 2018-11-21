@@ -158,15 +158,15 @@ class ErrorController extends Controller
         $dataEstadoAtendido = $formFiltro->get('estadoAtendido')->getData();
         $dataEstadoSolucionado = $formFiltro->get('estadoSolucionado')->getData();
         $codigoCliente = $dataCliente instanceof Cliente? $dataCliente->getCodigoClientePk() : null;
-        $session->set('filtro_cliente', $codigoCliente);
-        $session->set('filtro-estado-atendido', $dataEstadoAtendido);
-        $session->set('filtro-estado-solucionado', $dataEstadoSolucionado);
+        $session->set('filtroCliente', $codigoCliente);
+        $session->set('filtroEstadoAtendido', $dataEstadoAtendido);
+        $session->set('filtroEstadoSolucionado', $dataEstadoSolucionado);
     }
 
     private function listarErrores($em)
     {
         $session = new Session();
-        $this->strDqlLista = $em->getRepository('App:Error')->filtroErrores($session->get('filtro-cliente'), $session->get("filtro-estado-atendido"), $session->get('filtro-estado-solucionado'));
+        $this->strDqlLista = $em->getRepository('App:Error')->filtroErrores($session->get('filtroCliente'), $session->get("filtroEstadoAtendido"), $session->get('filtroEstadoSolucionado'));
     }
 
 }

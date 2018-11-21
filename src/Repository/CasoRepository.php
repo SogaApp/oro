@@ -503,4 +503,22 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
 
         return $arrSinSolucionar;
     }
+
+    public function reporteCaso($strFechaDesde,$strFechaHasta){
+        $em = $this->getEntityManager();
+        $dql = $em->createQueryBuilder()->from("App:Caso","cs")
+            ->join("cs.clienteRel","c")
+            ->join("cs.prioridadRel","p")
+            ->select("cs.codigoCasoPk AS Codigo")
+            ->addSelect("cs.fechaRegistro AS Fecha")
+            ->addSelect("c.nombreComercial AS Cliente")
+            ->addSelect("cs.contacto AS Contacto")
+            ->addSelect("p.nombre AS Prioridad")
+            ->addSelect("cs.estadoAtendido AS Atendido")
+            ->addSelect("cs.estadoSolucionado AS Solucionado")
+            ->addSelect("cs.descripcion AS Descripcion")
+            ->where("cs.fechaRegistro BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'");
+        $query = $dql->getQuery()->getResult();
+        return $query;
+    }
 }

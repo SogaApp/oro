@@ -114,4 +114,19 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
         }
         return $arrSinSolucionar;
     }
+
+    public function reporteSoporte($strFechaDesde,$strFechaHasta){
+        $em = $this->getEntityManager();
+        $dql = $em->createQueryBuilder()->from("App:Llamada","l")
+            ->join("l.moduloRel","m")
+            ->join("l.clienteRel","c")
+            ->select("c.nombreComercial AS Cliente")
+            ->addSelect("m.nombre AS Modulo")
+            ->addSelect("l.nombreContacto AS Contacto")
+            ->addSelect("l.telefono AS Telefono")
+            ->addSelect("l.descripcion AS Descripcion")
+            ->where("l.fechaRegistro BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'");
+        $query = $dql->getQuery()->getResult();
+        return $query;
+    }
 }
