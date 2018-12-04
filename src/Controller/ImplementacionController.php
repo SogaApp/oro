@@ -26,13 +26,15 @@ class ImplementacionController extends Controller
     public function listaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $form = $this->formularioLista();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
         }
         $this->listar();
-        $arImplementaciones = $em->createQuery($this->strLista)->getResult();
+        $arImplementaciones = $paginator->paginate($em->createQuery($this->strLista), $request->query->get('page', 1),20);
+
         return $this->render('Implementacion/lista.html.twig', [
             'arImplementaciones' => $arImplementaciones,
             'form' => $form->createView()

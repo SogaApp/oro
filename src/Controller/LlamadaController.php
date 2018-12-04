@@ -176,7 +176,7 @@ class LlamadaController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-//        $paginator = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         // $user = $this->getUser();
         $session = new Session();
         $formFiltro = $this->formularioFiltro();
@@ -187,8 +187,7 @@ class LlamadaController extends Controller
             $this->listar();
         }
 
-//        $arLlamadas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1));
-        $arLlamadas = $em->createQuery($this->strDqlLista)->getResult();
+        $arLlamadas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1),20);
         return $this->render('Llamada/listarGeneral.html.twig', [
             'llamadas' => $arLlamadas,
             //'user' => $user,

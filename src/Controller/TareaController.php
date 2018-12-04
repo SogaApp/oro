@@ -172,7 +172,7 @@ class TareaController extends Controller
     public function listaGeneral(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//        $paginator = $this->get('knp_paginator');z
+        $paginator = $this->get('knp_paginator');
 //        $arTarea = new \App\Entity\Tarea();
         //   $session = $this->get('session');
 //        $session->set('filtroEstado', 2);
@@ -238,9 +238,9 @@ class TareaController extends Controller
             }
         }
 
-//        $arTarea = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
+        $arrTareas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('Tarea/listar.html.twig', [
-            'tareas' => $arTarea,
+            'tareas' => $arrTareas,
             'sinTerminar' => $sinTerminar,
             'sinAsignar' => $sinAsignar,
             'sinVerificar' => $sinVerificar,
@@ -269,6 +269,7 @@ class TareaController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $user = $this->getUser();
         $arTarea = $em->getRepository('App:Tarea')->findBy(array('codigoUsuarioAsignaFk' => $user->getCodigoUsuarioPk(), 'estadoTerminado' => false), array('estadoTerminado' => 'ASC', 'estadoVerificado' => 'ASC', 'fechaGestion' => 'DESC'));// consulta llamadas por usuario logueado
         $form = $this::createFormBuilder()->getForm(); // form para manejar actualizacion de estado de llamadas
@@ -345,9 +346,11 @@ class TareaController extends Controller
             return $this->redirect($this->generateUrl('listaTareaUsuario'));
         }
 
+        $arrTareas = $paginator->paginate($arTarea, $request->query->get('page', 1), 20);
+
 
         return $this->render('Tarea/listarUsuario.html.twig', [
-            'tareas' => $arTarea,
+            'tareas' => $arrTareas,
             'sinTerminar' => $sinTerminar,
             'sinVerificar' => $sinVerificar,
             'form' => $form->createView(),
@@ -410,11 +413,15 @@ class TareaController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+
         $arTarea = $em->getRepository('App:Tarea')->findBy(array('estadoVerificado' => true), array('fechaRegistro' => 'DESC'));
+        $arrTareas = $paginator->paginate($arTarea, $request->query->get('page', 1),20);
+
 
         // en index pagina con datos generales de la app
         return $this->render('Tarea/listarHistorico.html.twig', [
-            'tareas' => $arTarea,
+            'tareas' => $arrTareas,
         ]);
     }
 

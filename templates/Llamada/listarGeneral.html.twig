@@ -48,7 +48,7 @@
                                             </div>
                                             {{ form_end(formFiltro) }}
                                         </div>
-                                        <table id="llamadas-general" class="table table-hover m-0 table-oro">
+                                        <table id="llamadas-general" class="table table-hover m-0">
                                             <thead>
                                             <tr>
                                                 <th>Fecha</th>
@@ -106,10 +106,10 @@
                         </div>
                     {% endblock content %}
                     <div class="btn-group" style="float: left">
-                        {#<div class="btn btn-default ">Llamadas <span#}
-                                    {#class="badge">{{ llamadas.getTotalItemCount }}</span></div>#}
-                        {#<div class="btn-group"#}
-                             {#style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>#}
+                        <div class="btn btn-default ">Registros <span
+                                    class="badge">{{ llamadas.getTotalItemCount }}</span></div>
+                        <div class="btn-group"
+                             style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>
                     </div>
                 </div> <!-- container -->
             </div> <!-- content -->

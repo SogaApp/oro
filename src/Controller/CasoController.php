@@ -171,6 +171,7 @@ class CasoController extends Controller {
 
     public function listaSinSolucionar(Request $request, Request $requestFiltro) {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $this->listarSinSolucionar($em);
         $session = new Session();
         $propiedades = array(
@@ -240,8 +241,12 @@ class CasoController extends Controller {
             $em->flush();
             return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }
+
+
+        $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),20);
+
         return $this->render('Caso/listar.html.twig', [
-            'casos' => $arCaso,
+            'casos' => $arrCasos,
             'form' => $form->createView(),
             'formFiltro' => $formFiltro->createView ()
         ]);
@@ -277,7 +282,8 @@ class CasoController extends Controller {
 	 */
 	public function listaSolucionados(Request $request, Request $requestFiltro) {
 		$em = $this->getDoctrine()->getManager();
-		$this->listarSolucionados($em);
+        $paginator = $this->get('knp_paginator');
+        $this->listarSolucionados($em);
 		$session = new Session();
 		$propiedades = array(
 			'class' => 'App:Cliente',
@@ -341,8 +347,11 @@ class CasoController extends Controller {
 			return $this->redirect($this->generateUrl('listadoCasosSolucionados'));
 		}
 
-		return $this->render('Caso/listar.html.twig', [
-			'casos' => $arCaso,
+        $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),20);
+
+
+        return $this->render('Caso/listar.html.twig', [
+			'casos' => $arrCasos,
 			'form' => $form->createView(),
 			'formFiltro' => $formFiltro->createView ()
 		]);

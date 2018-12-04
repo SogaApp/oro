@@ -82,7 +82,7 @@
 
 
                                     <div class="table-responsive">
-                                        <table id="casos-general" class="table table-hover m-0 table-oro ">
+                                        <table id="casos-general" class="table table-hover m-0">
 
                                             <thead>
                                                 <tr>
@@ -224,6 +224,12 @@
                         </div>
                         {{ form_end(form) }}
                     {% endblock content %}
+                    <div class="btn-group" style="float: left">
+                        <div class="btn btn-default ">Registros <span
+                                    class="badge">{{ casos.getTotalItemCount }}</span></div>
+                        <div class="btn-group"
+                             style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(casos) }}</div>
+                    </div>
                 </div> <!-- container -->
             </div> <!-- content -->
         </div>

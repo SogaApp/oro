@@ -31,7 +31,7 @@
                             <div class="col-md-12">
                                 <div class="card-box">
                                     <div class="table-responsive">
-                                        <table id="tarea-table" class="table table table-hover m-0 table-oro">
+                                        <table id="tarea-table" class="table table table-hover m-0">
                                             <thead>
                                             <tr>
                                                 <th>Código</th>
@@ -75,6 +75,10 @@
                         {{ form_end(form) }}
                     {% endblock content %}
                     <div class="btn-group" style="float: left">
+                        <div class="btn btn-default ">Registros <span
+                                    class="badge">{{ arImplementaciones.getTotalItemCount }}</span></div>
+                        <div class="btn-group"
+                             style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(arImplementaciones) }}</div>
                     </div>
                 </div>
             </div>

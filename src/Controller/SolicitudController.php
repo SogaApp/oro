@@ -24,6 +24,7 @@ class SolicitudController extends Controller
     public function listaAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $formFiltro = $this->formularioFiltro();
         $formFiltro->handleRequest($request);
         $this->listar();
@@ -74,9 +75,9 @@ class SolicitudController extends Controller
             }
         }
 
-//        $arTarea = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
+        $arrSolicitudes = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('Solicitud/listar.html.twig', [
-            'arSolicitudes' => $arSolicitudes,
+            'arSolicitudes' => $arrSolicitudes,
             'sinAtender' => $sinAtender,
             'sinCerrar' => $sinCerrar,
             'formFiltro' => $formFiltro->createView(),
