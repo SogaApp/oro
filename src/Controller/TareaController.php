@@ -129,6 +129,7 @@ class TareaController extends Controller
                 $arTarea->setEstadoEjecucion(0);
                 $arTarea->setEstadoTerminado(0);
                 $arTarea->setEstadoVerificado(0);
+                $arTarea->setEstadoIncomprensible(0);
                 $arTarea->setFechaEjecucion(null);
                 $arTarea->setFechaSolucion(null);
                 $arTarea->setFechaVerificado(null);
