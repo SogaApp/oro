@@ -98,11 +98,13 @@ class TareaController extends Controller
             if($form->get('btnGuardar')->isClicked()){
                 $arTarea->setComentario($form->get('comentario')->getData());
                 $em->persist($arTarea);
+
             }
             if($form->get('BtnEjecucion')->isClicked()){
                 $arTarea->setEstadoEjecucion(1);
                 $arTarea->setFechaEjecucion(new \DateTime('now'));
                 $em->persist($arTarea);
+
             }
             if($form->get('BtnResuelto')->isClicked()) {
                 $arTarea->setEstadoTerminado(1);
@@ -113,7 +115,6 @@ class TareaController extends Controller
                     $arCaso->setEstadoTareaTerminada(1);
                     $em->persist($arCaso);
                 }
-
             }
             if($form->get('BtnVerificado')->isClicked()) {
                 $arTarea->setEstadoVerificado(1);
@@ -124,6 +125,7 @@ class TareaController extends Controller
                     $arCaso->setEstadoTareaRevisada(1);
                     $em->persist($arCaso);
                 }
+
             }
             if($form->get('BtnAbrir')->isClicked()) {
                 $arTarea->setEstadoEjecucion(0);
@@ -141,9 +143,8 @@ class TareaController extends Controller
                     $arCaso->setEstadoTareaRevisada(0);
                     $em->persist($arCaso);
                 }
-
                 }
-                $em->flush();
+            $em->flush();
             return $this->redirect($this->generateUrl('verTarea', array('codigoTarea' => $codigoTarea)));
 
         }
@@ -563,15 +564,12 @@ class TareaController extends Controller
                 $arrBotonAbrir['attr']['style'] = 'display:block;';
 
             }
-
-
-
                 $form = $this->createFormBuilder()
                 ->add('BtnEjecucion',SubmitType::class,$arrBotonEjecucion)
                 ->add('BtnResuelto',SubmitType::class,$arrBotonResuelto)
                 ->add('BtnVerificado',SubmitType::class,$arrBotonVerificado)
                     ->add('BtnAbrir',SubmitType::class,$arrBotonAbrir)
-                ->add('comentario',TextareaType::class,array('label'=> 'Comentarios'))
+                ->add('comentario',TextareaType::class,array('label'=> 'Comentarios', 'data'=> $arTarea->getComentario()))
                 ->add('btnGuardar',SubmitType::class,array('label' => 'Guardar'))
                 ->getForm();
             return $form;
