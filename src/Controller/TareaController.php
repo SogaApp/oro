@@ -91,15 +91,66 @@ class TareaController extends Controller
          * @var Usuario $arUser
          **/
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+        $form = $this->formularioDetalles($arTarea);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('btnGuardar')->isClicked()){
+                $arTarea->setComentario($form->get('comentario')->getData());
+                $em->persist($arTarea);
+            }
+            if($form->get('BtnEjecucion')->isClicked()){
+                $arTarea->setEstadoEjecucion(1);
+                $arTarea->setFechaEjecucion(new \DateTime('now'));
+                $em->persist($arTarea);
+            }
+            if($form->get('BtnResuelto')->isClicked()) {
+                $arTarea->setEstadoTerminado(1);
+                $arTarea->setFechaSolucion(new \DateTime('now'));
+                $em->persist($arTarea);
+                if ($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaTerminada(1);
+                    $em->persist($arCaso);
+                }
 
-        if ($codigoTarea) {
-            $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+            }
+            if($form->get('BtnVerificado')->isClicked()) {
+                $arTarea->setEstadoVerificado(1);
+                $arTarea->setFechaVerificado(new \DateTime('now'));
+                $em->persist($arTarea);
+                if ($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaRevisada(1);
+                    $em->persist($arCaso);
+                }
+            }
+            if($form->get('BtnAbrir')->isClicked()) {
+                $arTarea->setEstadoEjecucion(0);
+                $arTarea->setEstadoTerminado(0);
+                $arTarea->setEstadoVerificado(0);
+                $arTarea->setFechaEjecucion(null);
+                $arTarea->setFechaSolucion(null);
+                $arTarea->setFechaVerificado(null);
+                $em->persist($arTarea);
+
+                if ($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaTerminada(0);
+                    $arCaso->setEstadoTareaRevisada(0);
+                    $em->persist($arCaso);
+                }
+
+                }
+                $em->flush();
+            return $this->redirect($this->generateUrl('verTarea', array('codigoTarea' => $codigoTarea)));
+
         }
+            return $this->render('Tarea/verTarea.html.twig',
 
-
-        return $this->render('Tarea/verTarea.html.twig',
             array(
                 'tarea' => $arTarea,
+                'form' => $form->createView()
             )
         );
     }
@@ -191,7 +242,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaSolucionar')) {
                 $codigoTarea = $request->request->get('TareaSolucionar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->isEstadoTerminado()) {
+                if (!$arTarea->getEstadoTerminado()) {
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                 }
@@ -207,7 +258,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->isEstadoVerificado()) {
+                if (!$arTarea->getEstadoVerificado()) {
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }
@@ -231,9 +282,9 @@ class TareaController extends Controller
         foreach ($arTarea as $key => $value) {
             if ($value->getCodigoUsuarioAsignaFk() == null) {
                 $sinAsignar++;
-            } else if (!$value->isEstadoTerminado()) {
+            } else if (!$value->getEstadoTerminado()) {
                 $sinTerminar++;
-            } else if ($value->isEstadoTerminado() && !$value->isEstadoVerificado()) {
+            } else if ($value->getEstadoTerminado() && !$value->getEstadoVerificado()) {
                 $sinVerificar++;
             }
         }
@@ -277,9 +328,9 @@ class TareaController extends Controller
         $sinTerminar = 0;
         $sinVerificar = 0;
         foreach ($arTarea as $key => $value) {
-            if (!$value->isEstadoTerminado()) {
+            if (!$value->getEstadoTerminado()) {
                 $sinTerminar++;
-            } else if (!$value->isEstadoVerificado()) {
+            } else if (!$value->getEstadoVerificado()) {
                 $sinVerificar++;
             }
         }
@@ -307,7 +358,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaSolucionar')) {
                 $codigoTarea = $request->request->get('TareaSolucionar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->isEstadoTerminado()) {
+                if (!$arTarea->getEstadoTerminado()) {
                     $arTarea->setEstadoTerminado(true);
                     $arTarea->setFechaSolucion(new \DateTime('now'));
                     $em->persist($arTarea);
@@ -322,14 +373,12 @@ class TareaController extends Controller
                         $arCaso->setEstadoTareaTerminada(1);
                         $em->persist($arCaso);
                     }
-
-
                 }
             }
             if ($request->request->has('TareaVerificar')) {
                 $codigoTarea = $request->request->get('TareaVerificar');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                if (!$arTarea->isEstadoVerificado()) {
+                if (!$arTarea->getEstadoVerificado()) {
                     $arTarea->setFechaVerificado(new \DateTime('now'));
                     $arTarea->setEstadoVerificado(true);
                 }
@@ -340,6 +389,13 @@ class TareaController extends Controller
                     $em->persist($arCaso);
                 }
 
+            }
+
+            if ($request->request->has('TareaIncompresible')) {
+                $codigoTarea = $request->request->get('TareaIncompresible');
+                $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+                    $arTarea->setEstadoIncomprensible(true);
+                $em->persist($arTarea);
             }
 
             $em->flush();
@@ -480,5 +536,44 @@ class TareaController extends Controller
 
     }
 
+        private function formularioDetalles($arTarea){
+        $arrBotonEjecucion = array('label' => 'Ejecucion');
+        $arrBotonResuelto = array('label' => 'Resuelto');
+        $arrBotonVerificado = array('label' => 'Verificado','attr' => array('style'=> 'display:none;'));
+        $arrBotonAbrir = array('label' => 'Abrir','attr' => array('style'=> 'display:none;'));
+        if($arTarea->getEstadoEjecucion() == 1){
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+        }
+            if($arTarea->getEstadoTerminado() == 1){
+                $arrBotonResuelto['attr']['style'] = 'display:none;';
+                $arrBotonVerificado['attr']['style'] = '';
+                $arrBotonAbrir['attr']['style'] = '';
+
+            }
+            if($arTarea->getEstadoVerificado() == 1){
+                $arrBotonVerificado['attr']['style'] = 'display:none;';
+                $arrBotonAbrir['attr']['style'] = 'display:block;';
+
+            }
+            if($arTarea->getEstadoIncomprensible() == 1){
+                $arrBotonEjecucion['attr']['style'] = 'display:none;';
+                $arrBotonResuelto['attr']['style'] = 'display:none;';
+                $arrBotonVerificado['attr']['style'] = 'display:none;';
+                $arrBotonAbrir['attr']['style'] = 'display:block;';
+
+            }
+
+
+
+                $form = $this->createFormBuilder()
+                ->add('BtnEjecucion',SubmitType::class,$arrBotonEjecucion)
+                ->add('BtnResuelto',SubmitType::class,$arrBotonResuelto)
+                ->add('BtnVerificado',SubmitType::class,$arrBotonVerificado)
+                    ->add('BtnAbrir',SubmitType::class,$arrBotonAbrir)
+                ->add('comentario',TextareaType::class,array('label'=> 'Comentarios'))
+                ->add('btnGuardar',SubmitType::class,array('label' => 'Guardar'))
+                ->getForm();
+            return $form;
+        }
 
 }

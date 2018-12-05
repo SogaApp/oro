@@ -49,29 +49,30 @@
 
                                             <thead>
                                             <tr>
-                                                <th>Código</th>
+                                                <th>Id</th>
                                                 <th>Registra</th>
                                                 <th>Fecha</th>
                                                 <th>Tipo</th>
-                                                <th>Fecha asignación</th>
+                                                <th>F.asignación</th>
                                                 <th>Asignado</th>
-                                                <th>Fecha solución</th>
-                                                <th>Fecha verificación</th>
+                                                <th>F.solución</th>
+                                                <th>F.verificación</th>
                                                 <th>Descripción</th>
                                                 <th>Caso</th>
                                                 <th>Vcom</th>
                                                 <th>Prioridad</th>
                                                 <th title="Resuelto">Res</th>
                                                 <th title="Verificado">Ver</th>
-                                                <th title="Editar">Edt</th>
-                                                <th title="Comentarios">Com</th>
+                                                <th></th>
+                                                <th></th>
+
                                             </tr>
                                             </thead>
                                             <tbody>
 
                                             {% for tarea in tareas %}
                                                 <tr>
-                                                    <td>{{ tarea.codigoTareaPk }}</td>
+                                                    <td>{{ tarea.codigoTareaPk }} </td>
                                                     <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
 
                                                     <td>{% if tarea.fechaRegistro != null %}
@@ -131,8 +132,8 @@
                                                         {% endif %}
                                                     </span>
                                                     </td>
-
                                                     <td>
+                                                        {% if tarea.estadoIncomprensible == false %}
                                                         {% if tarea.estadoTerminado == false %}
                                                             <button class="btn btn-danger btn-xs" type="submit"
                                                                     name="TareaSolucionar"
@@ -146,7 +147,13 @@
                                                                 <i class="glyphicon glyphicon-thumbs-up"></i>
                                                             </button>
                                                         {% endif %}
-                                                    </td>
+                                            {% else %}
+                                                <button class="btn btn-danger btn-xs" type="submit"
+                                                        name="TareaSolucionar" disabled>
+                                                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                                                </button>
+                                                        {% endif %}
+                                                </td>
                                                     <td>
                                                         {% if tarea.estadoTerminado == false and tarea.estadoVerificado == false %}
                                                             <button class="btn btn-danger btn-xs" type="submit"
@@ -175,9 +182,9 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:abrirVentana('{{ path('registrarComentario', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar comentario',600, 900)"
+                                                        <a href="{{ path('verTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
-                                                                    class="glyphicon glyphicon-pushpin"
+                                                                    class="glyphicon glyphicon-new-window"
                                                                     style="padding: 3px;"></i>
                                                         </a>
                                                     </td>

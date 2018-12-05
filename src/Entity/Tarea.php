@@ -27,44 +27,31 @@ class Tarea
     private $codigoTareaPk;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="codigo_usuario_registra_fk", type="string", length=50)
      */
     private $codigoUsuarioRegistraFk;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\Column(name="codigo_prioridad_fk", type="string", length=50, nullable=true)
 	 */
 	private $codigoPrioridadFk;
 
-
 	/**
-     * @var string
-     *
      * @ORM\Column(name="codigo_tarea_tipo_fk", type="string", length=50, nullable=true)
      */
     private $codigoTareaTipoFk;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="fecha_ejecucion", type="datetime", nullable=true)
      */
     private $fechaEjecucion;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
      */
     private $fechaRegistro;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="fecha_verificado", type="datetime", nullable=true)
      */
     private $fechaVerificado;
@@ -75,67 +62,54 @@ class Tarea
     private $estadoEjecucion = false;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="estado_terminado", type="boolean", nullable=true)
      */
     private $estadoTerminado = false;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="estado_verificado", type="boolean", nullable=true)
      */
     private $estadoVerificado = false;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="codigo_usuario_asigna_fk", type="string", length=50, nullable=true)
      */
     private $codigoUsuarioAsignaFk;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\Column(name="codigo_caso_fk", type="integer", length=50, nullable=true)
 	 */
 	private $codigoCasoFk;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="fecha_gestion", type="datetime", nullable=true)
      */
     private $fechaGestion;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="fecha_solucion", type="datetime", nullable=true)
      */
     private $fechaSolucion;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="descripcion", type="string", length=5000, nullable=true)
      */
     private $descripcion;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="comentario", type="string", length=5000, nullable=true)
      */
     private $comentario;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\Column(name="caso", type="string", length=10, nullable=true)
 	 */
 	private $caso;
+
+    /**
+     * @ORM\Column(name="estado_incomprensible", type="boolean", nullable=true)
+     */
+    private $estadoIncomprensible = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="TareaTipo", inversedBy="tareasTareaTipoRel")
@@ -171,22 +145,21 @@ class Tarea
     /**
      * @return int
      */
-    public function getCodigoTareaPk()
+    public function getCodigoTareaPk(): int
     {
         return $this->codigoTareaPk;
     }
 
     /**
-     * @param int
+     * @param int $codigoTareaPk
      */
-    public function setCodigoTareaPk($codigoTareaPk)
+    public function setCodigoTareaPk(int $codigoTareaPk): void
     {
         $this->codigoTareaPk = $codigoTareaPk;
-	    return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCodigoUsuarioRegistraFk()
     {
@@ -194,16 +167,15 @@ class Tarea
     }
 
     /**
-     * @param string
+     * @param mixed $codigoUsuarioRegistraFk
      */
-    public function setCodigoUsuarioRegistraFk($codigoUsuarioRegistraFk)
+    public function setCodigoUsuarioRegistraFk($codigoUsuarioRegistraFk): void
     {
         $this->codigoUsuarioRegistraFk = $codigoUsuarioRegistraFk;
-	    return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCodigoPrioridadFk()
     {
@@ -211,16 +183,15 @@ class Tarea
     }
 
     /**
-     * @param string $codigoPrioridadFk
+     * @param mixed $codigoPrioridadFk
      */
-    public function setCodigoPrioridadFk($codigoPrioridadFk)
+    public function setCodigoPrioridadFk($codigoPrioridadFk): void
     {
         $this->codigoPrioridadFk = $codigoPrioridadFk;
-	    return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCodigoTareaTipoFk()
     {
@@ -228,16 +199,31 @@ class Tarea
     }
 
     /**
-     * @param string
+     * @param mixed $codigoTareaTipoFk
      */
-    public function setCodigoTareaTipoFk( $codigoTareaTipoFk)
+    public function setCodigoTareaTipoFk($codigoTareaTipoFk): void
     {
         $this->codigoTareaTipoFk = $codigoTareaTipoFk;
-	    return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
+     */
+    public function getFechaEjecucion()
+    {
+        return $this->fechaEjecucion;
+    }
+
+    /**
+     * @param mixed $fechaEjecucion
+     */
+    public function setFechaEjecucion($fechaEjecucion): void
+    {
+        $this->fechaEjecucion = $fechaEjecucion;
+    }
+
+    /**
+     * @return mixed
      */
     public function getFechaRegistro()
     {
@@ -245,16 +231,15 @@ class Tarea
     }
 
     /**
-     * @param \DateTime
+     * @param mixed $fechaRegistro
      */
-    public function setFechaRegistro( $fechaRegistro)
+    public function setFechaRegistro($fechaRegistro): void
     {
         $this->fechaRegistro = $fechaRegistro;
-	    return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
     public function getFechaVerificado()
     {
@@ -262,235 +247,11 @@ class Tarea
     }
 
     /**
-     * @param \DateTime
-     *
+     * @param mixed $fechaVerificado
      */
-    public function setFechaVerificado($fechaVerificado)
+    public function setFechaVerificado($fechaVerificado): void
     {
         $this->fechaVerificado = $fechaVerificado;
-	    return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEstadoTerminado()
-    {
-        return $this->estadoTerminado;
-    }
-
-    /**
-     * @param bool
-     */
-    public function setEstadoTerminado($estadoTerminado)
-    {
-        $this->estadoTerminado = $estadoTerminado;
-	    return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEstadoVerificado()
-    {
-        return $this->estadoVerificado;
-    }
-
-    /**
-     * @param bool
-     */
-    public function setEstadoVerificado($estadoVerificado)
-    {
-        $this->estadoVerificado = $estadoVerificado;
-	    return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCodigoUsuarioAsignaFk()
-    {
-        return $this->codigoUsuarioAsignaFk;
-    }
-
-    /**
-     * @param string
-     */
-    public function setCodigoUsuarioAsignaFk($codigoUsuarioAsignaFk)
-    {
-        $this->codigoUsuarioAsignaFk = $codigoUsuarioAsignaFk;
-	    return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCodigoCasoFk()
-    {
-        return $this->codigoCasoFk;
-    }
-
-    /**
-     * @param string
-     */
-    public function setCodigoCasoFk($codigoCasoFk)
-    {
-        $this->codigoCasoFk = $codigoCasoFk;
-	    return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getFechaGestion()
-    {
-        return $this->fechaGestion;
-    }
-
-    /**
-     * @param \DateTime
-     */
-    public function setFechaGestion($fechaGestion)
-    {
-        $this->fechaGestion = $fechaGestion;
-	    return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getFechaSolucion()
-    {
-        return $this->fechaSolucion;
-    }
-
-    /**
-     * @param \DateTime $fechaSolucion
-     */
-    public function setFechaSolucion($fechaSolucion)
-    {
-        $this->fechaSolucion = $fechaSolucion;
-	    return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-
-    }
-
-    /**
-     * @param string
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-	    return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComentario()
-    {
-        return $this->comentario;
-    }
-
-    /**
-     * @param string
-     */
-    public function setComentario($comentario)
-    {
-        $this->comentario = $comentario;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCaso()
-    {
-        return $this->caso;
-
-    }
-
-    /**
-     * @param string
-     */
-    public function setCaso( $caso)
-    {
-        $this->caso = $caso;
-	    return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTareaTipoRel()
-    {
-        return $this->tareaTipoRel;
-    }
-
-    /**
-     * @param mixed
-     */
-    public function setTareaTipoRel($tareaTipoRel)
-    {
-        $this->tareaTipoRel = $tareaTipoRel;
-	    return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrioridadRel()
-    {
-        return $this->prioridadRel;
-    }
-
-    /**
-     * @param mixed
-     */
-    public function setPrioridadRel($prioridadRel)
-    {
-        $this->prioridadRel = $prioridadRel;
-	    return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCasoRel()
-    {
-        return $this->casoRel;
-    }
-
-    /**
-     * @param mixed
-     */
-    public function setCasoRel($casoRel)
-    {
-        $this->casoRel = $casoRel;
-	    return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTareasComentarioRel()
-    {
-        return $this->tareasComentarioRel;
-    }
-
-    /**
-     * @param mixed
-     */
-    public function setTareasComentarioRel($tareasComentarioRel)
-    {
-        $this->tareasComentarioRel = $tareasComentarioRel;
-        return $this;
     }
 
     /**
@@ -510,19 +271,227 @@ class Tarea
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getFechaEjecucion(): \DateTime
+    public function getEstadoTerminado()
     {
-        return $this->fechaEjecucion;
+        return $this->estadoTerminado;
     }
 
     /**
-     * @param \DateTime $fechaEjecucion
+     * @param mixed $estadoTerminado
      */
-    public function setFechaEjecucion(\DateTime $fechaEjecucion): void
+    public function setEstadoTerminado($estadoTerminado): void
     {
-        $this->fechaEjecucion = $fechaEjecucion;
+        $this->estadoTerminado = $estadoTerminado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoVerificado()
+    {
+        return $this->estadoVerificado;
+    }
+
+    /**
+     * @param mixed $estadoVerificado
+     */
+    public function setEstadoVerificado($estadoVerificado): void
+    {
+        $this->estadoVerificado = $estadoVerificado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoUsuarioAsignaFk()
+    {
+        return $this->codigoUsuarioAsignaFk;
+    }
+
+    /**
+     * @param mixed $codigoUsuarioAsignaFk
+     */
+    public function setCodigoUsuarioAsignaFk($codigoUsuarioAsignaFk): void
+    {
+        $this->codigoUsuarioAsignaFk = $codigoUsuarioAsignaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCasoFk()
+    {
+        return $this->codigoCasoFk;
+    }
+
+    /**
+     * @param mixed $codigoCasoFk
+     */
+    public function setCodigoCasoFk($codigoCasoFk): void
+    {
+        $this->codigoCasoFk = $codigoCasoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaGestion()
+    {
+        return $this->fechaGestion;
+    }
+
+    /**
+     * @param mixed $fechaGestion
+     */
+    public function setFechaGestion($fechaGestion): void
+    {
+        $this->fechaGestion = $fechaGestion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaSolucion()
+    {
+        return $this->fechaSolucion;
+    }
+
+    /**
+     * @param mixed $fechaSolucion
+     */
+    public function setFechaSolucion($fechaSolucion): void
+    {
+        $this->fechaSolucion = $fechaSolucion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * @param mixed $descripcion
+     */
+    public function setDescripcion($descripcion): void
+    {
+        $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * @param mixed $comentario
+     */
+    public function setComentario($comentario): void
+    {
+        $this->comentario = $comentario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaso()
+    {
+        return $this->caso;
+    }
+
+    /**
+     * @param mixed $caso
+     */
+    public function setCaso($caso): void
+    {
+        $this->caso = $caso;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoIncomprensible()
+    {
+        return $this->estadoIncomprensible;
+    }
+
+    /**
+     * @param mixed $estadoIncomprensible
+     */
+    public function setEstadoIncomprensible($estadoIncomprensible): void
+    {
+        $this->estadoIncomprensible = $estadoIncomprensible;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTareaTipoRel()
+    {
+        return $this->tareaTipoRel;
+    }
+
+    /**
+     * @param mixed $tareaTipoRel
+     */
+    public function setTareaTipoRel($tareaTipoRel): void
+    {
+        $this->tareaTipoRel = $tareaTipoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrioridadRel()
+    {
+        return $this->prioridadRel;
+    }
+
+    /**
+     * @param mixed $prioridadRel
+     */
+    public function setPrioridadRel($prioridadRel): void
+    {
+        $this->prioridadRel = $prioridadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCasoRel()
+    {
+        return $this->casoRel;
+    }
+
+    /**
+     * @param mixed $casoRel
+     */
+    public function setCasoRel($casoRel): void
+    {
+        $this->casoRel = $casoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTareasComentarioRel()
+    {
+        return $this->tareasComentarioRel;
+    }
+
+    /**
+     * @param mixed $tareasComentarioRel
+     */
+    public function setTareasComentarioRel($tareasComentarioRel): void
+    {
+        $this->tareasComentarioRel = $tareasComentarioRel;
     }
 
     /**
@@ -540,6 +509,5 @@ class Tarea
     {
         $this->usuariosTareaRel = $usuariosTareaRel;
     }
-
 
    }

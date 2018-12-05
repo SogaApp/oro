@@ -1,61 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% block bodyAtt %}class="fixed-left"{% endblock %}
-
 {% block body %}
-
     <div id="wrapper">
-        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+    {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
-        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+    {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+            <div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+    <div class="container">
+    {% block content %}
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        {{ form_errors(form) }}
 
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
-                    {% block content %}
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="page-title-box">
-                                    <h4 class="page-title"><i class="mdi mdi-desktop-tower"></i>Ver tarea</h4>
-                                    <div class="clearfix"></div>
-                                </div>
+        <div class="row">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="panel panel-color panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Detalles Tarea: <span
+                                class="label label-default">#{{ tarea.codigoTareaPk }} </span></h3><br>
+                    <div class="row">
+                        <div style="float: left">
+                            {{ form_widget(form.BtnEjecucion, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnResuelto, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnVerificado, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnAbrir, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+
+
+
+
+
+                        </div>
+
+                        <div style="float: right">
+                                {% if tarea.estadoEjecucion == 1  %}
+                                    <span class="label label-info">Ejecucion</span>
+                                {% endif %}
+                                {% if tarea.estadoTerminado == 1 %}
+                                    <span class="label label-success">Finalizado</span>
+                                {% endif %}
+                            {% if tarea.estadoVerificado == 1 %}
+                                <span class="label label-success">Verificado</span>
+                            {% endif %}
+                            {% if tarea.estadoIncomprensible == 1 %}
+                                <span class="label label-danger">Incomprensible</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <h4>Informacion tarea:</h4>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">Tipo:</label>
+                                <p>{{ tarea.tareaTipoRel.nombre }}</p><br>
+                                <label for="field-3" class="control-label">prioridad:</label>
+                                <p>{{ tarea.prioridadRel.nombre }}</p><br>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>Datos de la tarea</b></h4>
-                                    {#<h5>Fecha: {{ fecha|date('d/m/Y - H:i:s') }}</h5>#}
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-2">Tipo: </div>
-                                                <div class="col-md-2">{{ tarea.tareaTipoRel.nombre }}</div>
-                                                <div class="col-md-2">Asignado: </div>
-                                                <div class="col-md-2">{{ tarea.codigoUsuarioAsignaFk }} </div>
-                                                <div class="col-md-2">Prioridad: </div>
-                                                <div class="col-md-2">{% if tarea.prioridadRel.nombre is defined %}{{ tarea.prioridadRel.nombre }}{% endif %} </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">Descripción: </div>
-                                        <div class="col-md-12">{{ tarea.descripcion}} </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">Comentarios: </div>
-                                        <div class="col-md-12">{{ tarea.comentario}} </div>
-                                    </div>
-
-                                </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="field-3" class="control-label">Usuario registra:</label>
+                                <p>{{ tarea.codigoUsuarioRegistraFk }}</p><br>
+                                <label for="field-3" class="control-label">Fecha registro:</label>
+                                <p>
+                                        {{ tarea.fechaRegistro|date('d/m/Y') }}
+                                </p>
                             </div>
                         </div>
-                    {% endblock content %}
-                </div> <!-- container -->
-            </div> <!-- content -->
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="field-3" class="control-label">Usuario asigna:</label>
+                                <p>
+                                    {% if tarea.codigoUsuarioAsignaFk != null %}
+
+                                    {{ tarea.codigoUsuarioAsignaFk }}
+
+                                    {% endif %}
+
+                                </p><br>
+                                <label for="field-3" class="control-label">Fecha gestion:</label>
+                                <p>
+                                    {% if tarea.fechaGestion != null %}
+
+                                    {{ tarea.fechaGestion|date('d/m/Y') }}
+
+                                    {% endif %}
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="field-3" class="control-label">Fecha ejecucion:</label>
+                                <p>
+                                    {% if tarea.fechaEjecucion != null %}
+
+                                    {{ tarea.fechaEjecucion|date('d/m/Y') }}
+
+                                    {% endif %}
+
+                                </p><br>
+                                <label for="field-3" class="control-label">Fecha solucion:</label>
+                                <p>
+                                    {% if tarea.fechaSolucion != null %}
+
+                                    {{ tarea.fechaSolucion|date('d/m/Y') }}
+                                    {% endif %}
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="field-3" class="control-label">Fecha verificacion:</label>
+                                <p>
+                                    {% if tarea.fechaVerificado != null %}
+
+                                    {{ tarea.fechaVerificado|date('d/m/Y') }}
+
+                                    {% endif %}
+                                </p><br>
+                                <label for="field-3" class="control-label">Caso:</label>
+                                <p>
+                                    {% if tarea.codigoCasoFk != null %}
+
+                                        <a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>
+
+                                    {% endif %}
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h4>Comentarios :</h4>
+                        {{ form_widget(form.comentario) }}
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-default btn-sm" href="{{ path('listaTareaGeneral') }}"
+                       style="float:left">VOLVER</a>
+                    <div style="float: right ">
+                    {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                </div>
         </div>
-        {{ include('bloquesGenerales/pie.html.twig') }}
     </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    {% endblock %}
 {% endblock %}
