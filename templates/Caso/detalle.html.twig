@@ -3,14 +3,10 @@
 {% block bodyAtt %}class="fixed-left"{% endblock %}
 
 {% block body %}
-    <div id="wrapper">
     {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
     {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-    <div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-    <div class="container">
+
     {% block content %}
         <div class="row">
             <div class="col-md-12" style="padding: 20px;">
@@ -279,11 +275,6 @@
                                 </div>
                             </div>
                             </div>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-        </div>
         {{ include('bloquesGenerales/pie.html.twig') }}
     {% endblock %}
 {% endblock %}

@@ -2,14 +2,10 @@
 {% block body %}
 
 
-    <div id="wrapper">
         {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
+
                     {% block content %}
                         <div class="row">
                             <div class="col-xs-12">
@@ -59,8 +55,8 @@
                                                 <th>F.verificación</th>
                                                 <th>Descripción</th>
                                                 <th>Caso</th>
-                                                <th>Vcom</th>
                                                 <th>Prioridad</th>
+                                                <th>Tiempo</th>
                                                 <th title="Resuelto">Res</th>
                                                 <th title="Verificado">Ver</th>
                                                 <th></th>
@@ -108,19 +104,9 @@
                                                     <td>{{ tarea.descripcion }}</td>
                                                     <td>{% if tarea.casoRel.codigoCasoPk is defined %}<a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>{% endif %}</td>
 
-                                                    {% set isComentarios = 'none' %}
-                                                    <td>{% for comentariosTarea in tarea.tareasComentarioRel %}
-                                                            {% if comentariosTarea.codigoComentarioPk != null %}
-                                                                {% set isComentarios = 'block' %}
 
-                                                            {% endif %}
-
-                                                                  {#{{ comentariosTarea.codigoComentarioPk }}#}
-
-                                                        {% endfor %}
                                                         {#{{  dump(tarea) }}#}
 
-                                                        <a style='display:{{ isComentarios }};' href="javascript:abrirVentana('{{ path('verComentariosTarea', { 'codigoTareaPk':   tarea.codigoTareaPk}) }}','Ver comentarios',600, 900)" class="btn btn-purple waves-effect waves-light btn-xs"><i class="glyphicon glyphicon-eye-open" style="padding: 3px;"></i></a>
 
                                                     </td>
                                                     <td>
@@ -132,6 +118,10 @@
                                                         {% endif %}
                                                     </span>
                                                     </td>
+                                                    {% set tiempo = calcularTiempo(tarea.codigoTareaPk) %}
+                                                    <td>{{ tiempo }} mins</td>
+
+
                                                     <td>
                                                         {% if tarea.estadoIncomprensible == false %}
                                                         {% if tarea.estadoTerminado == false %}
@@ -200,16 +190,13 @@
                             <!-- end col -->
                         </div>
                         {{ form_end(form) }}
+                        <div class="btn-group" style="float: left">
+                            <div class="btn btn-default ">Registros <span
+                                        class="badge">{{ tareas.getTotalItemCount }}</span></div>
+                            <div class="btn-group"
+                                 style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
+                        </div>
                     {% endblock content %}
-                    <div class="btn-group" style="float: left">
-                        <div class="btn btn-default ">Registros <span
-                                    class="badge">{{ tareas.getTotalItemCount }}</span></div>
-                        <div class="btn-group"
-                             style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
-                    </div>
-                </div> <!-- container -->
-            </div> <!-- content -->
-        </div>
+
         {{ include('bloquesGenerales/pie.html.twig') }}
-    </div>
 {% endblock %}

@@ -112,6 +112,22 @@ class Tarea
     private $estadoIncomprensible = false;
 
     /**
+     * @ORM\Column(name="estado_pausa", type="boolean", nullable=true)
+     */
+    private $estadoPausa = false;
+
+    /**
+     * @ORM\Column(name="codigo_tarea_tiempo_fk", type="integer", nullable=true)
+     */
+    private $codigoTareaTiempoFk;
+
+    /**
+     * @ORM\Column(name="numero_devoluciones", type="integer", nullable=true)
+     */
+    private $numeroDevoluciones = 0;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="TareaTipo", inversedBy="tareasTareaTipoRel")
      * @ORM\JoinColumn(name="codigo_tarea_tipo_fk", referencedColumnName="codigo_tarea_tipo_pk")
      */
@@ -130,17 +146,16 @@ class Tarea
 	 */
 	private $casoRel;
 
-	/**
-	 *
-	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="tareaRel")
-	 */
-	private $tareasComentarioRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="TareaTiempo", inversedBy="tareasTareaTiempoRel")
+     * @ORM\JoinColumn(name="codigo_tarea_tiempo_fk", referencedColumnName="codigo_tarea_tiempo_pk")
+     */
+    private $tareaTiempoRel;
 
     /**
-     *
-     * @ORM\OneToMany(targetEntity="Usuario", mappedBy="tareaRel")
+     * @ORM\OneToMany(targetEntity="Devolucion", mappedBy="devolucionRel")
      */
-    private $usuariosTareaRel;
+    private $tareasDevolucionRel;
 
     /**
      * @return int
@@ -433,6 +448,54 @@ class Tarea
     /**
      * @return mixed
      */
+    public function getEstadoPausa()
+    {
+        return $this->estadoPausa;
+    }
+
+    /**
+     * @param mixed $estadoPausa
+     */
+    public function setEstadoPausa($estadoPausa): void
+    {
+        $this->estadoPausa = $estadoPausa;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTareaTiempoFk()
+    {
+        return $this->codigoTareaTiempoFk;
+    }
+
+    /**
+     * @param mixed $codigoTareaTiempoFk
+     */
+    public function setCodigoTareaTiempoFk($codigoTareaTiempoFk): void
+    {
+        $this->codigoTareaTiempoFk = $codigoTareaTiempoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroDevoluciones()
+    {
+        return $this->numeroDevoluciones;
+    }
+
+    /**
+     * @param mixed $numeroDevoluciones
+     */
+    public function setNumeroDevoluciones($numeroDevoluciones): void
+    {
+        $this->numeroDevoluciones = $numeroDevoluciones;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTareaTipoRel()
     {
         return $this->tareaTipoRel;
@@ -481,33 +544,33 @@ class Tarea
     /**
      * @return mixed
      */
-    public function getTareasComentarioRel()
+    public function getTareaTiempoRel()
     {
-        return $this->tareasComentarioRel;
+        return $this->tareaTiempoRel;
     }
 
     /**
-     * @param mixed $tareasComentarioRel
+     * @param mixed $tareaTiempoRel
      */
-    public function setTareasComentarioRel($tareasComentarioRel): void
+    public function setTareaTiempoRel($tareaTiempoRel): void
     {
-        $this->tareasComentarioRel = $tareasComentarioRel;
+        $this->tareaTiempoRel = $tareaTiempoRel;
     }
 
     /**
      * @return mixed
      */
-    public function getUsuariosTareaRel()
+    public function getTareasDevolucionRel()
     {
-        return $this->usuariosTareaRel;
+        return $this->tareasDevolucionRel;
     }
 
     /**
-     * @param mixed $usuariosTareaRel
+     * @param mixed $tareasDevolucionRel
      */
-    public function setUsuariosTareaRel($usuariosTareaRel): void
+    public function setTareasDevolucionRel($tareasDevolucionRel): void
     {
-        $this->usuariosTareaRel = $usuariosTareaRel;
+        $this->tareasDevolucionRel = $tareasDevolucionRel;
     }
 
    }

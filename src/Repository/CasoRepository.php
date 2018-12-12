@@ -59,7 +59,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $dql .= " AND d.estadoSolucionado = true ";
-        $dql .= " ORDER BY d.fechaRegistro ASC";
+        $dql .= " ORDER BY d.fechaRegistro DESC";
 
         return $dql;
     }

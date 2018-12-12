@@ -5,14 +5,10 @@
 {% block body %}
 
 
-    <div id="wrapper">
         {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
+
                     {% block content %}
                         <div class="row">
                             <div class="col-xs-12">
@@ -111,9 +107,5 @@
                         <div class="btn-group"
                              style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>
                     </div>
-                </div> <!-- container -->
-            </div> <!-- content -->
-        </div>
         {{ include('bloquesGenerales/pie.html.twig') }}
-    </div>
 {% endblock %}

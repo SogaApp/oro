@@ -4,14 +4,9 @@
 
 {% block body %}
 
-    <div id="wrapper">
         {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
                     {% block content %}
                         {{ form_start(form) }}
                         <div class="row">
@@ -144,10 +139,6 @@
                             </div>
                         </div>
                         {{ form_end(form) }}
-                    {% endblock content %}
-                </div> <!-- container -->
-            </div> <!-- content -->
-        </div>
+                    {% endblock content %}>
         {{ include('bloquesGenerales/pie.html.twig') }}
-    </div>
 {% endblock %}

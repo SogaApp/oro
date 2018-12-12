@@ -1,46 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div id="wrapper">
     {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
     {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+    {{ form_errors(form) }}
 
-    {% block content %}
-        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
-        {{ form_errors(form) }}
-
-        <div class="row">
+    <div class="row">
         <div class="col-md-12" style="padding: 20px;">
-            <div class="panel panel-color panel-primary">
+            <div class="panel panel-border panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Detalles Tarea: <span
-                                class="label label-default">#{{ tarea.codigoTareaPk }} </span></h3><br>
+                                class="label label-primary">#{{ tarea.codigoTareaPk }} </span></h3><br>
                     <div class="row">
                         <div style="float: left">
                             {{ form_widget(form.BtnEjecucion, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnIncomprendido, { 'attr': {'class': 'btn btn-orange btn-sm'} }) }}
+
+                            {{ form_widget(form.BtnPausar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
+                            {{ form_widget(form.BtnReanudar, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+
+
                             {{ form_widget(form.BtnResuelto, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                            {{ form_widget(form.BtnVerificado, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                            {% if tarea.estadoTerminado == 1 %}
-                                <a href="javascript:abrirVentana('{{ path('tareaDevolucion',{ 'codigoTarea':  tarea.codigoTareaPk }) }}', 'Devolucion tareas', 600, 900)" class="btn btn-orange btn-sm">Devolucion</a>
-                            {% endif %}
-
-
-
 
                         </div>
 
                         <div style="float: right">
-                                {% if tarea.estadoEjecucion == 1  %}
-                                    <span class="label label-info">Ejecucion</span>
-                                {% endif %}
-                                {% if tarea.estadoTerminado == 1 %}
-                                    <span class="label label-success">Finalizado</span>
-                                {% endif %}
-                            {% if tarea.estadoVerificado == 1 %}
-                                <span class="label label-success">Verificado</span>
+                            {% if tarea.estadoEjecucion == 1  %}
+                                <span class="label label-info">Ejecucion</span>
+                            {% endif %}
+                            {% if tarea.estadoPausa == 1  %}
+                                <span class="label label-danger">Pausado</span>
                             {% endif %}
                             {% if tarea.estadoIncomprensible == 1 %}
-                                <span class="label label-danger">Incomprensible</span>
+                                <span class="label label-orange">Incomprensible</span>
+                            {% endif %}
+                            {% if tarea.estadoTerminado == 1 %}
+                                <span class="label label-info">Resuelto</span>
                             {% endif %}
                         </div>
 
@@ -63,7 +62,7 @@
                                 <p>{{ tarea.codigoUsuarioRegistraFk }}</p><br>
                                 <label for="field-3" class="control-label">Fecha registro:</label>
                                 <p>
-                                        {{ tarea.fechaRegistro|date('d/m/Y') }}
+                                    {{ tarea.fechaRegistro|date('d/m/Y') }}
                                 </p>
                             </div>
                         </div>
@@ -73,7 +72,7 @@
                                 <p>
                                     {% if tarea.codigoUsuarioAsignaFk != null %}
 
-                                    {{ tarea.codigoUsuarioAsignaFk }}
+                                        {{ tarea.codigoUsuarioAsignaFk }}
 
                                     {% endif %}
 
@@ -82,7 +81,7 @@
                                 <p>
                                     {% if tarea.fechaGestion != null %}
 
-                                    {{ tarea.fechaGestion|date('d/m/Y') }}
+                                        {{ tarea.fechaGestion|date('d/m/Y') }}
 
                                     {% endif %}
 
@@ -95,7 +94,7 @@
                                 <p>
                                     {% if tarea.fechaEjecucion != null %}
 
-                                    {{ tarea.fechaEjecucion|date('d/m/Y') }}
+                                        {{ tarea.fechaEjecucion|date('d/m/Y') }}
 
                                     {% endif %}
 
@@ -104,7 +103,7 @@
                                 <p>
                                     {% if tarea.fechaSolucion != null %}
 
-                                    {{ tarea.fechaSolucion|date('d/m/Y') }}
+                                        {{ tarea.fechaSolucion|date('d/m/Y') }}
                                     {% endif %}
 
                                 </p>
@@ -116,7 +115,7 @@
                                 <p>
                                     {% if tarea.fechaVerificado != null %}
 
-                                    {{ tarea.fechaVerificado|date('d/m/Y') }}
+                                        {{ tarea.fechaVerificado|date('d/m/Y') }}
 
                                     {% endif %}
                                 </p><br>
@@ -139,8 +138,10 @@
                     </div>
                     <hr>
                     <div class="row">
+                        <div class="col-md-12">
                         <h4>Comentarios :</h4>
                         {{ form_widget(form.comentario) }}
+                        </div>
                     </div>
                     <hr>
                     <div class="row">
@@ -156,7 +157,6 @@
                                             <th>Id</th>
                                             <th>Fecha</th>
                                             <th>Comentarios</th>
-
 
                                         </tr>
                                         </thead>
@@ -189,7 +189,6 @@
                                             <th>Fecha/Hora fin</th>
                                             <th>Minutos</th>
 
-
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -200,6 +199,7 @@
                                                 <td>{{ arTareaTiempos.fechaHoraInicio | date("Y/m/d H:i") }}</td>
                                                 <td>{{ arTareaTiempos.fechaHoraFin | date("Y/m/d H:i") }}</td>
                                                 <td style="text-align: center">{{ arTareaTiempos.minutos != null ? arTareaTiempos.minutos:"0" }}</td>
+
                                             </tr>
                                         {% endfor %}
 
@@ -212,17 +212,22 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <a class="btn btn-default btn-sm" href="{{ path('listaTareaGeneral') }}"
+                    <a class="btn btn-default btn-sm" href="{{ path('listaTareaUsuario') }}"
                        style="float:left">VOLVER</a>
                     <div style="float: right ">
-                    {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                        {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
                     </div>
                     <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
 
-        {{ form_rest(form) }}
-        {{ form_end(form) }}
 
 
-        {{ include('bloquesGenerales/pie.html.twig') }}
-    {% endblock %}
+
+    {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}
 {% endblock %}

@@ -32,16 +32,16 @@
         {% endblock %}
     </head>
     <body {% block bodyAtt %}{% endblock %} >
-
-
+    <div id="wrapper">
         {% block body %}
+
 
             {% block content %}
 
             {% endblock %}
 
         {% endblock %}
-
+    </div>
 
         {% block javascriptsBottom %}
             <script>

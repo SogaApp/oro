@@ -4,13 +4,9 @@
 
 {% block body %}
 
-    <div id="wrapper">
         {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
+
                     {% block content %}
                         <table  class="table table-striped table-bordered table-condensed table-hover">
                             <tr>
@@ -59,9 +55,5 @@
                             </tr>
                         </table>
                     {% endblock content %}
-                </div> <!-- container -->
-            </div> <!-- content -->
-        </div>
         {{ include('bloquesGenerales/pie.html.twig') }}
-    </div>
 {% endblock %}

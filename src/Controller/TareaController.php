@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Caso;
 use App\Entity\Comentario;
+use App\Entity\Devolucion;
 use App\Forms\Type\FormTypeTarea;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -66,7 +67,7 @@ class TareaController extends Controller
             $em->flush();
             if ($codigoTarea) {
                 echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
-            }else{
+            } else {
                 return $this->redirect($this->generateUrl('listaTareaGeneral'));
             }
         }
@@ -92,21 +93,23 @@ class TareaController extends Controller
          **/
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $form = $this->formularioDetalles($arTarea);
+        $arDevoluciones = $em->getRepository("App:Devolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoDevolucionPk' => 'DESC'));
+        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
+        $form = $this->formularioVer($arTarea);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form->get('btnGuardar')->isClicked()){
+            if ($form->get('btnGuardar')->isClicked()) {
                 $arTarea->setComentario($form->get('comentario')->getData());
                 $em->persist($arTarea);
 
             }
-            if($form->get('BtnEjecucion')->isClicked()){
+            if ($form->get('BtnEjecucion')->isClicked()) {
                 $arTarea->setEstadoEjecucion(1);
                 $arTarea->setFechaEjecucion(new \DateTime('now'));
                 $em->persist($arTarea);
 
             }
-            if($form->get('BtnResuelto')->isClicked()) {
+            if ($form->get('BtnResuelto')->isClicked()) {
                 $arTarea->setEstadoTerminado(1);
                 $arTarea->setFechaSolucion(new \DateTime('now'));
                 $em->persist($arTarea);
@@ -116,7 +119,7 @@ class TareaController extends Controller
                     $em->persist($arCaso);
                 }
             }
-            if($form->get('BtnVerificado')->isClicked()) {
+            if ($form->get('BtnVerificado')->isClicked()) {
                 $arTarea->setEstadoVerificado(1);
                 $arTarea->setFechaVerificado(new \DateTime('now'));
                 $em->persist($arTarea);
@@ -127,31 +130,16 @@ class TareaController extends Controller
                 }
 
             }
-            if($form->get('BtnAbrir')->isClicked()) {
-                $arTarea->setEstadoEjecucion(0);
-                $arTarea->setEstadoTerminado(0);
-                $arTarea->setEstadoVerificado(0);
-                $arTarea->setEstadoIncomprensible(0);
-                $arTarea->setFechaEjecucion(null);
-                $arTarea->setFechaSolucion(null);
-                $arTarea->setFechaVerificado(null);
-                $em->persist($arTarea);
-
-                if ($arTarea->getCodigoCasoFk()) {
-                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
-                    $arCaso->setEstadoTareaTerminada(0);
-                    $arCaso->setEstadoTareaRevisada(0);
-                    $em->persist($arCaso);
-                }
-                }
             $em->flush();
             return $this->redirect($this->generateUrl('verTarea', array('codigoTarea' => $codigoTarea)));
 
         }
-            return $this->render('Tarea/verTarea.html.twig',
+        return $this->render('Tarea/verTarea.html.twig',
 
             array(
                 'tarea' => $arTarea,
+                'arDevoluciones' => $arDevoluciones,
+                'arTareaTiempos' => $arTareaTiempos,
                 'form' => $form->createView()
             )
         );
@@ -396,7 +384,7 @@ class TareaController extends Controller
             if ($request->request->has('TareaIncompresible')) {
                 $codigoTarea = $request->request->get('TareaIncompresible');
                 $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-                    $arTarea->setEstadoIncomprensible(true);
+                $arTarea->setEstadoIncomprensible(true);
                 $em->persist($arTarea);
             }
 
@@ -428,7 +416,7 @@ class TareaController extends Controller
         $arComentario = new Comentario();
         $form = $this->createFormBuilder()
             ->add('comentario', TextareaType::class)
-            ->add('btnGuardar', SubmitType::class, ['label'=>'Guardar'])
+            ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar'])
             ->getForm();
 
         $form->handleRequest($request);
@@ -474,7 +462,7 @@ class TareaController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $arTarea = $em->getRepository('App:Tarea')->findBy(array('estadoVerificado' => true), array('fechaRegistro' => 'DESC'));
-        $arrTareas = $paginator->paginate($arTarea, $request->query->get('page', 1),20);
+        $arrTareas = $paginator->paginate($arTarea, $request->query->get('page', 1), 20);
 
 
         // en index pagina con datos generales de la app
@@ -483,6 +471,142 @@ class TareaController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/tarea/detalle/{codigoTarea}", name="tareaDetalle")
+     */
+    public function detalleAction(Request $request, $codigoTarea, \Swift_Mailer $mailer)
+    {
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+        $arDevoluciones = $em->getRepository("App:Devolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoDevolucionPk' => 'DESC'));
+        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
+        $form = $this->formularioDetalles($arTarea);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get("BtnEjecucion")->isClicked()) {
+                $arTarea->setEstadoEjecucion(1);
+                $arTarea->setFechaEjecucion(new \DateTime('now'));
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea,$this->getUser()->getCodigoUsuarioPk());
+                $arTarea->setCodigoTareaTiempoFk($codigoTareaTiempo);
+                $em->persist($arTarea);
+            }
+            if($form->get("BtnResuelto")->isClicked()) {
+                $arTarea->setEstadoTerminado(1);
+                $arTarea->setFechaSolucion(new \DateTime('now'));
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
+                $em->persist($arTarea);
+                $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioRegistraFk());
+                $correo = $usuario->getCorreo();
+                if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
+                    $message = (new \Swift_Message('Solucion de tarea - AppSoga'.' - '.$arTarea->getCodigoTareaPk()))
+                        ->setFrom('sogainformacion@gmail.com')
+                        ->setTo($correo)
+                        ->setBody(
+                            $this->renderView(
+                                'Correo/Tarea/notificacionSolucion.html.twig',
+                                array('arTarea' => $arTarea)
+                            ),
+                            'text/html'
+                        );
+                    $mailer->send($message);
+
+                }
+                $em->flush();
+                return $this->redirect($this->generateUrl('listaTareaUsuario'));
+            }
+            if($form->get("BtnIncomprendido")->isClicked()) {
+                $arTarea->setEstadoIncomprensible(1);
+                $em->persist($arTarea);
+            }
+            if($form->get("BtnPausar")->isClicked()) {
+                $arTarea->setEstadoPausa(1);
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
+                $em->persist($arTarea);
+            }
+            if($form->get("BtnReanudar")->isClicked()) {
+                $arTarea->setEstadoPausa(0);
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea,$this->getUser()->getCodigoUsuarioPk());
+                $arTarea->setCodigoTareaTiempoFk($codigoTareaTiempo);
+                $em->persist($arTarea);
+            }
+            $em->flush();
+            return $this->redirect($this->generateUrl('tareaDetalle', array('codigoTarea' => $codigoTarea)));
+        }
+
+            return $this->render('Tarea/detalle.html.twig', [
+            'tarea' => $arTarea,
+            'arDevoluciones' => $arDevoluciones,
+            'arTareaTiempos' => $arTareaTiempos,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/tarea/devolucion/{codigoTarea}", name="tareaDevolucion")
+     */
+    public function devolucionTarea(Request $request, $codigoTarea, \Swift_Mailer $mailer){
+        $em = $this->getDoctrine()->getManager();
+        $devolucion = new Devolucion();
+        $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
+        $form = $this->createFormBuilder()
+            ->add('comentario', TextareaType::class)
+            ->add('BtnGuardar', SubmitType::class, ['label' => 'Guardar'])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get("BtnGuardar")->isClicked()){
+                $devolucion->setFecha(new \DateTime('now'));
+                $devolucion->setComentarios($form->get("comentario")->getData());
+                $devolucion->setDevolucionRel($arTarea);
+                $arTarea->setEstadoTerminado(0);
+                $arTarea->setEstadoEjecucion(0);
+                $arTarea->setFechaEjecucion(null);
+                $arTarea->setFechaSolucion(null);
+                $arTarea->setFechaVerificado(null);
+                if ($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    $arCaso->setEstadoTareaTerminada(0);
+                    $arCaso->setEstadoTareaRevisada(0);
+                    $em->persist($arCaso);
+                }
+                if($arTarea->getNumeroDevoluciones() != null){
+                    $count = $arTarea->getNumeroDevoluciones() + 1;
+                    $arTarea->setNumeroDevoluciones($count);
+                }else{
+                    $arTarea->setNumeroDevoluciones(1);
+                }
+                $em->persist($devolucion);
+                $em->persist($arTarea);
+                $em->flush();
+                $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioAsignaFk());
+                $correo = $usuario->getCorreo();
+                if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
+                    $message = (new \Swift_Message('Devolucion de tarea - AppSoga'.' - '.$arTarea->getCodigoTareaPk()))
+                        ->setFrom('sogainformacion@gmail.com')
+                        ->setTo($correo)
+                        ->setBody(
+                            $this->renderView(
+                                'Correo/Tarea/notificacionDevolucion.html.twig',
+                                array('arTarea' => $arTarea,
+                                    'devolucion' => $devolucion)
+                            ),
+                            'text/html'
+                        );
+                    $mailer->send($message);
+
+                }
+                echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }
+        }
+
+        return $this->render('Tarea/devolucion.html.twig',array(
+            "arTarea" => $arTarea,
+            "form" => $form->createView()
+        ));
+
+    }
 
     private function formularioFiltro()
     {
@@ -538,41 +662,78 @@ class TareaController extends Controller
 
     }
 
-        private function formularioDetalles($arTarea){
-        $arrBotonEjecucion = array('label' => 'Ejecucion');
+    private function formularioVer($arTarea)
+    {
+        $arrBotonEjecucion = array('label' => 'Ejecucion','disabled'=> true);
         $arrBotonResuelto = array('label' => 'Resuelto');
-        $arrBotonVerificado = array('label' => 'Verificado','attr' => array('style'=> 'display:none;'));
-        $arrBotonAbrir = array('label' => 'Abrir','attr' => array('style'=> 'display:none;'));
-        if($arTarea->getEstadoEjecucion() == 1){
+        $arrBotonVerificado = array('label' => 'Verificado', 'attr' => array('style' => 'display:none;'));
+        if ($arTarea->getEstadoEjecucion() == 1) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
         }
-            if($arTarea->getEstadoTerminado() == 1){
-                $arrBotonResuelto['attr']['style'] = 'display:none;';
-                $arrBotonVerificado['attr']['style'] = '';
-                $arrBotonAbrir['attr']['style'] = '';
+        if ($arTarea->getEstadoTerminado() == 1) {
+            $arrBotonResuelto['attr']['style'] = 'display:none;';
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonVerificado['attr']['style'] = '';
 
-            }
-            if($arTarea->getEstadoVerificado() == 1){
-                $arrBotonVerificado['attr']['style'] = 'display:none;';
-                $arrBotonAbrir['attr']['style'] = 'display:block;';
-
-            }
-            if($arTarea->getEstadoIncomprensible() == 1){
-                $arrBotonEjecucion['attr']['style'] = 'display:none;';
-                $arrBotonResuelto['attr']['style'] = 'display:none;';
-                $arrBotonVerificado['attr']['style'] = 'display:none;';
-                $arrBotonAbrir['attr']['style'] = 'display:block;';
-
-            }
-                $form = $this->createFormBuilder()
-                ->add('BtnEjecucion',SubmitType::class,$arrBotonEjecucion)
-                ->add('BtnResuelto',SubmitType::class,$arrBotonResuelto)
-                ->add('BtnVerificado',SubmitType::class,$arrBotonVerificado)
-                    ->add('BtnAbrir',SubmitType::class,$arrBotonAbrir)
-                ->add('comentario',TextareaType::class,array('label'=> 'Comentarios', 'data'=> $arTarea->getComentario()))
-                ->add('btnGuardar',SubmitType::class,array('label' => 'Guardar'))
-                ->getForm();
-            return $form;
         }
+        if ($arTarea->getEstadoVerificado() == 1) {
+            $arrBotonVerificado['attr']['style'] = 'display:none;';
+        }
+        if ($arTarea->getEstadoIncomprensible() == 1) {
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonResuelto['attr']['style'] = 'display:none;';
+            $arrBotonVerificado['attr']['style'] = 'display:none;';
+
+        }
+        $form = $this->createFormBuilder()
+            ->add('BtnEjecucion', SubmitType::class, $arrBotonEjecucion)
+            ->add('BtnResuelto', SubmitType::class, $arrBotonResuelto)
+            ->add('BtnVerificado', SubmitType::class, $arrBotonVerificado)
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', 'data' => $arTarea->getComentario()))
+            ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar'))
+            ->getForm();
+        return $form;
+    }
+
+    private function formularioDetalles($arTarea)
+    {
+        $arrBotonEjecucion = array('label' => 'Ejecucion');
+        $arrBotonIncomprendido = array('label' => 'Incomprensible');
+        $arrBotonResuelto = array('label' => 'Resuelto', 'attr' => array('style' => 'display:none;'));
+        $arrBotonPausar = array('label' => 'Pausar', 'attr' => array('style' => 'display:none;'));
+        $arrBotonReanudar = array('label' => 'Reanudar', 'attr' => array('style' => 'display:none;'));
+        if($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 1){
+            $arrBotonReanudar['attr']['style'] = '';
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonIncomprendido['attr']['style'] = 'display:none;';
+        }elseif($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 0){
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonIncomprendido['attr']['style'] = 'display:none;';
+            $arrBotonPausar['attr']['style'] = '';
+            $arrBotonResuelto['attr']['style'] = '';
+    }
+        if($arTarea->getEstadoIncomprensible() == 1){
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonIncomprendido['attr']['style'] = 'display:none;';
+        }
+        if($arTarea->getEstadoTerminado() == 1){
+            $arrBotonEjecucion['attr']['style'] = 'display:none;';
+            $arrBotonIncomprendido['attr']['style'] = 'display:none;';
+            $arrBotonResuelto = array('label' => 'Resuelto', 'attr' => array('style' => 'display:none;'));
+            $arrBotonPausar = array('label' => 'Pausar', 'attr' => array('style' => 'display:none;'));
+            $arrBotonReanudar = array('label' => 'Reanudar', 'attr' => array('style' => 'display:none;'));
+        }
+
+            $form = $this->createFormBuilder()
+            ->add('BtnEjecucion', SubmitType::class, $arrBotonEjecucion)
+            ->add('BtnResuelto', SubmitType::class, $arrBotonResuelto)
+            ->add('BtnPausar', SubmitType::class, $arrBotonPausar)
+            ->add('BtnIncomprendido', SubmitType::class, $arrBotonIncomprendido)
+            ->add('BtnReanudar', SubmitType::class, $arrBotonReanudar)
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', 'data' => $arTarea->getComentario()))
+            ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar'))
+            ->getForm();
+        return $form;
+    }
 
 }
