@@ -55,13 +55,13 @@ class Caso
 
     /**
      *
-     * @ORM\Column(name="telefono", type="string", length=100)
+     * @ORM\Column(name="telefono", type="string", length=100, nullable=true)
      */
     private $telefono;
 
     /**
      *
-     * @ORM\Column(name="extension", type="string", length=50)
+     * @ORM\Column(name="extension", type="string", length=50, nullable=true)
      */
     private $extension;
 
