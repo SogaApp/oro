@@ -27,8 +27,9 @@ class TareaTiempoRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $tareaTiempo = $arTarea->getTareaTiempoRel();
         $tareaTiempo->setFechaHoraFin(new \DateTime('now'));
-        $minutos = $tareaTiempo->getFechaHoraInicio()->diff($tareaTiempo->getFechaHoraFin());
-        $tareaTiempo->setMinutos($minutos->format('%i'));
+        $diff = $tareaTiempo->getFechaHoraInicio()->diff($tareaTiempo->getFechaHoraFin());
+        $minutos = ( ($diff->d * 24 ) * 60 ) + ($diff->h*60) + ( $diff->i );
+        $tareaTiempo->setMinutos($minutos);
         $arTarea->setCodigoTareaTiempoFk(null);
         $em->persist($tareaTiempo);
         $em->persist($arTarea);

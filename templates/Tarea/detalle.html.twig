@@ -197,7 +197,7 @@
                                             <tr>
                                                 <td>{{ arTareaTiempos.codigoTareaTiempoPk }}</td>
                                                 <td>{{ arTareaTiempos.fechaHoraInicio | date("Y/m/d H:i") }}</td>
-                                                <td>{{ arTareaTiempos.fechaHoraFin | date("Y/m/d H:i") }}</td>
+                                                <td>{{ arTareaTiempos.fechaHoraFin != null ? arTareaTiempos.fechaHoraFin | date("Y/m/d H:i"):"" }}</td>
                                                 <td style="text-align: center">{{ arTareaTiempos.minutos != null ? arTareaTiempos.minutos:"0" }}</td>
 
                                             </tr>
