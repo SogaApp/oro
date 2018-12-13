@@ -10,18 +10,18 @@
         <title>{% block title %}Oro{% if app.user is not null %} - {{ app.user.nombres }} {{ app.user.apellidos }} {% endif %}{% endblock %}</title>
         {% block stylesheets %}
             <!-- Custom box css -->
-            {#<link href="{{ asset('local/plugins/custombox/css/custombox.min.css') }}" rel="stylesheet">#}
-            {#<link href="{{ asset('local/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/core.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/components.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/pages.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/menu.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link rel="stylesheet" href="{{ asset('local/plugins/switchery/switchery.min.css') }}">#}
-            {#<link href="{{ asset('local/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" >#}
-            {#<link href="{{ asset('local/assets/css/oro.css') }}" rel="stylesheet" type="text/css" />#}
-            {#<link href="{{ asset('local/assets/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />#}
+            <link href="{{ asset('local/plugins/custombox/css/custombox.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('local/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/core.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/components.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/pages.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/menu.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('local/plugins/switchery/switchery.min.css') }}">
+            <link href="{{ asset('local/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" >
+            <link href="{{ asset('local/assets/css/oro.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('local/assets/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('local/assets/images/favicon.ico') }}" />
         {% block javascripts %}
