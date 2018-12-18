@@ -72,6 +72,8 @@
                                                 <th>INC</th>
                                                 <th>PAU</th>
                                                 <th>RES</th>
+                                                <th>VER</th>
+
                                                 <th></th>
                                                 <th></th>
 
@@ -139,6 +141,8 @@
                                                     <td>{{ tarea.estadoIncomprensible == 1 ? "SI":"NO" }}</td>
                                                     <td>{{ tarea.estadoPausa == 1 ? "SI":"NO" }}</td>
                                                     <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoVerificado == 1 ? "SI":"NO" }}</td>
+
                                                     <td>
                                                         <a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
