@@ -45,6 +45,9 @@
 
                     </div>
                 </div>
+
+
+
                 <div class="panel-body">
                     <div class="row">
                         <h4>Informacion tarea:</h4>
@@ -164,7 +167,7 @@
 
                                         {% for arDevoluciones in arDevoluciones %}
                                             <tr>
-                                                <td>{{ arDevoluciones.codigoDevolucionPk }}</td>
+                                                <td>{{ arDevoluciones.codigoTareaDevolucionPk }}</td>
                                                 <td>{{ arDevoluciones.fecha| date("Y/m/d H:i") }}</td>
                                                 <td>{{ arDevoluciones.comentarios }}</td>
                                             </tr>
@@ -213,6 +216,8 @@
                         <!-- end col -->
                     </div>
                 </div>
+
+
                 <div class="panel-footer">
                     <a class="btn btn-default btn-sm" href="{{ path('listaTareaUsuario') }}"
                        style="float:left">VOLVER</a>

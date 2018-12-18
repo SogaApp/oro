@@ -5,20 +5,20 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Devolucion
+ * TareaDevolucion
  *
- * @ORM\Table(name="devolucion")
+ * @ORM\Table(name="tarea_devolucion")
  * @ORM\Entity(repositoryClass="App\Repository\DevolucionRepository")
  */
 
-class Devolucion
+class TareaDevolucion
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="codigo_devolucion_pk", type="integer", unique=true)
+     * @ORM\Column(name="codigo_tarea_devolucion_pk", type="integer", unique=true)
      */
-    private $codigoDevolucionPk;
+    private $codigoTareaDevolucionPk;
 
     /**
      * @ORM\Column(name="fecha", type="datetime", nullable=true)
@@ -44,17 +44,17 @@ class Devolucion
     /**
      * @return mixed
      */
-    public function getCodigoDevolucionPk()
+    public function getCodigoTareaDevolucionPk()
     {
-        return $this->codigoDevolucionPk;
+        return $this->codigoTareaDevolucionPk;
     }
 
     /**
-     * @param mixed $codigoDevolucionPk
+     * @param mixed $codigoTareaDevolucionPk
      */
-    public function setCodigoDevolucionPk($codigoDevolucionPk): void
+    public function setCodigoTareaDevolucionPk($codigoTareaDevolucionPk): void
     {
-        $this->codigoDevolucionPk = $codigoDevolucionPk;
+        $this->codigoTareaDevolucionPk = $codigoTareaDevolucionPk;
     }
 
     /**
@@ -120,5 +120,7 @@ class Devolucion
     {
         $this->devolucionRel = $devolucionRel;
     }
+
+
 
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block bodyAtt %}class="fixed-left"{% endblock %}
+{% block bodyAtt %}{% endblock %}
 
 {% block body %}
 
@@ -9,25 +9,32 @@
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
 
     {% block content %}
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-title-box">
-                    <h4 class="page-title"><i class="mdi mdi-phone-incoming"></i> Registro de Llamadas </h4>
-                    <div class="clearfix"></div>
-                </div>
+            <div class="main-body">
+                    <div class="current-bar">
+                            <h2>Inicio</h2>
+                    </div>
+                    <div class="main-content">
+
+                            <div class="row">
+                                    <div class="col-xs-12">
+                                            <div class="page-title-box">
+                                                    <h4 class="page-title"><i class="mdi mdi-phone-incoming"></i> Registro de Llamadas </h4>
+                                                    <div class="clearfix"></div>
+                                            </div>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                    <div class="col-md-12">
+                                            <div class="card-box">
+                                                    <h4 class="header-title m-t-0 m-b-30"><i class="mdi mdi-phone-in-talk"></i> Gráficas</h4>
+
+                                            </div> <!-- end card -->
+                                    </div>
+
+                            </div>
+                    </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-box">
-                    <h4 class="header-title m-t-0 m-b-30"><i class="mdi mdi-phone-in-talk"></i> Gráficas</h4>
-
-                </div> <!-- end card -->
-            </div>
-            <!-- end col -->
-
-        </div>
 
         {% endblock content %}
         {{ include('bloquesGenerales/pie.html.twig') }}

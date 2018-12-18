@@ -1,28 +1,24 @@
-<!-- ========== Left Sidebar Start ========== -->
-<div class="left side-menu">
-    <div class="sidebar-inner slimscrollleft">
 
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <ul>
-                <li class="menu-title">Principal</li>
-                <li class="has_sub">
+        <nav class="sidebar">
+            <ul >
+                <li><span>Principal</span></li>
+                <li  class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect active"><i
                                 class="glyphicon glyphicon-phone-alt"></i> <span> Gestión Llamadas </span> <span
                                 class="menu-arrow"></span></a>
-                    <ul class="list-unstyled" style="display: none;">
+                    <ul class="list-unstyled">
 
                         <li class="has_sub">
                             <a href="{{ path('listadoLlamadas') }}" class="waves-effect">
                                 <i class="mdi mdi-phone-incoming"></i>
-                                {#<span class="label label-success pull-right">2</span>#}
+                                <span class="label label-success pull-right"></span>
                                 <span> Listar Llamadas</span>
                             </a>
                         </li>
                         <li class="has_sub">
                             <a href="{{ path('listadoLlamadasUsuario') }}" class="waves-effect">
                                 <i class="mdi mdi-phone-classic"></i>
-                                {#<span class="label label-success pull-right">2</span>#}
+                                <span class="label label-success pull-right"></span>
                                 <span> Mis Llamadas</span>
                             </a>
                         </li>
@@ -38,7 +34,7 @@
                     <a href="javascript:void(0);" class="waves-effect active"><i
                                 class="glyphicon glyphicon-th-list"></i> <span> Tareas </span> <span
                                 class="menu-arrow"></span></a>
-                    <ul class="list-unstyled" style="display: none;">
+                    <ul class="list-unstyled">
 
                         <li class="has_sub">
                             <a href="{{ path('listaTareaGeneral') }}" class="waves-effect">
@@ -87,10 +83,10 @@
                                 <i class="glyphicon glyphicon-list-alt"></i>
                                 <span>Pendientes</span>
                             </a></li>
-                        {#<li><a href="{{ path('listadoCasosSolucionados') }}">#}
-                                {#<i class="glyphicon glyphicon-list-alt"></i>#}
-                                {#<span>Solucionados</span>#}
-                            {#</a></li>#}
+                        <li><a href="{{ path('listadoCasosSolucionados') }}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span>Solucionados</span>
+                            </a></li>
                     </ul>
                 </li>
 
@@ -165,40 +161,10 @@
 
 
             </ul>
-        </div>
-        <!-- Sidebar -->
-        <div class="clearfix"></div>
 
-        <div class="help-box">
-            <h5 class="text-muted m-t-0">¿Soporte?</h5>
-            <p class=""><span class="text-custom">Correo:</span> <br/> desarrollo4@appsoga.com</p>
-            <p class="m-b-0"><span class="text-custom">Teléfono:</span> <br/> (+57) 304 559 9915</p>
-        </div>
-
-    </div>
-    <!-- Sidebar -left -->
-
-</div>
+        </nav>
 <!-- Left Sidebar End -->
 
-<div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-        <div class="container">
 
-            {#<div class="row">#}
-            {#<div class="col-xs-12">#}
-                {#<div class="card-box">#}
-
-
-
-                            {#<div class="alert alert-success" role="alert">#}
-                                {#<strong>Well done!</strong> You successfully read this important alert#}
-                                {#message.#}
-                            {#</div>#}
-
-                {#</div>#}
-            {#</div>#}
-            {#</div>#}
 
 

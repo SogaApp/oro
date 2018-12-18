@@ -7,12 +7,17 @@
 
         {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
 
-        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}>
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
                     {% block content %}
+<div class="main-body">
+    <div class="current-bar">
+        <h2>Tareas</h2>
+    </div>
+    <div class="main-content">
+
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title" style="padding-right: 10px;"><i class="glyphicon glyphicon-th-list"></i> Tareas </h4>
 
 
                                     <a href="{{ path('registrarTarea') }}">
@@ -107,6 +112,9 @@
                         <div class="btn-group"
                              style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
                     </div>
+    </div>
+    </div>
 
-        {{ include('bloquesGenerales/pie.html.twig') }}
+
+    {{ include('bloquesGenerales/pie.html.twig') }}
 {% endblock %}

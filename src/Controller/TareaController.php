@@ -11,7 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Caso;
 use App\Entity\Comentario;
-use App\Entity\Devolucion;
+use App\Entity\TareaDevolucion;
 use App\Forms\Type\FormTypeTarea;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -93,7 +93,7 @@ class TareaController extends Controller
          **/
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $arDevoluciones = $em->getRepository("App:Devolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoDevolucionPk' => 'DESC'));
+        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
         $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
         $form = $this->formularioVer($arTarea);
         $form->handleRequest($request);
@@ -478,7 +478,7 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $arDevoluciones = $em->getRepository("App:Devolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoDevolucionPk' => 'DESC'));
+        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
         $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
         $form = $this->formularioDetalles($arTarea);
         $form->handleRequest($request);
@@ -495,11 +495,6 @@ class TareaController extends Controller
                 $arTarea->setFechaSolucion(new \DateTime('now'));
                 $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
                 $em->persist($arTarea);
-                if ($arTarea->getCodigoCasoFk()) {
-                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
-                    $arCaso->setEstadoTareaTerminada(1);
-                    $em->persist($arCaso);
-                }
                 $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioRegistraFk());
                 $correo = $usuario->getCorreo();
                 if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
@@ -538,7 +533,7 @@ class TareaController extends Controller
             return $this->redirect($this->generateUrl('tareaDetalle', array('codigoTarea' => $codigoTarea)));
         }
 
-            return $this->render('Tarea/detalle.html.twig', [
+        return $this->render('Tarea/detalle.html.twig', [
             'tarea' => $arTarea,
             'arDevoluciones' => $arDevoluciones,
             'arTareaTiempos' => $arTareaTiempos,
@@ -552,7 +547,7 @@ class TareaController extends Controller
      */
     public function devolucionTarea(Request $request, $codigoTarea, \Swift_Mailer $mailer){
         $em = $this->getDoctrine()->getManager();
-        $devolucion = new Devolucion();
+        $devolucion = new TareaDevolucion();
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $form = $this->createFormBuilder()
             ->add('comentario', TextareaType::class)
@@ -716,7 +711,7 @@ class TareaController extends Controller
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
             $arrBotonPausar['attr']['style'] = '';
             $arrBotonResuelto['attr']['style'] = '';
-    }
+        }
         if($arTarea->getEstadoIncomprensible() == 1){
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
@@ -729,7 +724,7 @@ class TareaController extends Controller
             $arrBotonReanudar = array('label' => 'Reanudar', 'attr' => array('style' => 'display:none;'));
         }
 
-            $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder()
             ->add('BtnEjecucion', SubmitType::class, $arrBotonEjecucion)
             ->add('BtnResuelto', SubmitType::class, $arrBotonResuelto)
             ->add('BtnPausar', SubmitType::class, $arrBotonPausar)

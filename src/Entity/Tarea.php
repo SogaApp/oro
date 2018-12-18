@@ -153,7 +153,7 @@ class Tarea
     private $tareaTiempoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="Devolucion", mappedBy="devolucionRel")
+     * @ORM\OneToMany(targetEntity="TareaDevolucion", mappedBy="devolucionRel")
      */
     private $tareasDevolucionRel;
 

@@ -7,11 +7,15 @@
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
 
                     {% block content %}
+                        <div class="main-body">
+                        <div class="current-bar">
+                            <h2>Registro de Llamadas</h2>
+                        </div>
+                        <div class="main-content">
+
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title" style="padding-right: 10px;"><i
-                                                class="mdi mdi-phone-in-talk"></i> Registro de Llamadas </h4>
                                     <span class="label label-danger">Pendientes: {{ pendientes }}</span>
                                     <span class="label label-info">Atendidas Pendientes: {{ atendidasPendientes }}</span>
                                     <a href="{{ path('registrarLlamada') }}">
@@ -103,18 +107,18 @@
                                                                     name="llamadaContestan" {{ disabled }}
                                                                     value="{{ llamada.codigoLlamadaPk }}"
                                                                     title="{% for noContestan in llamada.llamadasNoContestanRel %}{{ noContestan.fechaNoContestan|date('y-m-d H:i') }}-{{ noContestan.codigoUsuarioFk }}&#10;{% endfor %}">
-                                                                <i class="mdi mdi-phone-missed"></i></button>
+                                                                <i class="mdi mdi-phone-missed"></i>Contestan</button>
                                                         {% elseif llamada.estadoNoContestan == false and llamada.estadoAtendido %}
                                                             <button class="btn btn-primary btn-xs" type="submit"
                                                                     name="llamadaContestan" {{ disabled }}
                                                                     value="{{ llamada.codigoLlamadaPk }}">
-                                                                <i class="mdi mdi-phone-outgoing"></i></button>
+                                                                <i class="mdi mdi-phone-outgoing"></i>Contestan</button>
 
                                                         {% else %}
                                                             <button class="btn btn-primary btn-xs" type="submit"
                                                                     name="llamadaContestan" {{ disabled }}
                                                                     value="{{ llamada.codigoLlamadaPk }}">
-                                                                <i class="mdi mdi-phone-outgoing"></i></button>
+                                                                <i class="mdi mdi-phone-outgoing"></i>Contestan</button>
                                                         {% endif %}
                                                     </td>
                                                     <td>
@@ -124,12 +128,12 @@
                                                                     name="llamadaAtender" disabled
                                                                     value="{{ llamada.codigoLlamadaPk }}"
                                                                     title="{{ llamada.codigoUsuarioAtiendeFk }}">
-                                                                <i class="glyphicon glyphicon-thumbs-up"></i></button>
+                                                                <i class="glyphicon glyphicon-thumbs-up"></i>Atender</button>
                                                         {% else %}
                                                             <button class="btn btn-danger btn-xs" type="submit"
                                                                     name="llamadaAtender"
                                                                     value="{{ llamada.codigoLlamadaPk }}">
-                                                                <i class="glyphicon glyphicon-thumbs-down"></i></button>
+                                                                <i class="glyphicon glyphicon-thumbs-down"></i>Atender</button>
                                                         {% endif %}
                                                     </td>
                                                     <td>
@@ -137,13 +141,13 @@
                                                             <button class="btn btn-danger btn-xs" type="submit"
                                                                     name="llamadaSolucionar"
                                                                     value="{{ llamada.codigoLlamadaPk }}" {% if llamada.estadoAtendido == false %} disabled {% endif %} >
-                                                                <i class="glyphicon glyphicon-thumbs-down"></i></button>
+                                                                <i class="glyphicon glyphicon-thumbs-down"></i>Solucionar</button>
                                                         {% else %}
                                                             <button class="btn btn-success btn-xs" type="submit"
                                                                     name="llamadaSolucionar" disabled
                                                                     value="{{ llamada.codigoLlamadaPk }}"
                                                                     title="{{ llamada.codigoUsuarioSolucionaFk }}">
-                                                                <i class="glyphicon glyphicon-thumbs-up"></i></button>
+                                                                <i class="glyphicon glyphicon-thumbs-up"></i>Solucionar</button>
                                                         {% endif %}
                                                     </td>
                                                     <td>
@@ -151,14 +155,14 @@
                                                             <a href="{{ path('registrarLlamada', { 'codigoLlamada':  llamada.codigoLlamadaPk }) }}"
                                                                class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i
                                                                         class="glyphicon glyphicon-pencil"
-                                                                        style="padding: 3px;"></i>
+                                                                        style="padding: 3px;"></i>Registro
                                                             </a>
                                                         {% else %}
                                                             <a href="{{ path('registrarLlamada', { 'codigoLlamadaPk':  llamada.codigoLlamadaPk }) }}"
                                                                onclick="return false" disabled=""
                                                                class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i
                                                                         class="glyphicon glyphicon-pencil"
-                                                                        style="padding: 3px;"></i>
+                                                                        style="padding: 3px;"></i>Registro
                                                             </a>
                                                         {% endif %}
                                                     </td>
@@ -181,6 +185,9 @@
                     </div>
                     <div class="btn-group"
                          style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>
+
+    </div>
+    </div>
 
         {{ include('bloquesGenerales/pie.html.twig') }}
 {% endblock %}

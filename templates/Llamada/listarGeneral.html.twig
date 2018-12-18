@@ -10,11 +10,17 @@
         {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
 
                     {% block content %}
+                        <div class="main-body">
+                        <div class="current-bar">
+                            <h2>Registro Histórico de Llamadas</h2>
+                        </div>
+                        <div class="main-content">
+
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="page-title-box">
                                     <h4 class="page-title" style="padding-right: 10px;"><i
-                                                class="glyphicon glyphicon-time"></i> Registro Histórico de Llamadas
+                                                class="glyphicon glyphicon-time"></i>
                                     </h4>
                                     {#<span class="label label-danger">Pendientes: {{ pendientes }}</span>#}
                                     {#<span class="label label-info">Atendidas Pendientes: {{ atendidasPendientes }}</span>#}
@@ -107,5 +113,9 @@
                         <div class="btn-group"
                              style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>
                     </div>
+
+    </div>
+    <!-- end col -->
+    </div>
         {{ include('bloquesGenerales/pie.html.twig') }}
 {% endblock %}
