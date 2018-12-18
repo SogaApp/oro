@@ -31,7 +31,14 @@
                             <div class="col-6 col-md-6"></div>
                             <div class="col-6 col-md-6">
                                 {{ form_start(formFiltro) }}
+                                {{ form_label(formFiltro.estado) }}
+                                <br>
                                 {{ form_widget(formFiltro.estado) }}
+                                <br>
+                                {{ form_label(formFiltro.verificado) }}
+                                <br>
+                                {{ form_widget(formFiltro.verificado) }}
+
                                 <div class="col-12 col-md-12" id="submit-filtro" style="text-align: right;padding: 10px;">
                                     {{ form_widget(formFiltro.BtnFiltrar) }}
                                 </div>

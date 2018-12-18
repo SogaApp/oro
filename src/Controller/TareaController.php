@@ -565,7 +565,7 @@ class TareaController extends Controller
         $devolucion = new TareaDevolucion();
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $form = $this->createFormBuilder()
-            ->add('comentario', TextareaType::class)
+            ->add('comentario', TextareaType::class,array('attr' => array('rows' => 5, 'style' => 'width: 95%;')))
             ->add('BtnGuardar', SubmitType::class, ['label' => 'Guardar'])
             ->getForm();
         $form->handleRequest($request);
@@ -632,8 +632,10 @@ class TareaController extends Controller
             $arTarea = $em->getRepository('App:Tarea')->findAll();
         };
         $formFiltro = $this::createFormBuilder()
-            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'Sin resolver' => '0', 'Resueltos' => '1'),
+            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'SI' => 1, 'NO' => 0),
                 'label' => 'Filtro', 'data' => $session->get('filtroEstado', 2)))
+            ->add('verificado',ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0),
+                "label" => "Verificado", "data" => $session->get("filtroVerificado"),'required'=>false))
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
@@ -645,6 +647,7 @@ class TareaController extends Controller
     {
         $session = new Session();
         $session->set('filtroEstado', $formFiltro->get('estado')->getData());
+        $session->set('filtroVerificado', $formFiltro->get('verificado')->getData());
 
     }
 
@@ -653,7 +656,7 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql($session->get('filtroEstado'));
+        $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql($session->get('filtroEstado'),$session->get("filtroVerificado"));
     }
 
     /**

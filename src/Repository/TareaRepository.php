@@ -12,7 +12,7 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
-    public function listaDql($estado = "")
+    public function listaDql($estado = "", $verificado = "")
     {
         $em = $this->getEntityManager();
         $db = $em->createQueryBuilder()->from("App:Tarea", "t")
@@ -22,14 +22,15 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy("t.fechaRegistro", "DESC");
 
 //            ->addOrderBy("t.fechaRegistro", "DESC");
-        if ($estado == 0) {
+        if ($estado === 0) {
             $db->andWhere("t.estadoTerminado = 0");
         }
         if ($estado == 1) {
             $db->andWhere("t.estadoTerminado = 1");
         }
-
-
+        if(is_numeric($verificado)){
+            $db->andWhere("t.estadoVerificado = {$verificado}");
+        }
         return $db;
 
     }
