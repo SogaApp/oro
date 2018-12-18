@@ -74,7 +74,7 @@
                                                 <th>RES</th>
                                                 <th>VER</th>
 
-                                                <th></th>
+                                                {#<th></th>#}
                                                 <th></th>
 
                                             </tr>
@@ -143,13 +143,13 @@
                                                     <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
                                                     <td>{{ tarea.estadoVerificado == 1 ? "SI":"NO" }}</td>
 
-                                                    <td>
-                                                        <a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"
-                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
-                                                                    class="glyphicon glyphicon-pencil"
-                                                                    style="padding: 3px;"></i>
-                                                        </a>
-                                                    </td>
+                                                    {#<td>#}
+                                                        {#<a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"#}
+                                                           {#class="btn btn-purple waves-effect waves-light btn-xs"><i#}
+                                                                    {#class="glyphicon glyphicon-pencil"#}
+                                                                    {#style="padding: 3px;"></i>#}
+                                                        {#</a>#}
+                                                    {#</td>#}
                                                     <td>
                                                         <a href="{{ path('verTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
