@@ -133,6 +133,48 @@
                     <hr>
 
                     <div>
+                        <h4>Comentarios:</h4>
+                        <div class="card-box">
+                            <div class="table-responsive">
+                                <table id="tarea-table" class="table table table-hover m-0 ">
+
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Fecha registro</th>
+                                        <th>Comentario</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for arComentarios in arComentarios %}
+                                        <tr>
+                                            <td>{{ arComentarios.codigoComentarioPk }}</td>
+                                            <td>{{ arComentarios.fechaRegistro | date("Y/m/d H:i") }}</td>
+                                            <td>{{ arComentarios.comentario }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+
+
+                                </table>
+                            </div> <!-- table-responsive -->
+                        </div> <!-- end card -->
+                        <br>
+
+                        <div class="row">
+
+                                <h4>Comentarios :</h4>
+                                {{ form_widget(form.comentario) }}
+
+                        </div>
+                        <div style="float: right ">
+                            {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                        </div>
+                        <br>
                         <hr>
                         <h4>Tiempos tarea:</h4>
 
@@ -167,37 +209,6 @@
                                     </table>
                                 </div> <!-- table-responsive -->
                             </div> <!-- end card -->
-                        <hr>
-                        <h4>Comentarios:</h4>
-                        <div class="card-box">
-                            <div class="table-responsive">
-                                <table id="tarea-table" class="table table table-hover m-0 ">
-
-                                    <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Fecha registro</th>
-                                        <th>Comentario</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    {% for arComentarios in arComentarios %}
-                                        <tr>
-                                            <td>{{ arComentarios.codigoComentarioPk }}</td>
-                                            <td>{{ arComentarios.fechaRegistro | date("Y/m/d H:i") }}</td>
-                                            <td>{{ arComentarios.comentario }}</td>
-
-                                        </tr>
-                                    {% endfor %}
-
-                                    </tbody>
-
-
-                                </table>
-                            </div> <!-- table-responsive -->
-                        </div> <!-- end card -->
                         <hr>
 
                         <div>
@@ -236,13 +247,6 @@
 
                     </div>
                 </div>
-                <div class="row">
-                <div class="col-md-12">
-                <h4>Comentarios :</h4>
-                {{ form_widget(form.comentario) }}
-                </div>
-                </div>
-
 
                 <div class="panel-footer">
                     <a class="btn btn-default btn-sm" href="{{ path('listaTareaUsuario') }}"
@@ -257,7 +261,6 @@
             </div>
         </div>
     </div>
-    <hr>
 
     {{ form_rest(form) }}
     {{ form_end(form) }}
