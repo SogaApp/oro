@@ -633,9 +633,9 @@ class TareaController extends Controller
         };
         $formFiltro = $this::createFormBuilder()
             ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'SI' => 1, 'NO' => 0),
-                'label' => 'Filtro', 'data' => $session->get('filtroEstado', 2)))
+                'label' => 'Resuelto:', 'data' => $session->get('filtroEstado', 2)))
             ->add('verificado',ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0),
-                "label" => "Verificado", "data" => $session->get("filtroVerificado"),'required'=>false))
+                "label" => "Verificado:", "data" => $session->get("filtroVerificado"),'required'=>false))
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 

@@ -32,11 +32,10 @@
                             <div class="col-6 col-md-6">
                                 {{ form_start(formFiltro) }}
                                 {{ form_label(formFiltro.estado) }}
-                                <br>
                                 {{ form_widget(formFiltro.estado) }}
                                 <br>
-                                {{ form_label(formFiltro.verificado) }}
                                 <br>
+                                {{ form_label(formFiltro.verificado) }}
                                 {{ form_widget(formFiltro.verificado) }}
 
                                 <div class="col-12 col-md-12" id="submit-filtro" style="text-align: right;padding: 10px;">
@@ -69,8 +68,10 @@
                                                 <th>Caso</th>
                                                 <th>Prioridad</th>
                                                 <th>Tiempo</th>
-                                                <th title="Resuelto">Res</th>
-                                                <th title="Verificado">Ver</th>
+                                                <th>EJE</th>
+                                                <th>INC</th>
+                                                <th>PAU</th>
+                                                <th>RES</th>
                                                 <th></th>
                                                 <th></th>
 
@@ -134,48 +135,10 @@
                                                     <td>{{ tiempo }} mins</td>
 
 
-                                                    <td>
-                                                        {% if tarea.estadoIncomprensible == false %}
-                                                        {% if tarea.estadoTerminado == false %}
-                                                            <button class="btn btn-danger btn-xs" type="submit"
-                                                                    name="TareaSolucionar"
-                                                                    value="{{ tarea.codigoTareaPk }}"
-                                                                    {% if tarea.codigoUsuarioAsignaFk == null %}disabled{% endif %}>
-                                                                <i class="glyphicon glyphicon-thumbs-down">Solucion</i>
-                                                            </button>
-                                                        {% else %}
-                                                            <button class="btn btn-success btn-xs" type="submit"
-                                                                    name="TareaSolucionar" disabled>
-                                                                <i class="glyphicon glyphicon-thumbs-up">Solucion</i>
-                                                            </button>
-                                                        {% endif %}
-                                            {% else %}
-                                                <button class="btn btn-danger btn-xs" type="submit"
-                                                        name="TareaSolucionar" disabled>
-                                                    <i class="glyphicon glyphicon-thumbs-down">Solucion</i>
-                                                </button>
-                                                        {% endif %}
-                                                </td>
-                                                    <td>
-                                                        {% if tarea.estadoTerminado == false and tarea.estadoVerificado == false %}
-                                                            <button class="btn btn-danger btn-xs" type="submit"
-                                                                    name="TareaVerificar"
-                                                                    value="{{ tarea.codigoTareaPk }}" disabled>
-                                                                <i class="glyphicon glyphicon-thumbs-down">Verificar</i>
-                                                            </button>
-                                                        {% elseif tarea.estadoTerminado == true and tarea.estadoVerificado == false %}
-                                                            <button class="btn btn-danger btn-xs" type="submit"
-                                                                    name="TareaVerificar"
-                                                                    value="{{ tarea.codigoTareaPk }}">
-                                                                <i class="glyphicon glyphicon-thumbs-down">Verificar</i>
-                                                            </button>
-                                                        {% else %}
-                                                            <button class="btn btn-success btn-xs" type="submit"
-                                                                    name="TareaVerificar" disabled>
-                                                                <i class="glyphicon glyphicon-thumbs-up">Verificar</i>
-                                                            </button>
-                                                        {% endif %}
-                                                    </td>
+                                                    <td>{{ tarea.estadoEjecucion == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoIncomprensible == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoPausa == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
                                                     <td>
                                                         <a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
