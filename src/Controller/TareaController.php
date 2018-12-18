@@ -680,7 +680,7 @@ class TareaController extends Controller
     private function formularioVer($arTarea)
     {
         $arrBotonEjecucion = array('label' => 'Ejecucion','disabled'=> true);
-        $arrBotonResuelto = array('label' => 'Resuelto');
+        $arrBotonResuelto = array('label' => 'Resuelto','disabled'=> true);
         $arrBotonVerificado = array('label' => 'Verificado', 'attr' => array('style' => 'display:none;'));
         if ($arTarea->getEstadoEjecucion() == 1) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
