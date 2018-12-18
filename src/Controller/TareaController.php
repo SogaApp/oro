@@ -95,14 +95,10 @@ class TareaController extends Controller
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
         $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
+        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoComentarioPk' => 'DESC'));
         $form = $this->formularioVer($arTarea);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('btnGuardar')->isClicked()) {
-                $arTarea->setComentario($form->get('comentario')->getData());
-                $em->persist($arTarea);
-
-            }
             if ($form->get('BtnEjecucion')->isClicked()) {
                 $arTarea->setEstadoEjecucion(1);
                 $arTarea->setFechaEjecucion(new \DateTime('now'));
@@ -130,6 +126,14 @@ class TareaController extends Controller
                 }
 
             }
+            if($form->get("btnGuardar")->isClicked()){
+                $arComentario = new Comentario();
+                $arComentario->setTareaRel($arTarea);
+                $arComentario->setFechaRegistro(new \DateTime('now'));
+                $arComentario->setComentario($form->get("comentario")->getData());
+                $arComentario->setCodigoUsuarioFk($this->getUser()->getCodigoUsuarioPk());
+                $em->persist($arComentario);
+            }
             $em->flush();
             return $this->redirect($this->generateUrl('verTarea', array('codigoTarea' => $codigoTarea)));
 
@@ -140,6 +144,7 @@ class TareaController extends Controller
                 'tarea' => $arTarea,
                 'arDevoluciones' => $arDevoluciones,
                 'arTareaTiempos' => $arTareaTiempos,
+                'arComentarios' => $arComentarios,
                 'form' => $form->createView()
             )
         );
@@ -480,6 +485,7 @@ class TareaController extends Controller
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
         $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
+        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoComentarioPk' => 'DESC'));
         $form = $this->formularioDetalles($arTarea);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -529,6 +535,14 @@ class TareaController extends Controller
                 $arTarea->setCodigoTareaTiempoFk($codigoTareaTiempo);
                 $em->persist($arTarea);
             }
+            if($form->get("btnGuardar")->isClicked()){
+                $arComentario = new Comentario();
+                $arComentario->setTareaRel($arTarea);
+                $arComentario->setFechaRegistro(new \DateTime('now'));
+                $arComentario->setComentario($form->get("comentario")->getData());
+                $arComentario->setCodigoUsuarioFk($this->getUser()->getCodigoUsuarioPk());
+                $em->persist($arComentario);
+            }
             $em->flush();
             return $this->redirect($this->generateUrl('tareaDetalle', array('codigoTarea' => $codigoTarea)));
         }
@@ -537,6 +551,7 @@ class TareaController extends Controller
             'tarea' => $arTarea,
             'arDevoluciones' => $arDevoluciones,
             'arTareaTiempos' => $arTareaTiempos,
+            'arComentarios' => $arComentarios,
             'form' => $form->createView()
         ]);
     }
@@ -689,8 +704,8 @@ class TareaController extends Controller
             ->add('BtnEjecucion', SubmitType::class, $arrBotonEjecucion)
             ->add('BtnResuelto', SubmitType::class, $arrBotonResuelto)
             ->add('BtnVerificado', SubmitType::class, $arrBotonVerificado)
-            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', 'data' => $arTarea->getComentario()))
-            ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar'))
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios',"attr" => array("rows" => 3,"style" => "margin: 0px; width: 367px; height: 52px;")))
+            ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar',))
             ->getForm();
         return $form;
     }
@@ -730,7 +745,7 @@ class TareaController extends Controller
             ->add('BtnPausar', SubmitType::class, $arrBotonPausar)
             ->add('BtnIncomprendido', SubmitType::class, $arrBotonIncomprendido)
             ->add('BtnReanudar', SubmitType::class, $arrBotonReanudar)
-            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', 'data' => $arTarea->getComentario()))
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', "attr" => array("rows" => 3,"style" => "margin: 0px; width: 367px; height: 52px;")))
             ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar'))
             ->getForm();
         return $form;

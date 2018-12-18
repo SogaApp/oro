@@ -201,9 +201,11 @@ header {
        grid-column: 1;
    }
 
-table {
-    border: black 1px solid;
+table,td,th {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
-td {
-    border: black 1px solid;
+
+td.titulo {
+    background-color: #f5f5f5;
 }
