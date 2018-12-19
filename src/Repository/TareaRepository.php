@@ -12,25 +12,49 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
-    public function listaDql($estado = "", $verificado = "")
+    public function listaDql($estado = "", $verificado = "", $pausado = "", $incomprensible = "", $ejecucion = "", $usuario = "", $caso = "")
     {
         $em = $this->getEntityManager();
         $db = $em->createQueryBuilder()->from("App:Tarea", "t")
             ->select("t")
-
-//            ->orderBy("t.estadoTerminado", "ASC")
-            ->orderBy("t.fechaRegistro", "DESC");
-
-//            ->addOrderBy("t.fechaRegistro", "DESC");
-        if ($estado === 0) {
-            $db->andWhere("t.estadoTerminado = 0");
-        }
-        if ($estado == 1) {
-            $db->andWhere("t.estadoTerminado = 1");
+            ->where("t.codigoTareaPk <> 0");
+        if (is_numeric($estado)) {
+            $db->andWhere("t.estadoTerminado = {$estado}");
+            if($estado === 0){
+                $db->orWhere("t.estadoTerminado IS NULL");
+            }
         }
         if(is_numeric($verificado)){
             $db->andWhere("t.estadoVerificado = {$verificado}");
+            if($verificado === 0){
+                $db->orWhere("t.estadoVerificado IS NULL");
+            }
         }
+        if(is_numeric($pausado)){
+            $db->andWhere("t.estadoPausa = {$pausado}");
+            if($pausado === 0){
+                $db->orWhere("t.estadoPausa IS NULL");
+            }
+        }
+        if(is_numeric($incomprensible)){
+            $db->andWhere("t.estadoIncomprensible = {$incomprensible}");
+            if($incomprensible === 0){
+                $db->orWhere("t.estadoIncomprensible IS NULL");
+            }
+        }
+        if(is_numeric($ejecucion)){
+            $db->andWhere("t.estadoEjecucion = {$ejecucion}");
+            if($ejecucion === 0){
+                $db->orWhere("t.estadoEjecucion IS NULL");
+            }
+        }
+        if($usuario != ""){
+            $db->andWhere("t.codigoUsuarioAsignaFk = '{$usuario}'");
+        }
+        if($caso != ""){
+            $db->andWhere("t.codigoCasoFk = {$caso}");
+        }
+        $db->orderBy("t.fechaRegistro", "DESC");
         return $db;
 
     }

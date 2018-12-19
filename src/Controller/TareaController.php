@@ -13,6 +13,7 @@ use App\Entity\Caso;
 use App\Entity\Comentario;
 use App\Entity\TareaDevolucion;
 use App\Forms\Type\FormTypeTarea;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,6 +25,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class TareaController extends Controller
 {
@@ -124,6 +127,9 @@ class TareaController extends Controller
                     $arCaso->setEstadoTareaRevisada(1);
                     $em->persist($arCaso);
                 }
+                $em->flush();
+                return $this->redirect($this->generateUrl('listaTareaGeneral'));
+
 
             }
             if($form->get("btnGuardar")->isClicked()){
@@ -627,15 +633,50 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
+        $arrPropiedadesUsuario = array(
+                'class' => 'App\Entity\Usuario',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.codigoUsuarioPk', 'DESC');},
+                'choice_label' => 'codigoUsuarioPk',
+                'required' => false,
+                'empty_data' => "",
+                'placeholder' => "TODOS",
+                'label' => "Usuario",
+                'data' => ""
+            );
+        if($session->get('filtroUsuario')){
+            $arrPropiedadesUsuario["data"] = $em->getRepository("App:Usuario")->findOneBy(array('codigoUsuarioPk' => $session->get('filtroUsuario')));
+        }
+        $arrPropiedadesCasos = array(
+            'class' => 'App\Entity\Tarea',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('t')
+                    ->andWhere("t.codigoCasoFk IS NOT NULL")
+                    ->orderBy('t.codigoCasoFk', 'DESC');},
+            'choice_label' => 'codigoCasoFk',
+            'choice_value' => 'codigoCasoFk',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'label' => "Caso",
+            'data' => ""
+        );
+        if($session->get('filtroCaso')){
+            $arrPropiedadesCasos["data"] = $em->getRepository("App:Tarea")->findOneBy(array('codigoCasoFk' => $session->get('filtroCaso')));
+        }
         $estado = "";
         if ($session->get('estado')) {
             $arTarea = $em->getRepository('App:Tarea')->findAll();
         };
         $formFiltro = $this::createFormBuilder()
-            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '2', 'SI' => 1, 'NO' => 0),
-                'label' => 'Resuelto:', 'data' => $session->get('filtroEstado', 2)))
-            ->add('verificado',ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0),
-                "label" => "Verificado:", "data" => $session->get("filtroVerificado"),'required'=>false))
+            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '', 'SI' => 1, 'NO' => 0), 'label' => 'Resuelto:', 'data' => $session->get('filtroEstado', 2),'required'=>false))
+            ->add('verificado',ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Verificado:", "data" => $session->get("filtroVerificado"),'required'=>false))
+            ->add('pausado', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Pausado:", "data" => $session->get("filtroPausado"),'required'=>false))
+            ->add('incomprensibles', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Incomprensibles:", "data" => $session->get("filtroIncomprensible"),'required'=>false))
+            ->add('ejecucion', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Ejecucion:", "data" => $session->get("filtroEjecucion"),'required'=>false))
+            ->add('usuarioAsignaRel', EntityType::class,$arrPropiedadesUsuario)
+            ->add('casoRel', EntityType::class,$arrPropiedadesCasos)
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
@@ -648,6 +689,19 @@ class TareaController extends Controller
         $session = new Session();
         $session->set('filtroEstado', $formFiltro->get('estado')->getData());
         $session->set('filtroVerificado', $formFiltro->get('verificado')->getData());
+        $session->set('filtroPausado', $formFiltro->get('pausado')->getData());
+        $session->set('filtroIncomprensible', $formFiltro->get('incomprensibles')->getData());
+        $session->set('filtroEjecucion', $formFiltro->get('ejecucion')->getData());
+        $codigoUsuario = "";
+        if($formFiltro->get('usuarioAsignaRel')->getData()){
+            $codigoUsuario = $formFiltro->get('usuarioAsignaRel')->getData()->getCodigoUsuarioPk();
+        }
+        $codigoCaso = "";
+        $session->set('filtroUsuario', $codigoUsuario);
+        if($formFiltro->get('casoRel')->getData()){
+            $codigoCaso = $formFiltro->get('casoRel')->getData()->getCodigoCasoFk();
+        }
+        $session->set('filtroCaso', $codigoCaso);
 
     }
 
@@ -656,7 +710,17 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql($session->get('filtroEstado'),$session->get("filtroVerificado"));
+        $this->strDqlLista = $em->getRepository('App:Tarea')->listaDql(
+            $session->get('filtroEstado'),
+            $session->get("filtroVerificado"),
+            $session->get('filtroPausado'),
+            $session->get('filtroIncomprensible'),
+            $session->get('filtroEjecucion'),
+            $session->get('filtroUsuario'),
+            $session->get('filtroCaso')
+
+
+        );
     }
 
     /**

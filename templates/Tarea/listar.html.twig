@@ -28,15 +28,43 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 col-md-6"></div>
+                            <div >
+                                <div class="col-6 col-md-6" style="display: flex;flex-direction: row;justify-content:space-around; ">
+                                    <div>
+                                        {{ form_start(formFiltro) }}
+                                        {{ form_label(formFiltro.estado) }}
+                                        {{ form_widget(formFiltro.estado) }}
+                                    </div>
+                                    <div>
+                                        {{ form_label(formFiltro.verificado) }}
+                                        {{ form_widget(formFiltro.verificado) }}
+                                    </div>
+                                    <div>
+                                        {{ form_label(formFiltro.pausado) }}
+                                        {{ form_widget(formFiltro.pausado) }}
+                                    </div>
+                                    <div>
+                                        {{ form_label(formFiltro.incomprensibles) }}
+                                        {{ form_widget(formFiltro.incomprensibles) }}
+                                    </div>
+
+                            </div>
+                                <br>
+                                <div class="col-6 col-md-6" style="display: flex;flex-direction: row;justify-content:space-around; ">
+                                    <div>
+                                        {{ form_label(formFiltro.ejecucion) }}
+                                        {{ form_widget(formFiltro.ejecucion) }}
+                                    </div>
+                                    <div>
+                                        {{ form_label(formFiltro.usuarioAsignaRel) }}
+                                        {{ form_widget(formFiltro.usuarioAsignaRel) }}
+                                    </div>
+                                    <div>
+                                        {{ form_label(formFiltro.casoRel) }}
+                                        {{ form_widget(formFiltro.casoRel) }}
+                                    </div>
+                                </div>
                             <div class="col-6 col-md-6">
-                                {{ form_start(formFiltro) }}
-                                {{ form_label(formFiltro.estado) }}
-                                {{ form_widget(formFiltro.estado) }}
-                                <br>
-                                <br>
-                                {{ form_label(formFiltro.verificado) }}
-                                {{ form_widget(formFiltro.verificado) }}
 
                                 <div class="col-12 col-md-12" id="submit-filtro" style="text-align: right;padding: 10px;">
                                     {{ form_widget(formFiltro.BtnFiltrar) }}

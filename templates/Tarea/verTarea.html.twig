@@ -20,11 +20,9 @@
                             {{ form_widget(form.BtnEjecucion, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
                             {{ form_widget(form.BtnResuelto, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
                             {{ form_widget(form.BtnVerificado, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                            {% if tarea.estadoTerminado == 1 %}
+                            {% if tarea.estadoTerminado == 1 and tarea.estadoVerificado == 0 %}
                                 <a href="javascript:abrirVentana('{{ path('tareaDevolucion',{ 'codigoTarea':  tarea.codigoTareaPk }) }}', 'Devolucion tareas', 600, 900)" class="btn btn-orange btn-sm">Devolucion</a>
                             {% endif %}
-
-
 
 
                         </div>
