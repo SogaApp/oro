@@ -10,14 +10,24 @@
     </tr>
     <tr>
         <td><strong>Número: </strong></td>
-        <td><span>{{ arTarea.codigoTareaPk }}</span></td>
+        <td><span style="float: left">{{ arTarea.codigoTareaPk }}</span></td>
     </tr><tr>
         <td><strong>Fecha de solucion:</strong></td>
-        <td><span>{{ arTarea.fechaSolucion|date('d/m/Y') }}</span></td>
+        <td><span style="float: left">{{ arTarea.fechaSolucion|date('d/m/Y') }}</span></td>
     </tr><tr>
         <td><strong>Soluciona: </strong></td>
-        <td><span>{{ arTarea.codigoUsuarioAsignaFk }}</span></td>
-    </tr><br>
+        <td><span style="float: left">{{ arTarea.codigoUsuarioAsignaFk }}</span></td>
+    </tr><tr>
+        <td><strong>Descripcion: </strong></td>
+        <td><span style="float: left">{{ arTarea.descripcion }}</span></td>
+    </tr>
+    {% if( arTarea.codigoCasoFk != null) %}
+        <tr>
+            <td><strong>Caso: </strong></td>
+            <td><span>{{ arTarea.casoRel.descripcion }}</span></td>
+        </tr>
+    {% endif %}
+    <br>
     <tr>
         <td colspan="2" style="background-color: #2e6da4;color: #ffffff;text-align: center;">
             <h6>Por favor no responder este correo ya que es generado automaticamente.</h6>
