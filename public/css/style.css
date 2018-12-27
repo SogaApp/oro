@@ -160,46 +160,18 @@ header {
     align-items: center;
     justify-content: center;
     height: calc(100% - 64px - 20px);
-    /*
-      100% height content of main content
-      64px is the height of status-row
-      20px is the height of the top-padding of main-content
-    */
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto;
     grid-gap: 10px;
-    background-color: #2196F3;
     padding: 10px;
 }
 
 .grid-container > div {
-    background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
 }
-
-.item1 {
-    grid-column: 1;
-}
-.item1 {
-    grid-column: 1;
-}
-.item1 {
-    grid-column: 1;
-}
-.item1 {
-     grid-column: 1;
- }
-.item1 {
-      grid-column: 1;
-  }
-.item1 {
-       grid-column: 1;
-   }
 
 table,td,th {
     border: 1px solid black;

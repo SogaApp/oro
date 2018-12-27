@@ -15,144 +15,168 @@
                         <h3 class="panel-title">Detalles del caso: <span
                                     class="label label-default">#{{ caso.codigoCasoPk }} </span></h3><br>
                         <div class="row">
-                            <div class="col-md-4">
-                                <h5 class="panel-title"> Paso 1:
+                            <div class="col-md-4" style="float: right">
                                     {% if caso.estadoAtendido %}
                                         <span class="label label-info">Atendido</span>
-                                    {% else %}
-                                        <span class="label label-warning">Sin Atender</span>
-                                    {% endif %} |
-                                    Paso 2:
+                                    {% endif %}
+
                                     {% if caso.estadoSolucionado %}
                                         <span class="label label-success">Solucionado</span>
-                                    {% else %}
-                                        <span class="label label-warning">Por Solucionar</span>
                                     {% endif %}
-                                </h5>
-                            </div>
-                            <div class="col-md-4">
-                                <strong>Nombre:</strong> {{ caso.nombre|default('-') }}<br><br>
-                                <strong>Cargo:</strong> {{ caso.cargo|default('-') }}
-                            </div>
-                            <div class="col-md-4">
-                                {#{{ dump(caso) }}#}
-                                <strong>Categoria: </strong> <span>
-                                        {#style="padding: 2px;border-radius: 5px;">{{ caso.categoria }}</span><br><br>#}
-                                    <strong>Prioridad:</strong> <span>
-                                        {#style=" padding: 2px;border-radius: 5px;">{{ caso.prioridad }}</span>#}
                             </div>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <h4>Gestión interna:</h4>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-2" class="control-label">Registra:</label>
-                                    <p>{{ caso.usuario|default('Sin usuario') }}</p><br>
-                                    <label for="field-3" class="control-label">Fecha de Registro:</label>
-                                    {#<p>{{ caso.fechaRegistro|date('d/m/Y')|default('Sin usuario')  }}</p>#}
-                                    <p>
-                                        {% if caso.fechaRegistro %}
-                                            {{ caso.fechaRegistro|date('d/m/Y') }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-3" class="control-label">Gestiona:</label>
-                                    <p>{{ caso.codigoUsuarioAtiendeFk|default('Sin atender') }}</p><br>
-                                    <label for="field-3" class="control-label">Fecha de Gestión:</label>
-                                    <p>
-                                        {% if caso.fechaGestion is defined %}
-                                            {{ caso.fechaGestion|date('d/m/Y') }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-3" class="control-label">Soluciona:</label>
-                                    <p>{{ caso.codigoUsuarioSolucionaFk|default('Sin solucionar') }}</p><br>
-                                    <label for="field-3" class="control-label">Fecha de Solución:</label>
-                                    {#<p>{{ caso.fechaSolucion|date('d/m/Y')  }}</p>#}
-
-                                    <p>
+                            <h4>Informacion caso:</h4>
+                            <hr>
+                            <table width="100%" class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="titulo">REGISTRA:</th>
+                                <td class="td-in-well">{{ caso.usuario|default('Sin usuario') }}</td>
+                                <td class="titulo">FECHA REGISTRO:</th>
+                                <td class="td-in-well">
+                                    {% if caso.fechaRegistro %}
+                                        {{ caso.fechaRegistro|date('d/m/Y') }}
+                                    {% endif %}</td>
+                                <td class="titulo">GESTIONA:</th>
+                                <td class="td-in-well">{{ caso.codigoUsuarioAtiendeFk|default('Sin atender') }}</td>
+                                <td class="titulo">FECHA GESTION:</th>
+                                <td class="td-in-well" align="right">
+                                    {% if caso.fechaGestion is defined %}
+                                        {{ caso.fechaGestion|date('d/m/Y') }}
+                                    {% endif %}</td>
+                                <td class="titulo">SOLUCIONA:</th>
+                                <td class="td-in-well">{{ caso.codigoUsuarioSolucionaFk|default('Sin solucionar') }}</td>
+                            </tr>
+                                <tr>
+                                    <td class="titulo">FECHA SOLUCION:</th>
+                                    <td class="td-in-well">
                                         {% if caso.fechaSolucion is defined %}
                                             {{ caso.fechaSolucion|date('d/m/Y') }}
                                         {% endif %}
-                                    </p>
-                                </div>
-                            </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+
                         </div>
                         <hr>
+
                         <div class="row">
                             <h4>Datos de Contacto:</h4>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-2" class="control-label">Contacto:</label>
-                                    <p>{{ caso.contacto }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-3" class="control-label">Correo:</label>
-                                    <p>{{ caso.correo }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-4" class="control-label">Teléfono:</label>
-                                    <p>{{ caso.telefono }} ext. {{ caso.extension }}</p>
-                                </div>
-                            </div>
+                            <hr>
+                            <table width="100%" class="table table-condensed table-bordered">
+                                <tr>
+                                    <td class="titulo">CONTACTO:</th>
+                                    <td class="td-in-well">{{ caso.contacto }}</td>
+                                    <td class="titulo">CORREO:</th>
+                                    <td class="td-in-well">{{ caso.correo }}</td>
+                                    <td class="titulo">TELEFONO:</th>
+                                    <td class="td-in-well">{{ caso.telefono }} ext. {{ caso.extension }}</td>
+                                </tr>
+                            </table>
                         </div>
                         <hr>
                         <div class="row">
-                            <h4>Datos del Caso:</h4>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="field-2" class="control-label">Asunto:</label>
+                                    <h4>Asunto:</h4>
                                     <p>{{ caso.asunto }}</p>
                                 </div>
                             </div>
+                            <hr>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="field-3" class="control-label">Descripcion:</label>
+                                    <h4>Descripcion:</h4>
                                     <p>{{ caso.descripcion }}</p>
                                 </div>
                             </div>
+                            <hr>
+                            {% if(caso.solucion) %}
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field-4" class="control-label">Solución:</label>
-                                    <p>{{ caso.solucion|default('-') }}</p>
+                                    <h4>Solución:</h4>
+
+                                    <p>{{ caso.solucion }}</p>
                                 </div>
                             </div>
+                            <hr>
+                            {% endif %}
+
+                            <div class="col-md-6">
+                                <h4>Comentarios:</h4>
+                                <div id="comentarios">
+                                    <div class="card card-block">
+                                        <div class="timeline">
+                                            {% if arrComentarios is defined and arrComentarios|length > 0 %}
+                                                {% for comentario in arrComentarios %}
+                                                    <article class="timeline-item alt">
+                                                        <div class="timeline-desk" style="">
+                                                            <div class="panel">
+                                                                <div class="timeline-box">
+                                                                    <span class="arrow-alt"></span>
+                                                                    <span class="timeline-icon"><i
+                                                                                class="mdi mdi-checkbox-blank-circle-outline"></i></span>
+                                                                    <h4 class="">{{ comentario.fechaRegistro|date('Y/m/d') }}</h4>
+                                                                    <p class="timeline-date text-muted">
+                                                                        <small>{{ comentario.fechaRegistro|date('H:m') }}</small>
+                                                                    </p>
+                                                                    <p>{{ comentario.comentario }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                {% endfor %}
+                                            {% else %}
+                                                <article class="timeline-item alt">
+                                                    <div class="timeline-desk">
+                                                        <div class="panel">
+                                                            <div class="timeline-box">
+                                                                <p>Sin Comentarios para este caso</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+
                         </div>
                         <div class="row">
-                            <h4>Datos de solicitud de información adicional:</h4>
+                            <h4>Datos de solicitud de información adicional</h4>
+                            <hr>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="field-2" class="control-label">Fecha Solicitud:</label>
+                                    <h4 for="field-2" class="control-label">Fecha Solicitud:</h4>
                                     <p>{{ caso.fechaSolicitudInformacion|date('y-m-d H:m') }}</p>
                                 </div>
                             </div>
+                            <hr>
+                            {% if(caso.solicitudInformacion) %}
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="field-3" class="control-label">Descripción de la solicitud:</label>
+                                    <h4 for="field-3" class="control-label">Descripción de la solicitud:</h4>
                                     <p>{{ caso.solicitudInformacion }}</p>
                                 </div>
                             </div>
+                            <hr>
+                            {% endif %}
+                            {% if(caso.respuestaSolicitudInformacion) %}
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field-4" class="control-label">Respuesta:</label>
-                                    <p>{{ caso.respuestaSolicitudInformacion|default('-') }}</p>
+                                    <h4 for="field-4" class="control-label">Respuesta:</h4>
+                                    <p>{{ caso.respuestaSolicitudInformacion }}</p>
                                 </div>
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
+                        {% endif %}
+
+                <div class="row">
                             <div class="col-md-6">
                                 <h4>Adjuntos:</h4>
                                 <table class="tablesaw m-t-20 table m-b-0 tablesaw-stack" data-tablesaw-mode="stack"
@@ -196,46 +220,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-6">
-                                <h4>Comentarios:</h4>
-                                <div id="comentarios">
-                                    <div class="card card-block">
-                                        <div class="timeline">
-                                            {% if arrComentarios is defined and arrComentarios|length > 0 %}
-                                                {% for comentario in arrComentarios %}
-                                                    <article class="timeline-item alt">
-                                                        <div class="timeline-desk" style="">
-                                                            <div class="panel">
-                                                                <div class="timeline-box">
-                                                                    <span class="arrow-alt"></span>
-                                                                    <span class="timeline-icon"><i
-                                                                                class="mdi mdi-checkbox-blank-circle-outline"></i></span>
-                                                                    <h4 class="">{{ comentario.fechaRegistro|date('Y/m/d') }}</h4>
-                                                                    <p class="timeline-date text-muted">
-                                                                        <small>{{ comentario.fechaRegistro|date('H:m') }}</small>
-                                                                    </p>
-                                                                    <p>{{ comentario.comentario }}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                {% endfor %}
-                                            {% else %}
-                                                <article class="timeline-item alt">
-                                                    <div class="timeline-desk">
-                                                        <div class="panel">
-                                                            <div class="timeline-box">
-                                                                <p>Sin Comentarios para este caso</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </article>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                    <hr>
+                    <div class="col-md-6">
                                 <h4>Tareas:</h4>
                                 <div class="timeline timeline-left">
                                     {% if arrTareas is defined and arrTareas|length > 0 %}
@@ -246,9 +232,9 @@
                                                         <div class="timeline-box">
                                                             {#<span class="arrow"></span>#}
                                                             {#<span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>#}
-                                                            <h4 class="">{{ tarea.fechaRegistro|date('Y/m/d') }}</h4>
+                                                            <p class="">{{ tarea.fechaRegistro|date('Y/m/d') }}</p>
                                                             <p class="timeline-date text-muted">
-                                                                <small>Asignada a : {{ tarea.codigoUsuarioAsignaFk }}</small>
+                                                                <p>Asignada a : {{ tarea.codigoUsuarioAsignaFk }}</p>
                                                             </p>
                                                             <p>{{ tarea.descripcion }}</p>
                                                         </div>

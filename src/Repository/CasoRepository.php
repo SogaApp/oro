@@ -17,28 +17,28 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
             $dql .= " AND e.codigoClientePk =" . $intCodigoEmpresaPk;
         }
 
-        if($estadoEscalado == 0) {
+        if($estadoEscalado === 0) {
             $dql .= " AND d.estadoEscalado = 0";
         }
         if($estadoEscalado == 1) {
             $dql .= " AND d.estadoEscalado = 1";
         }
 
-        if($estadoTarea == 0) {
+        if($estadoTarea === 0) {
             $dql .= " AND d.estadoTarea = 0";
         }
         if($estadoTarea == 1) {
             $dql .= " AND d.estadoTarea = 1";
         }
 
-        if($estadoTareaTerminada == 0) {
+        if($estadoTareaTerminada === 0) {
             $dql .= " AND d.estadoTareaTerminada = 0";
         }
         if($estadoTareaTerminada == 1) {
             $dql .= " AND d.estadoTareaTerminada = 1";
         }
 
-        if($estadoTareaRevisada == 0) {
+        if($estadoTareaRevisada === 0) {
             $dql .= " AND d.estadoTareaRevisada = 0";
         }
         if($estadoTareaRevisada == 1) {
