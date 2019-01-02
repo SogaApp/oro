@@ -105,7 +105,7 @@
                                                 <th>RES</th>
                                                 <th>VER</th>
 
-                                                {#<th></th>#}
+                                                <th></th>
                                                 <th></th>
 
                                             </tr>
@@ -182,6 +182,13 @@
                                                         {#</a>#}
                                                     {#</td>#}
                                                     <td>
+                                                        <a href="{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
+                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
+                                                                    class="glyphicon glyphicon-new-window"
+                                                                    style="padding: 3px;">Editar</i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
                                                         <a href="{{ path('verTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
                                                            class="btn btn-purple waves-effect waves-light btn-xs"><i
                                                                     class="glyphicon glyphicon-new-window"
@@ -210,8 +217,10 @@
                         </div>
     </div>
 </div>
+</div>
 
-    {% endblock content %}
+
+                    {% endblock content %}
 
         {{ include('bloquesGenerales/pie.html.twig') }}
 {% endblock %}
