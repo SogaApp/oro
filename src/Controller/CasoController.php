@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Caso;
 use App\Entity\Cliente;
+use App\Entity\Configuracion;
 use App\Forms\Type\FormTypeCaso;
 use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -104,8 +105,9 @@ class CasoController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
         	if($form->get('btnEnviar')->isClicked()){
 		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)) {
-			        $message = ( new \Swift_Message( 'Solicitud ampliación de información de caso - AppSoga' . ' - ' . $arCaso->getCodigoCasoPk() ) )
-				        ->setFrom( 'sogainformacion@gmail.com' )
+                    $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+			        $message = ( new \Swift_Message( 'Solicitud ampliación de información de caso' . ' - ' . $arCaso->getCodigoCasoPk() ) )
+				        ->setFrom( $arrConfiguracion['correoEmpresa'] )
 				        ->setTo( $arCaso->getCorreo() )
 				        ->setBody(
 					        $this->renderView(
@@ -132,12 +134,12 @@ class CasoController extends Controller {
 	        }
 	        if($form->get('btnGuardar')->isClicked()){
 		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
-			        $message = (new \Swift_Message('Solución de caso - AppSoga'.' - '.$arCaso->getCodigoCasoPk()))
-				        ->setFrom('sogainformacion@gmail.com')
+		            $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+			        $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
+				        ->setFrom($arrConfiguracion['correoEmpresa'])
 				        ->setTo($arCaso->getCorreo())
 				        ->setBody(
 					        $this->renderView(
-					        // templates/emails/registration.html.twig
 						        'Correo/Caso/solucionado.html.twig',
 						        array('arCaso' => $arCaso)
 					        ),
