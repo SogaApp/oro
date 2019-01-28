@@ -134,6 +134,7 @@ class CasoController extends Controller {
 	        }
 	        if($form->get('btnGuardar')->isClicked()){
 		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
+                    $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
 		            $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
 			        $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
 				        ->setFrom($arrConfiguracion['correoEmpresa'])
@@ -246,7 +247,7 @@ class CasoController extends Controller {
         }
 
 
-        $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),20);
+        $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),50);
 
         return $this->render('Caso/listar.html.twig', [
             'casos' => $arrCasos,
