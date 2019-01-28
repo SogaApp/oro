@@ -133,8 +133,16 @@ class CasoController extends Controller {
 		        $em->flush();
 	        }
 	        if($form->get('btnGuardar')->isClicked()){
+                $arCaso->setCodigoUsuarioSolucionaFk($user);
+                if($arCaso->getEstadoAtendido() != true ){
+                    $arCaso->setEstadoAtendido(true);
+                    $arCaso->setFechaGestion(new \ DateTime('now'));
+                }
+                $arCaso->setEstadoSolucionado(true);
+                $arCaso->setSolucion($form->get('solucion')->getData());
+                $em->persist($arCaso);
+                $em->flush();
 		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
-                    $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
 		            $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
 			        $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
 				        ->setFrom($arrConfiguracion['correoEmpresa'])
@@ -147,17 +155,7 @@ class CasoController extends Controller {
 					        'text/html'
 				        );
 			        $mailer->send($message);
-
 		        }
-		        $arCaso->setCodigoUsuarioSolucionaFk($user);
-		        if($arCaso->getEstadoAtendido() != true ){
-			        $arCaso->setEstadoAtendido(true);
-			        $arCaso->setFechaGestion(new \ DateTime('now'));
-		        }
-		        $arCaso->setEstadoSolucionado(true);
-		        $arCaso->setSolucion($form->get('solucion')->getData());
-		        $em->persist($arCaso);
-		        $em->flush();
 	        }
             echo "<script>window.opener.location.reload();window.close()</script>";
         }
