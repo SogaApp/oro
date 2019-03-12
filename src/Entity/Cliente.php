@@ -44,6 +44,11 @@ class Cliente
     private $nombreComercial;
 
     /**
+     * @ORM\Column(name="soporte_inactivo", type="boolean", nullable=true)
+     */
+    private $soporteInactivo = false;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="Llamada", mappedBy="clienteRel")
      */
@@ -281,5 +286,23 @@ class Cliente
     {
         $this->solicitudesClienteRel = $solicitudesClienteRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSoporteInactivo()
+    {
+        return $this->soporteInactivo;
+    }
+
+    /**
+     * @param mixed $soporteInactivo
+     */
+    public function setSoporteInactivo($soporteInactivo): void
+    {
+        $this->soporteInactivo = $soporteInactivo;
+    }
+
+
 
 }
