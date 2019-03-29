@@ -5,19 +5,16 @@ namespace App\Controller;
 use App\Forms\Type\FormTypeLlamada;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Llamada;
-use App\Entity\Cliente;
 use App\Entity\NoContestan;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
 class LlamadaController extends Controller
@@ -65,8 +62,7 @@ class LlamadaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $session = new session;
-        $session->set('clienteRel', "");
+
         /** declara variables auxiliares para organizar el objeto final a devolver*/
         $atendidasPendientes = $em->getRepository('App:Llamada')->getAtendidasPendientes(); // contador de llamadas atendidas
         $pendientes = $em->getRepository('App:Llamada')->getPendientes(); // contador de llamadas pendientes
@@ -187,7 +183,7 @@ class LlamadaController extends Controller
             $this->listar();
         }
 
-        $arLlamadas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1),20);
+        $arLlamadas = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('Llamada/listarGeneral.html.twig', [
             'llamadas' => $arLlamadas,
             //'user' => $user,
@@ -203,33 +199,80 @@ class LlamadaController extends Controller
             $codigoCliente = $formFiltro->get('clienteRel')->getData()->getCodigoClientePk();
         }
         $session->set('clienteRel', $codigoCliente);
+
+        $nombreContacto = "";
+        if ($formFiltro->get('nombreContacto')->getData() != null) {
+            $nombreContacto = $formFiltro->get('nombreContacto')->getData();
+        }
+        $session->set('filtroNombreContacto', $nombreContacto);
+
+
+        $fechaDesde = $formFiltro->get('fechaDesde')->getData()->format('Y-m-d');
+        $session->set('filtroFechaDesdeLlamada', $fechaDesde);
+
+        $fechaHasta = $formFiltro->get('fechaHasta')->getData()->format('Y-m-d');
+        $session->set('filtroFechaHastaLlamada', $fechaHasta);;
     }
 
     private function formularioFiltro()
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session;
-        $arrCliente = array('class' => 'App\Entity\Cliente', 'query_builder' => function (EntityRepository $er) {
-            return $er->createQueryBuilder('c')
-                ->orderBy('c.razonSocial', 'ASC');
-        },
+
+        $arrCliente = array(
+//            'class' => Cliente::class,
+            'class' => 'App\Entity\Cliente', 'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('c')
+                    ->orderBy('c.razonSocial', 'ASC');
+            },
+
             'choice_label' => 'nombreComercial',
             'required' => false,
-            'placeholder' => "TODOS");
+            'placeholder' => "TODOS",
+        );
 
+        if ($session->get('nombreContacto') != "") {
+            $arrContanto['data'] = $this->container->get('doctrine.orm.entity_manager')->getReference("App:Llamada", $session->get('codigo_llamada_pk'));
+        }
+
+        if ($session->get('clienteRel') != "") {
+            $arrCliente['data'] = $this->container->get('doctrine.orm.entity_manager')->getReference("App:Cliente", $session->get('clienteRel'));
+        }
+
+        if ($session->get('filtroFechaDesdeLlamada') == "") {
+            $fechaDesde = new \DateTime('now');
+        } else {
+            $fechaDesde = new DateTime($session->get('filtroFechaDesdeLlamada'));
+        }
+
+        if ($session->get('filtroFechaHastaLlamada') == "") {
+            $fechaHasta = new \DateTime('now');
+        } else {
+            $fechaHasta = new DateTime($session->get('filtroFechaHastaLlamada'));
+        }
         $formFiltro = $this->createFormBuilder()
+            ->add('nombreContacto', TextType::class, ['required' => false, 'data' => $session->get('filtroNombreContacto')] )
             ->add('clienteRel', EntityType::class, $arrCliente)
+            ->add('fechaDesde', DateType::class, ['data' => $fechaDesde])
+            ->add('fechaHasta', DateType::class, ['data' => $fechaHasta])
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
         return $formFiltro;
+
+
     }
+
 
     private function listar()
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $this->strDqlLista = $em->getRepository('App:Llamada')->listaDql($session->get('clienteRel'));
+        $this->strDqlLista = $em->getRepository('App:Llamada')->listaDql(
+            $session->get('clienteRel'),
+            $session->get('filtroFechaDesdeLlamada'),
+            $session->get('filtroFechaHastaLlamada'),
+            $session->get('filtroNombreContacto'));
     }
 
 

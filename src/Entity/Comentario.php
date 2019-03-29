@@ -51,6 +51,7 @@ class Comentario
      */
     private $cliente;
 
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caso", inversedBy="casosComentarioRel")
      * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk")

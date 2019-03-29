@@ -50,7 +50,7 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
         return $atendidasPendientesUsuario;
     }
 
-    public function listaDql($codigoClientePk = "")
+    public function listaDql($codigoClientePk = "", $fechaDesde = "", $fechaHasta = "", $nombreContacto = "")
     {
         $em = $this->getEntityManager();
         $db = $em->createQueryBuilder()->from("App:Llamada", "l")
@@ -63,9 +63,18 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy("l.fechaRegistro", "DESC");
 //                ->orderBy("l.estadoAtendido", "ASC")
 //                ->addOrderBy("l.estadoSolucionado", "ASC");
+
+        if ($nombreContacto != "") {
+            $db->andWhere("l.nombreContacto LIKE '%{$nombreContacto}%'");
+        }
         if ($codigoClientePk != "") {
             $db->andWhere("l.codigoClienteFk = {$codigoClientePk}");
         }
+        if ($fechaDesde != "" and $fechaHasta != "") {
+            $db->andWhere("l.fechaRegistro >= '{$fechaDesde}'");
+            $db->andWhere("l.fechaRegistro <= '{$fechaHasta}'");
+        }
+
 
         return $db;
 
@@ -115,11 +124,12 @@ class LlamadaRepository extends \Doctrine\ORM\EntityRepository
         return $arrSinSolucionar;
     }
 
-    public function reporteSoporte($strFechaDesde,$strFechaHasta){
+    public function reporteSoporte($strFechaDesde, $strFechaHasta)
+    {
         $em = $this->getEntityManager();
-        $dql = $em->createQueryBuilder()->from("App:Llamada","l")
-            ->join("l.moduloRel","m")
-            ->join("l.clienteRel","c")
+        $dql = $em->createQueryBuilder()->from("App:Llamada", "l")
+            ->join("l.moduloRel", "m")
+            ->join("l.clienteRel", "c")
             ->select("c.nombreComercial AS Cliente")
             ->addSelect("m.nombre AS Modulo")
             ->addSelect("l.nombreContacto AS Contacto")

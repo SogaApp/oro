@@ -46,6 +46,8 @@ class ErrorRepository extends ServiceEntityRepository
         }
         if($estadoAntendido != "") {
             $qb->andWhere("e.estadoAtendido = {$estadoAntendido}");
+        }else{
+            $qb->andWhere("e.estadoAtendido = 0");
         }
         if($estadoSolucionado != "") {
             $qb->andWhere("e.estadoSolucionado = {$estadoSolucionado}");

@@ -26,144 +26,6 @@ class CasoController extends Controller {
 
     var $strDqlLista = '';
 
-    /**
-     * @Route("/caso/nuevo/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarCaso")
-     */
-    public function nuevo(Request $request, $codigoCaso = null) {
-        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
-        $arCaso = new Caso(); //instance class
-		if($codigoCaso) {
-            $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-        } else {
-            $arCaso->setEstadoAtendido(false);
-            $arCaso->setEstadoSolucionado(false);
-        }
-        $form = $this->createForm(FormTypeCaso::class, $arCaso); //create form
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if(!$codigoCaso) {
-                $arCaso->setFechaRegistro(new \DateTime('now'));
-            }
-            $em->persist($arCaso);
-            $em->flush();
-            return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
-        }
-        return $this->render('Caso/nuevo.html.twig',
-            array(
-                'form' => $form->createView(),
-	            ));
-    }
-
-    /**
-     * @Route("/caso/solucion/registrar/{codigoCaso}",requirements={"codigoCaso":"\d+"}, name="registrarSolucion")
-     */
-    public function registrarSolucion(Request $request, $codigoCaso = null,  \Swift_Mailer $mailer )
-    {
-        /**
-         * @var $arCaso Caso
-         */
-        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
-        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-        $user = $this->getUser()->getCodigoUsuarioPk();
-
-        $form = $this->createFormBuilder()
-        ->add ('solucion', TextareaType::class,array(
-            'attr' => array(
-                'id' => '_solucion',
-                'name' => '_solucion',
-                'class' => 'form-control',
-
-            ),
-	        'required' => false
-        ))
-        ->add ('requisitoInformacion', TextareaType::class,array(
-	        'attr' => array(
-		        'id' => '_requisitoInformacion',
-		        'name' => '_requisitoInformacion',
-		        'class' => 'form-control'
-	        ),
-	        'required' => false
-        ))
-        ->add ('btnGuardar', SubmitType::class, array(
-            'attr' => array(
-                'id' => '_btnGuardar',
-                'name' => '_btnGuardar'
-            ), 'label' => 'GUARDAR'
-        ))
-
-        ->add ('btnEnviar', SubmitType::class, array(
-	        'attr' => array(
-		        'id' => '_btnEnviar',
-		        'name' => '_btnEnviar'
-	        ), 'label' => 'Enviar solicitud'
-        ))
-
-        ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-        	if($form->get('btnEnviar')->isClicked()){
-		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)) {
-                    $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
-			        $message = ( new \Swift_Message( 'Solicitud ampliación de información de caso' . ' - ' . $arCaso->getCodigoCasoPk() ) )
-				        ->setFrom( $arrConfiguracion['correoEmpresa'] )
-				        ->setTo( $arCaso->getCorreo() )
-				        ->setBody(
-					        $this->renderView(
-					        // templates/emails/registration.html.twig
-						        'Correo/Caso/solicitudInformacion.html.twig',
-						        array( 'arCaso' => $arCaso,
-							            'mensaje' => $form->get('requisitoInformacion')->getData())
-					        ),
-					        'text/html'
-				        );
-			        $mailer->send( $message );
-		        }
-		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
-		        $arCaso->setEstadoSolicitudInformacion(true);
-                $arCaso->setEstadoRespuestaSolicitudInformacion(false);
-		        $arCaso->setFechaSolicitudInformacion(new \DateTime('now'));
-		        $arCaso->setCodigoUsuarioAtiendeFk($user);
-		        if($arCaso->getEstadoAtendido() != true ){
-			        $arCaso->setEstadoAtendido(true);
-			        $arCaso->setFechaGestion(new \ DateTime('now'));
-		        }
-		        $em->persist($arCaso);
-		        $em->flush();
-	        }
-	        if($form->get('btnGuardar')->isClicked()){
-                $arCaso->setCodigoUsuarioSolucionaFk($user);
-                if($arCaso->getEstadoAtendido() != true ){
-                    $arCaso->setEstadoAtendido(true);
-                    $arCaso->setFechaGestion(new \ DateTime('now'));
-                }
-                $arCaso->setEstadoSolucionado(true);
-                $arCaso->setSolucion($form->get('solucion')->getData());
-                $em->persist($arCaso);
-                $em->flush();
-		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
-		            $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
-			        $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
-				        ->setFrom($arrConfiguracion['correoEmpresa'])
-				        ->setTo($arCaso->getCorreo())
-				        ->setBody(
-					        $this->renderView(
-						        'Correo/Caso/solucionado.html.twig',
-						        array('arCaso' => $arCaso)
-					        ),
-					        'text/html'
-				        );
-			        $mailer->send($message);
-		        }
-	        }
-            echo "<script>window.opener.location.reload();window.close()</script>";
-        }
-        return $this->render('Caso/solucion.html.twig', [
-            'form' => $form->createView(),
-            'arCaso' => $arCaso
-        ]);
-    }
 
 
     /**
@@ -232,14 +94,14 @@ class CasoController extends Controller {
                     $em->persist($arCaso);
                 }
             }
-	        if($request->request->has('casoEscalar')) {
-		        $codigoCaso = $request->request->get('casoEscalar');
-		        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-		        if(!$arCaso->getEstadoEscalado()){
-			        $arCaso->setEstadoEscalado(true);
-			        $em->persist($arCaso);
-		        }
-	        }
+            if($request->request->has('casoEscalar')) {
+                $codigoCaso = $request->request->get('casoEscalar');
+                $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+                if(!$arCaso->getEstadoEscalado()){
+                    $arCaso->setEstadoEscalado(true);
+                    $em->persist($arCaso);
+                }
+            }
             $em->flush();
             return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
         }
@@ -253,6 +115,145 @@ class CasoController extends Controller {
             'formFiltro' => $formFiltro->createView ()
         ]);
     }
+
+    /**
+     * @Route("/caso/nuevo/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarCaso")
+     */
+    public function nuevo(Request $request, $codigoCaso = null) {
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $arCaso = new Caso(); //instance class
+		if($codigoCaso) {
+            $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+        } else {
+            $arCaso->setEstadoAtendido(false);
+            $arCaso->setEstadoSolucionado(false);
+        }
+        $form = $this->createForm(FormTypeCaso::class, $arCaso); //create form
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if(!$codigoCaso) {
+                $arCaso->setFechaRegistro(new \DateTime('now'));
+            }
+            $em->persist($arCaso);
+            $em->flush();
+            return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
+        }
+        return $this->render('Caso/nuevo.html.twig',
+            array(
+                'form' => $form->createView(),
+	            ));
+    }
+
+    /**
+     * @Route("/caso/solucion/registrar/{codigoCaso}",requirements={"codigoCaso":"\d+"}, name="registrarSolucion")
+     */
+    public function registrarSolucion(Request $request, $codigoCaso = null,  \Swift_Mailer $mailer )
+    {
+        /**
+         * @var $arCaso Caso
+         */
+        $em = $this->getDoctrine()->getManager(); // instancia el entity manager
+        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
+        $user = $this->getUser()->getCodigoUsuarioPk();
+
+        $form = $this->createFormBuilder()
+        ->add ('solucion', TextareaType::class,array(
+            'attr' => array(
+                'id' => '_solucion',
+                'name' => '_solucion',
+                'class' => 'form-control',
+
+            ),
+	        'required' => false
+        ))
+        ->add ('requisitoInformacion', TextareaType::class,array(
+	        'attr' => array(
+		        'id' => '_requisitoInformacion',
+		        'name' => '_requisitoInformacion',
+		        'class' => 'form-control'
+	        ),
+	        'required' => false
+        ))
+        ->add ('btnGuardar', SubmitType::class, array(
+            'attr' => array(
+                'id' => '_btnGuardar',
+                'name' => '_btnGuardar'
+            ), 'label' => 'GUARDAR'
+        ))
+        ->add ('btnEnviar', SubmitType::class, array(
+	        'attr' => array(
+		        'id' => '_btnEnviar',
+		        'name' => '_btnEnviar'
+	        ), 'label' => 'Enviar solicitud'
+        ))
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        	if($form->get('btnEnviar')->isClicked()){
+		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)) {
+                    $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+			        $message = ( new \Swift_Message( 'Solicitud ampliación de información de caso' . ' - ' . $arCaso->getCodigoCasoPk() ) )
+				        ->setFrom( $arrConfiguracion['correoEmpresa'] )
+				        ->setTo( $arCaso->getCorreo() )
+				        ->setBody(
+					        $this->renderView(
+					        // templates/emails/registration.html.twig
+						        'Correo/Caso/solicitudInformacion.html.twig',
+						        array( 'arCaso' => $arCaso,
+							            'mensaje' => $form->get('requisitoInformacion')->getData())
+					        ),
+					        'text/html'
+				        );
+			        $mailer->send( $message );
+		        }
+		        $arCaso->setSolicitudInformacion($form->get('requisitoInformacion')->getData());
+		        $arCaso->setEstadoSolicitudInformacion(true);
+                $arCaso->setEstadoRespuestaSolicitudInformacion(false);
+		        $arCaso->setFechaSolicitudInformacion(new \DateTime('now'));
+		        $arCaso->setCodigoUsuarioAtiendeFk($user);
+		        if($arCaso->getEstadoAtendido() != true ){
+			        $arCaso->setEstadoAtendido(true);
+			        $arCaso->setFechaGestion(new \ DateTime('now'));
+		        }
+		        $em->persist($arCaso);
+		        $em->flush();
+	        }
+	        if($form->get('btnGuardar')->isClicked()){
+                $arCaso->setCodigoUsuarioSolucionaFk($user);
+                if($arCaso->getEstadoAtendido() != true ){
+                    $arCaso->setEstadoAtendido(true);
+                    $arCaso->setFechaGestion(new \ DateTime('now'));
+                }
+                $arCaso->setEstadoSolucionado(true);
+                $arCaso->setSolucion($form->get('solucion')->getData());
+                $em->persist($arCaso);
+                $em->flush();
+		        if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
+		            $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+			        $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
+				        ->setFrom($arrConfiguracion['correoEmpresa'])
+				        ->setTo($arCaso->getCorreo())
+				        ->setBody(
+					        $this->renderView(
+						        'Correo/Caso/solucionado.html.twig',
+						        array('arCaso' => $arCaso)
+					        ),
+					        'text/html'
+				        );
+			        $mailer->send($message);
+		        }
+	        }
+            echo "<script>window.opener.location.reload();window.close()</script>";
+        }
+        return $this->render('Caso/solucion.html.twig', [
+            'form' => $form->createView(),
+            'arCaso' => $arCaso
+        ]);
+    }
+
+
 
     private function filtrar($formFiltro){
         $session = new Session();
@@ -306,12 +307,7 @@ class CasoController extends Controller {
                             ->add('estadoTarea', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA' => '1', 'SIN TAREA' => '0'), 'label' => 'Estado:' ,'data' => $session->get('filtroCasoEstadoTarea')))
                             ->add('estadoTareaTerminada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA TERMINADA' => '1', 'TAREA SIN TERMINAR' => '0'), 'label' => 'Terminado:' ,'data' => $session->get('filtroCasoEstadoTareaTerminada')))
                             ->add('estadoTareaRevisada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TATERA REVISADA' => '1', 'TAREA SIN REVISAR' => '0'), 'label' => 'Revisado:' ,'data' => $session->get('filtroCasoEstadoTareaRevisada')))
-		                   ->add ('btnFiltrar', SubmitType::class, array (
-			                   'label' => 'Filtrar',
-			                   'attr' => array (
-				                   'class' => 'btn btn-primary btn-bordered waves-effect w-md waves-light m-b-5'
-			                   )
-		                   ))
+		                   ->add ('btnFiltrar', SubmitType::class, array ('label' => 'Filtrar'))
 		                   ->getForm();
 
 
@@ -351,8 +347,6 @@ class CasoController extends Controller {
 		}
 
         $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),20);
-
-
         return $this->render('Caso/listar.html.twig', [
 			'casos' => $arrCasos,
 			'form' => $form->createView(),

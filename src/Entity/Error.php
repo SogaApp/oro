@@ -416,4 +416,14 @@ class Error
         $this->codigoClienteFk= $codigoClienteFk;
         return $this;
     }
+
+    public function getEstadoAtendido(): ?bool
+    {
+        return $this->estadoAtendido;
+    }
+
+    public function getEstadoSolucionado(): ?bool
+    {
+        return $this->estadoSolucionado;
+    }
 }

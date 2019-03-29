@@ -12,7 +12,7 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
-    public function listaDql($estado = "", $verificado = "", $pausado = "", $incomprensible = "", $ejecucion = "", $usuario = "", $caso = "")
+    public function listaDql($estado = "", $verificado = "", $pausado = "", $incomprensible = "", $ejecucion = "", $usuarioAsigna = "", $usuarioRegistra = "", $caso = "")
     {
         $em = $this->getEntityManager();
         $db = $em->createQueryBuilder()->from("App:Tarea", "t")
@@ -48,8 +48,11 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
                 $db->orWhere("t.estadoEjecucion IS NULL");
             }
         }
-        if($usuario != ""){
-            $db->andWhere("t.codigoUsuarioAsignaFk = '{$usuario}'");
+        if($usuarioAsigna != ""){
+            $db->andWhere("t.codigoUsuarioAsignaFk = '{$usuarioAsigna}'");
+        }
+        if ($usuarioRegistra != ""){
+            $db->andWhere("t.codigoUsuarioRegistraFk = '{$usuarioRegistra}'");
         }
         if($caso != ""){
             $db->andWhere("t.codigoCasoFk = {$caso}");

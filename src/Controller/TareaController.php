@@ -96,9 +96,9 @@ class TareaController extends Controller
          **/
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
-        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
-        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoComentarioPk' => 'DESC'));
+        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoTareaDevolucionPk' => 'DESC'));
+        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoTareaTiempoPk' => 'DESC'));
+        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoComentarioPk' => 'DESC'));
         $form = $this->formularioVer($arTarea);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,7 +132,7 @@ class TareaController extends Controller
 
 
             }
-            if($form->get("btnGuardar")->isClicked()){
+            if ($form->get("btnGuardar")->isClicked()) {
                 $arComentario = new Comentario();
                 $arComentario->setTareaRel($arTarea);
                 $arComentario->setFechaRegistro(new \DateTime('now'));
@@ -489,28 +489,28 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
-        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaDevolucionPk' => 'DESC'));
-        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoTareaTiempoPk' => 'DESC'));
-        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea),array('codigoComentarioPk' => 'DESC'));
+        $arDevoluciones = $em->getRepository("App:TareaDevolucion")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoTareaDevolucionPk' => 'DESC'));
+        $arTareaTiempos = $em->getRepository("App:TareaTiempo")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoTareaTiempoPk' => 'DESC'));
+        $arComentarios = $em->getRepository("App:Comentario")->findBy(array('codigoTareaFk' => $codigoTarea), array('codigoComentarioPk' => 'DESC'));
         $form = $this->formularioDetalles($arTarea);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form->get("BtnEjecucion")->isClicked()) {
+            if ($form->get("BtnEjecucion")->isClicked()) {
                 $arTarea->setEstadoEjecucion(1);
                 $arTarea->setFechaEjecucion(new \DateTime('now'));
-                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea,$this->getUser()->getCodigoUsuarioPk());
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea, $this->getUser()->getCodigoUsuarioPk());
                 $arTarea->setCodigoTareaTiempoFk($codigoTareaTiempo);
                 $em->persist($arTarea);
             }
-            if($form->get("BtnResuelto")->isClicked()) {
+            if ($form->get("BtnResuelto")->isClicked()) {
                 $arTarea->setEstadoTerminado(1);
                 $arTarea->setFechaSolucion(new \DateTime('now'));
                 $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
                 $em->persist($arTarea);
                 $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioRegistraFk());
                 $correo = $usuario->getCorreo();
-                if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-                    $message = (new \Swift_Message('Solucion de tarea - AppSoga'.' - '.$arTarea->getCodigoTareaPk()))
+                if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                    $message = (new \Swift_Message('Solucion de tarea - AppSoga' . ' - ' . $arTarea->getCodigoTareaPk()))
                         ->setFrom('sogainformacion@gmail.com')
                         ->setTo($correo)
                         ->setBody(
@@ -526,22 +526,22 @@ class TareaController extends Controller
                 $em->flush();
                 return $this->redirect($this->generateUrl('listaTareaUsuario'));
             }
-            if($form->get("BtnIncomprendido")->isClicked()) {
+            if ($form->get("BtnIncomprendido")->isClicked()) {
                 $arTarea->setEstadoIncomprensible(1);
                 $em->persist($arTarea);
             }
-            if($form->get("BtnPausar")->isClicked()) {
+            if ($form->get("BtnPausar")->isClicked()) {
                 $arTarea->setEstadoPausa(1);
                 $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
                 $em->persist($arTarea);
             }
-            if($form->get("BtnReanudar")->isClicked()) {
+            if ($form->get("BtnReanudar")->isClicked()) {
                 $arTarea->setEstadoPausa(0);
-                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea,$this->getUser()->getCodigoUsuarioPk());
+                $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaInicio($arTarea, $this->getUser()->getCodigoUsuarioPk());
                 $arTarea->setCodigoTareaTiempoFk($codigoTareaTiempo);
                 $em->persist($arTarea);
             }
-            if($form->get("btnGuardar")->isClicked()){
+            if ($form->get("btnGuardar")->isClicked()) {
                 $arComentario = new Comentario();
                 $arComentario->setTareaRel($arTarea);
                 $arComentario->setFechaRegistro(new \DateTime('now'));
@@ -566,18 +566,19 @@ class TareaController extends Controller
     /**
      * @Route("/tarea/devolucion/{codigoTarea}", name="tareaDevolucion")
      */
-    public function devolucionTarea(Request $request, $codigoTarea, \Swift_Mailer $mailer){
+    public function devolucionTarea(Request $request, $codigoTarea, \Swift_Mailer $mailer)
+    {
         $em = $this->getDoctrine()->getManager();
         $devolucion = new TareaDevolucion();
         $arTarea = $em->getRepository('App:Tarea')->find($codigoTarea);
         $form = $this->createFormBuilder()
-            ->add('comentario', TextareaType::class,array('attr' => array('rows' => 5, 'style' => 'width: 95%;')))
+            ->add('comentario', TextareaType::class, array('attr' => array('rows' => 5, 'style' => 'width: 95%;')))
             ->add('BtnGuardar', SubmitType::class, ['label' => 'Guardar'])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form->get("BtnGuardar")->isClicked()){
+            if ($form->get("BtnGuardar")->isClicked()) {
                 $devolucion->setFecha(new \DateTime('now'));
                 $devolucion->setComentarios($form->get("comentario")->getData());
                 $devolucion->setDevolucionRel($arTarea);
@@ -592,10 +593,10 @@ class TareaController extends Controller
                     $arCaso->setEstadoTareaRevisada(0);
                     $em->persist($arCaso);
                 }
-                if($arTarea->getNumeroDevoluciones() != null){
+                if ($arTarea->getNumeroDevoluciones() != null) {
                     $count = $arTarea->getNumeroDevoluciones() + 1;
                     $arTarea->setNumeroDevoluciones($count);
-                }else{
+                } else {
                     $arTarea->setNumeroDevoluciones(1);
                 }
                 $em->persist($devolucion);
@@ -603,8 +604,8 @@ class TareaController extends Controller
                 $em->flush();
                 $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioAsignaFk());
                 $correo = $usuario->getCorreo();
-                if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-                    $message = (new \Swift_Message('Devolucion de tarea - AppSoga'.' - '.$arTarea->getCodigoTareaPk()))
+                if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                    $message = (new \Swift_Message('Devolucion de tarea - AppSoga' . ' - ' . $arTarea->getCodigoTareaPk()))
                         ->setFrom('sogainformacion@gmail.com')
                         ->setTo($correo)
                         ->setBody(
@@ -622,7 +623,7 @@ class TareaController extends Controller
             }
         }
 
-        return $this->render('Tarea/devolucion.html.twig',array(
+        return $this->render('Tarea/devolucion.html.twig', array(
             "arTarea" => $arTarea,
             "form" => $form->createView()
         ));
@@ -633,36 +634,56 @@ class TareaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $arrPropiedadesUsuario = array(
-                'class' => 'App\Entity\Usuario',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.codigoUsuarioPk', 'DESC');},
-                'choice_label' => 'codigoUsuarioPk',
-                'required' => false,
-                'empty_data' => "",
-                'placeholder' => "TODOS",
-                'label' => "Usuario",
-                'data' => ""
-            );
-        if($session->get('filtroUsuario')){
-            $arrPropiedadesUsuario["data"] = $em->getRepository("App:Usuario")->findOneBy(array('codigoUsuarioPk' => $session->get('filtroUsuario')));
+        $arrPropiedadesUsuarioAsigna = array(
+            'class' => 'App\Entity\Usuario',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.codigoUsuarioPk', 'DESC');
+            },
+            'choice_label' => 'codigoUsuarioPk',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "Todos",
+            'label' => "Usuario Asigna",
+            'data' => ""
+        );
+        if ($session->get('filtroUsuarioAsigna')) {
+            $arrPropiedadesUsuarioAsigna["data"] = $em->getRepository("App:Usuario")->findOneBy(array('codigoUsuarioPk' => $session->get('filtroUsuarioAsigna')));
         }
+
+        $arrPropiedadesUsuarioRegistra = array(
+            'class' => 'App\Entity\Usuario',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('ru')
+                    ->orderBy('ru.codigoUsuarioPk', 'DESC');
+            },
+            'choice_label' => 'codigoUsuarioPk',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "Todos",
+            'data' => ""
+        );
+        if ($session->get('filtroUsuarioRegistra')){
+            $arrPropiedadesUsuarioRegistra["data"] = $em->getRepository("App:Usuario")->findOneBy(array('codigoUsuarioPk' => $session->get('filtroUsuarioRegistra')));
+        }
+
+
         $arrPropiedadesCasos = array(
             'class' => 'App\Entity\Tarea',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('t')
                     ->andWhere("t.codigoCasoFk IS NOT NULL")
-                    ->orderBy('t.codigoCasoFk', 'DESC');},
+                    ->orderBy('t.codigoCasoFk', 'DESC');
+            },
             'choice_label' => 'codigoCasoFk',
             'choice_value' => 'codigoCasoFk',
             'required' => false,
             'empty_data' => "",
-            'placeholder' => "TODOS",
+            'placeholder' => "Todos",
             'label' => "Caso",
             'data' => ""
         );
-        if($session->get('filtroCaso')){
+        if ($session->get('filtroCaso')) {
             $arrPropiedadesCasos["data"] = $em->getRepository("App:Tarea")->findOneBy(array('codigoCasoFk' => $session->get('filtroCaso')));
         }
         $estado = "";
@@ -670,13 +691,14 @@ class TareaController extends Controller
             $arTarea = $em->getRepository('App:Tarea')->findAll();
         };
         $formFiltro = $this::createFormBuilder()
-            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '', 'SI' => 1, 'NO' => 0), 'label' => 'Resuelto:', 'data' => $session->get('filtroEstado', 2),'required'=>false))
-            ->add('verificado',ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Verificado:", "data" => $session->get("filtroVerificado"),'required'=>false))
-            ->add('pausado', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Pausado:", "data" => $session->get("filtroPausado"),'required'=>false))
-            ->add('incomprensibles', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Incomprensibles:", "data" => $session->get("filtroIncomprensible"),'required'=>false))
-            ->add('ejecucion', ChoiceType::class,array('choices' => array('Todos' => "","SI"=> 1, "NO" => 0), "label" => "Ejecucion:", "data" => $session->get("filtroEjecucion"),'required'=>false))
-            ->add('usuarioAsignaRel', EntityType::class,$arrPropiedadesUsuario)
-            ->add('casoRel', EntityType::class,$arrPropiedadesCasos)
+            ->add('estado', ChoiceType::class, array('choices' => array('Todos' => '', 'SI' => 1, 'NO' => 0), 'label' => 'Resuelto:', 'data' => $session->get('filtroEstado', 2), 'required' => false))
+            ->add('verificado', ChoiceType::class, array('choices' => array('Todos' => "", "SI" => 1, "NO" => 0), "label" => "Verificado:", "data" => $session->get("filtroVerificado"), 'required' => false))
+            ->add('pausado', ChoiceType::class, array('choices' => array('Todos' => "", "SI" => 1, "NO" => 0), "label" => "Pausado:", "data" => $session->get("filtroPausado"), 'required' => false))
+            ->add('incomprensibles', ChoiceType::class, array('choices' => array('Todos' => "", "SI" => 1, "NO" => 0), "label" => "Incomprensibles:", "data" => $session->get("filtroIncomprensible"), 'required' => false))
+            ->add('ejecucion', ChoiceType::class, array('choices' => array('Todos' => "", "SI" => 1, "NO" => 0), "label" => "Ejecucion:", "data" => $session->get("filtroEjecucion"), 'required' => false))
+            ->add('usuarioAsignaRel', EntityType::class, $arrPropiedadesUsuarioAsigna)
+            ->add('usuarioRegistraRel', EntityType::class, $arrPropiedadesUsuarioRegistra)
+            ->add('casoRel', EntityType::class, $arrPropiedadesCasos)
             ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
             ->getForm();
 
@@ -692,13 +714,21 @@ class TareaController extends Controller
         $session->set('filtroPausado', $formFiltro->get('pausado')->getData());
         $session->set('filtroIncomprensible', $formFiltro->get('incomprensibles')->getData());
         $session->set('filtroEjecucion', $formFiltro->get('ejecucion')->getData());
-        $codigoUsuario = "";
-        if($formFiltro->get('usuarioAsignaRel')->getData()){
-            $codigoUsuario = $formFiltro->get('usuarioAsignaRel')->getData()->getCodigoUsuarioPk();
+
+        $codigoUsuarioAsigna = "";
+        if ($formFiltro->get('usuarioAsignaRel')->getData()) {
+            $codigoUsuarioAsigna = $formFiltro->get('usuarioAsignaRel')->getData()->getCodigoUsuarioPk();
         }
+
+        $codigoUsuarioRegistra = "";
+        if ($formFiltro->get('usuarioRegistraRel')->getData()) {
+            $codigoUsuarioRegistra = $formFiltro->get('usuarioRegistraRel')->getData()->getCodigoUsuarioPk();
+        }
+        $session->set('filtroUsuarioRegistra', $codigoUsuarioRegistra);
+
         $codigoCaso = "";
-        $session->set('filtroUsuario', $codigoUsuario);
-        if($formFiltro->get('casoRel')->getData()){
+        $session->set('filtroUsuarioAsigna', $codigoUsuarioAsigna);
+        if ($formFiltro->get('casoRel')->getData()) {
             $codigoCaso = $formFiltro->get('casoRel')->getData()->getCodigoCasoFk();
         }
         $session->set('filtroCaso', $codigoCaso);
@@ -716,7 +746,8 @@ class TareaController extends Controller
             $session->get('filtroPausado'),
             $session->get('filtroIncomprensible'),
             $session->get('filtroEjecucion'),
-            $session->get('filtroUsuario'),
+            $session->get('filtroUsuarioAsigna'),
+            $session->get('filtroUsuarioRegistra'),
             $session->get('filtroCaso')
 
 
@@ -746,8 +777,8 @@ class TareaController extends Controller
 
     private function formularioVer($arTarea)
     {
-        $arrBotonEjecucion = array('label' => 'Ejecucion','disabled'=> true);
-        $arrBotonResuelto = array('label' => 'Resuelto','disabled'=> true);
+        $arrBotonEjecucion = array('label' => 'Ejecucion', 'disabled' => true);
+        $arrBotonResuelto = array('label' => 'Resuelto', 'disabled' => true);
         $arrBotonVerificado = array('label' => 'Verificado', 'attr' => array('style' => 'display:none;'));
         if ($arTarea->getEstadoEjecucion() == 1) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
@@ -771,7 +802,7 @@ class TareaController extends Controller
             ->add('BtnEjecucion', SubmitType::class, $arrBotonEjecucion)
             ->add('BtnResuelto', SubmitType::class, $arrBotonResuelto)
             ->add('BtnVerificado', SubmitType::class, $arrBotonVerificado)
-            ->add('comentario', TextareaType::class, array('label' => 'Comentarios',"attr" => array("rows" => 3,"style" => "margin: 0px; width: 367px; height: 52px;")))
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', "attr" => array("rows" => 3, "style" => "margin: 0px; width: 367px; height: 52px;")))
             ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar',))
             ->getForm();
         return $form;
@@ -784,21 +815,21 @@ class TareaController extends Controller
         $arrBotonResuelto = array('label' => 'Resuelto', 'attr' => array('style' => 'display:none;'));
         $arrBotonPausar = array('label' => 'Pausar', 'attr' => array('style' => 'display:none;'));
         $arrBotonReanudar = array('label' => 'Reanudar', 'attr' => array('style' => 'display:none;'));
-        if($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 1){
+        if ($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 1) {
             $arrBotonReanudar['attr']['style'] = '';
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
-        }elseif($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 0){
+        } elseif ($arTarea->getEstadoEjecucion() == 1 && $arTarea->getEstadoPausa() == 0) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
             $arrBotonPausar['attr']['style'] = '';
             $arrBotonResuelto['attr']['style'] = '';
         }
-        if($arTarea->getEstadoIncomprensible() == 1){
+        if ($arTarea->getEstadoIncomprensible() == 1) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
         }
-        if($arTarea->getEstadoTerminado() == 1){
+        if ($arTarea->getEstadoTerminado() == 1) {
             $arrBotonEjecucion['attr']['style'] = 'display:none;';
             $arrBotonIncomprendido['attr']['style'] = 'display:none;';
             $arrBotonResuelto = array('label' => 'Resuelto', 'attr' => array('style' => 'display:none;'));
@@ -812,7 +843,7 @@ class TareaController extends Controller
             ->add('BtnPausar', SubmitType::class, $arrBotonPausar)
             ->add('BtnIncomprendido', SubmitType::class, $arrBotonIncomprendido)
             ->add('BtnReanudar', SubmitType::class, $arrBotonReanudar)
-            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', "attr" => array("rows" => 3,"style" => "margin: 0px; width: 367px; height: 52px;")))
+            ->add('comentario', TextareaType::class, array('label' => 'Comentarios', "attr" => array("rows" => 3, "style" => "margin: 0px; width: 367px; height: 52px;")))
             ->add('btnGuardar', SubmitType::class, array('label' => 'Guardar'))
             ->getForm();
         return $form;

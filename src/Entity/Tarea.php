@@ -7,6 +7,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,12 +33,12 @@ class Tarea
      */
     private $codigoUsuarioRegistraFk;
 
-	/**
-	 * @ORM\Column(name="codigo_prioridad_fk", type="string", length=50, nullable=true)
-	 */
-	private $codigoPrioridadFk;
+    /**
+     * @ORM\Column(name="codigo_prioridad_fk", type="string", length=50, nullable=true)
+     */
+    private $codigoPrioridadFk;
 
-	/**
+    /**
      * @ORM\Column(name="codigo_tarea_tipo_fk", type="string", length=50, nullable=true)
      */
     private $codigoTareaTipoFk;
@@ -76,10 +78,10 @@ class Tarea
      */
     private $codigoUsuarioAsignaFk;
 
-	/**
-	 * @ORM\Column(name="codigo_caso_fk", type="integer", length=50, nullable=true)
-	 */
-	private $codigoCasoFk;
+    /**
+     * @ORM\Column(name="codigo_caso_fk", type="integer", length=50, nullable=true)
+     */
+    private $codigoCasoFk;
 
     /**
      * @ORM\Column(name="fecha_gestion", type="datetime", nullable=true)
@@ -101,10 +103,10 @@ class Tarea
      */
     private $comentario;
 
-	/**
-	 * @ORM\Column(name="caso", type="string", length=10, nullable=true)
-	 */
-	private $caso;
+    /**
+     * @ORM\Column(name="caso", type="string", length=10, nullable=true)
+     */
+    private $caso;
 
     /**
      * @ORM\Column(name="estado_incomprensible", type="boolean", nullable=true)
@@ -133,18 +135,18 @@ class Tarea
      */
     private $tareaTipoRel;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Prioridad", inversedBy="tareaPrioridadRel")
-	 * @ORM\JoinColumn(name="codigo_prioridad_fk", referencedColumnName="codigo_prioridad_pk")
-	 */
-	private $prioridadRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="Prioridad", inversedBy="tareaPrioridadRel")
+     * @ORM\JoinColumn(name="codigo_prioridad_fk", referencedColumnName="codigo_prioridad_pk")
+     */
+    private $prioridadRel;
 
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Caso", inversedBy="tareasCasoRel")
-	 * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk", nullable=true)
-	 */
-	private $casoRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="Caso", inversedBy="tareasCasoRel")
+     * @ORM\JoinColumn(name="codigo_caso_fk", referencedColumnName="codigo_caso_pk", nullable=true)
+     */
+    private $casoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="TareaTiempo", inversedBy="tareasTareaTiempoRel")
@@ -157,420 +159,414 @@ class Tarea
      */
     private $tareasDevolucionRel;
 
+
     /**
-     * @return int
+     * @ORM\OneToMany(targetEntity="Usuario", mappedBy="tareaRel")
      */
-    public function getCodigoTareaPk(): int
+    private $usuariosTareaRel;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comentario", mappedBy="tareaRel")
+     */
+    private $tareasComentarioRel;
+
+
+
+    public function __construct()
+    {
+        $this->tareasDevolucionRel = new ArrayCollection();
+        $this->usuariosTareaRel = new ArrayCollection();
+        $this->tareasComentarioRel = new ArrayCollection();
+    }
+
+    public function getCodigoTareaPk(): ?int
     {
         return $this->codigoTareaPk;
     }
 
-    /**
-     * @param int $codigoTareaPk
-     */
-    public function setCodigoTareaPk(int $codigoTareaPk): void
-    {
-        $this->codigoTareaPk = $codigoTareaPk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoUsuarioRegistraFk()
+    public function getCodigoUsuarioRegistraFk(): ?string
     {
         return $this->codigoUsuarioRegistraFk;
     }
 
-    /**
-     * @param mixed $codigoUsuarioRegistraFk
-     */
-    public function setCodigoUsuarioRegistraFk($codigoUsuarioRegistraFk): void
+    public function setCodigoUsuarioRegistraFk(string $codigoUsuarioRegistraFk): self
     {
         $this->codigoUsuarioRegistraFk = $codigoUsuarioRegistraFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoPrioridadFk()
+    public function getCodigoPrioridadFk(): ?string
     {
         return $this->codigoPrioridadFk;
     }
 
-    /**
-     * @param mixed $codigoPrioridadFk
-     */
-    public function setCodigoPrioridadFk($codigoPrioridadFk): void
+    public function setCodigoPrioridadFk(?string $codigoPrioridadFk): self
     {
         $this->codigoPrioridadFk = $codigoPrioridadFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoTareaTipoFk()
+    public function getCodigoTareaTipoFk(): ?string
     {
         return $this->codigoTareaTipoFk;
     }
 
-    /**
-     * @param mixed $codigoTareaTipoFk
-     */
-    public function setCodigoTareaTipoFk($codigoTareaTipoFk): void
+    public function setCodigoTareaTipoFk(?string $codigoTareaTipoFk): self
     {
         $this->codigoTareaTipoFk = $codigoTareaTipoFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaEjecucion()
+    public function getFechaEjecucion(): ?\DateTimeInterface
     {
         return $this->fechaEjecucion;
     }
 
-    /**
-     * @param mixed $fechaEjecucion
-     */
-    public function setFechaEjecucion($fechaEjecucion): void
+    public function setFechaEjecucion(?\DateTimeInterface $fechaEjecucion): self
     {
         $this->fechaEjecucion = $fechaEjecucion;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaRegistro()
+    public function getFechaRegistro(): ?\DateTimeInterface
     {
         return $this->fechaRegistro;
     }
 
-    /**
-     * @param mixed $fechaRegistro
-     */
-    public function setFechaRegistro($fechaRegistro): void
+    public function setFechaRegistro(?\DateTimeInterface $fechaRegistro): self
     {
         $this->fechaRegistro = $fechaRegistro;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaVerificado()
+    public function getFechaVerificado(): ?\DateTimeInterface
     {
         return $this->fechaVerificado;
     }
 
-    /**
-     * @param mixed $fechaVerificado
-     */
-    public function setFechaVerificado($fechaVerificado): void
+    public function setFechaVerificado(?\DateTimeInterface $fechaVerificado): self
     {
         $this->fechaVerificado = $fechaVerificado;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoEjecucion()
+    public function getEstadoEjecucion(): ?bool
     {
         return $this->estadoEjecucion;
     }
 
-    /**
-     * @param mixed $estadoEjecucion
-     */
-    public function setEstadoEjecucion($estadoEjecucion): void
+    public function setEstadoEjecucion(?bool $estadoEjecucion): self
     {
         $this->estadoEjecucion = $estadoEjecucion;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoTerminado()
+    public function getEstadoTerminado(): ?bool
     {
         return $this->estadoTerminado;
     }
 
-    /**
-     * @param mixed $estadoTerminado
-     */
-    public function setEstadoTerminado($estadoTerminado): void
+    public function setEstadoTerminado(?bool $estadoTerminado): self
     {
         $this->estadoTerminado = $estadoTerminado;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoVerificado()
+    public function getEstadoVerificado(): ?bool
     {
         return $this->estadoVerificado;
     }
 
-    /**
-     * @param mixed $estadoVerificado
-     */
-    public function setEstadoVerificado($estadoVerificado): void
+    public function setEstadoVerificado(?bool $estadoVerificado): self
     {
         $this->estadoVerificado = $estadoVerificado;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoUsuarioAsignaFk()
+    public function getCodigoUsuarioAsignaFk(): ?string
     {
         return $this->codigoUsuarioAsignaFk;
     }
 
-    /**
-     * @param mixed $codigoUsuarioAsignaFk
-     */
-    public function setCodigoUsuarioAsignaFk($codigoUsuarioAsignaFk): void
+    public function setCodigoUsuarioAsignaFk(?string $codigoUsuarioAsignaFk): self
     {
         $this->codigoUsuarioAsignaFk = $codigoUsuarioAsignaFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoCasoFk()
+    public function getCodigoCasoFk(): ?int
     {
         return $this->codigoCasoFk;
     }
 
-    /**
-     * @param mixed $codigoCasoFk
-     */
-    public function setCodigoCasoFk($codigoCasoFk): void
+    public function setCodigoCasoFk(?int $codigoCasoFk): self
     {
         $this->codigoCasoFk = $codigoCasoFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaGestion()
+    public function getFechaGestion(): ?\DateTimeInterface
     {
         return $this->fechaGestion;
     }
 
-    /**
-     * @param mixed $fechaGestion
-     */
-    public function setFechaGestion($fechaGestion): void
+    public function setFechaGestion(?\DateTimeInterface $fechaGestion): self
     {
         $this->fechaGestion = $fechaGestion;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaSolucion()
+    public function getFechaSolucion(): ?\DateTimeInterface
     {
         return $this->fechaSolucion;
     }
 
-    /**
-     * @param mixed $fechaSolucion
-     */
-    public function setFechaSolucion($fechaSolucion): void
+    public function setFechaSolucion(?\DateTimeInterface $fechaSolucion): self
     {
         $this->fechaSolucion = $fechaSolucion;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDescripcion()
+    public function getDescripcion(): ?string
     {
         return $this->descripcion;
     }
 
-    /**
-     * @param mixed $descripcion
-     */
-    public function setDescripcion($descripcion): void
+    public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComentario()
+    public function getComentario(): ?string
     {
         return $this->comentario;
     }
 
-    /**
-     * @param mixed $comentario
-     */
-    public function setComentario($comentario): void
+    public function setComentario(?string $comentario): self
     {
         $this->comentario = $comentario;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaso()
+    public function getCaso(): ?string
     {
         return $this->caso;
     }
 
-    /**
-     * @param mixed $caso
-     */
-    public function setCaso($caso): void
+    public function setCaso(?string $caso): self
     {
         $this->caso = $caso;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoIncomprensible()
+    public function getEstadoIncomprensible(): ?bool
     {
         return $this->estadoIncomprensible;
     }
 
-    /**
-     * @param mixed $estadoIncomprensible
-     */
-    public function setEstadoIncomprensible($estadoIncomprensible): void
+    public function setEstadoIncomprensible(?bool $estadoIncomprensible): self
     {
         $this->estadoIncomprensible = $estadoIncomprensible;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoPausa()
+    public function getEstadoPausa(): ?bool
     {
         return $this->estadoPausa;
     }
 
-    /**
-     * @param mixed $estadoPausa
-     */
-    public function setEstadoPausa($estadoPausa): void
+    public function setEstadoPausa(?bool $estadoPausa): self
     {
         $this->estadoPausa = $estadoPausa;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoTareaTiempoFk()
+    public function getCodigoTareaTiempoFk(): ?int
     {
         return $this->codigoTareaTiempoFk;
     }
 
-    /**
-     * @param mixed $codigoTareaTiempoFk
-     */
-    public function setCodigoTareaTiempoFk($codigoTareaTiempoFk): void
+    public function setCodigoTareaTiempoFk(?int $codigoTareaTiempoFk): self
     {
         $this->codigoTareaTiempoFk = $codigoTareaTiempoFk;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNumeroDevoluciones()
+    public function getNumeroDevoluciones(): ?int
     {
         return $this->numeroDevoluciones;
     }
 
-    /**
-     * @param mixed $numeroDevoluciones
-     */
-    public function setNumeroDevoluciones($numeroDevoluciones): void
+    public function setNumeroDevoluciones(?int $numeroDevoluciones): self
     {
         $this->numeroDevoluciones = $numeroDevoluciones;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTareaTipoRel()
+    public function getTareaTipoRel(): ?TareaTipo
     {
         return $this->tareaTipoRel;
     }
 
-    /**
-     * @param mixed $tareaTipoRel
-     */
-    public function setTareaTipoRel($tareaTipoRel): void
+    public function setTareaTipoRel(?TareaTipo $tareaTipoRel): self
     {
         $this->tareaTipoRel = $tareaTipoRel;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPrioridadRel()
+    public function getPrioridadRel(): ?Prioridad
     {
         return $this->prioridadRel;
     }
 
-    /**
-     * @param mixed $prioridadRel
-     */
-    public function setPrioridadRel($prioridadRel): void
+    public function setPrioridadRel(?Prioridad $prioridadRel): self
     {
         $this->prioridadRel = $prioridadRel;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCasoRel()
+    public function getCasoRel(): ?Caso
     {
         return $this->casoRel;
     }
 
-    /**
-     * @param mixed $casoRel
-     */
-    public function setCasoRel($casoRel): void
+    public function setCasoRel(?Caso $casoRel): self
     {
         $this->casoRel = $casoRel;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTareaTiempoRel()
+    public function getTareaTiempoRel(): ?TareaTiempo
     {
         return $this->tareaTiempoRel;
     }
 
-    /**
-     * @param mixed $tareaTiempoRel
-     */
-    public function setTareaTiempoRel($tareaTiempoRel): void
+    public function setTareaTiempoRel(?TareaTiempo $tareaTiempoRel): self
     {
         $this->tareaTiempoRel = $tareaTiempoRel;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return Collection|TareaDevolucion[]
      */
-    public function getTareasDevolucionRel()
+    public function getTareasDevolucionRel(): Collection
     {
         return $this->tareasDevolucionRel;
     }
 
-    /**
-     * @param mixed $tareasDevolucionRel
-     */
-    public function setTareasDevolucionRel($tareasDevolucionRel): void
+    public function addTareasDevolucionRel(TareaDevolucion $tareasDevolucionRel): self
     {
-        $this->tareasDevolucionRel = $tareasDevolucionRel;
+        if (!$this->tareasDevolucionRel->contains($tareasDevolucionRel)) {
+            $this->tareasDevolucionRel[] = $tareasDevolucionRel;
+            $tareasDevolucionRel->setDevolucionRel($this);
+        }
+
+        return $this;
     }
 
-   }
+    public function removeTareasDevolucionRel(TareaDevolucion $tareasDevolucionRel): self
+    {
+        if ($this->tareasDevolucionRel->contains($tareasDevolucionRel)) {
+            $this->tareasDevolucionRel->removeElement($tareasDevolucionRel);
+            // set the owning side to null (unless already changed)
+            if ($tareasDevolucionRel->getDevolucionRel() === $this) {
+                $tareasDevolucionRel->setDevolucionRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Usuario[]
+     */
+    public function getUsuariosTareaRel(): Collection
+    {
+        return $this->usuariosTareaRel;
+    }
+
+    public function addUsuariosTareaRel(Usuario $usuariosTareaRel): self
+    {
+        if (!$this->usuariosTareaRel->contains($usuariosTareaRel)) {
+            $this->usuariosTareaRel[] = $usuariosTareaRel;
+            $usuariosTareaRel->setTareaRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsuariosTareaRel(Usuario $usuariosTareaRel): self
+    {
+        if ($this->usuariosTareaRel->contains($usuariosTareaRel)) {
+            $this->usuariosTareaRel->removeElement($usuariosTareaRel);
+            // set the owning side to null (unless already changed)
+            if ($usuariosTareaRel->getTareaRel() === $this) {
+                $usuariosTareaRel->setTareaRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comentario[]
+     */
+    public function getTareasComentarioRel(): Collection
+    {
+        return $this->tareasComentarioRel;
+    }
+
+    public function addTareasComentarioRel(Comentario $tareasComentarioRel): self
+    {
+        if (!$this->tareasComentarioRel->contains($tareasComentarioRel)) {
+            $this->tareasComentarioRel[] = $tareasComentarioRel;
+            $tareasComentarioRel->setTareaRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTareasComentarioRel(Comentario $tareasComentarioRel): self
+    {
+        if ($this->tareasComentarioRel->contains($tareasComentarioRel)) {
+            $this->tareasComentarioRel->removeElement($tareasComentarioRel);
+            // set the owning side to null (unless already changed)
+            if ($tareasComentarioRel->getTareaRel() === $this) {
+                $tareasComentarioRel->setTareaRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
+}

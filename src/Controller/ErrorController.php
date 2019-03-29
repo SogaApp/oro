@@ -27,10 +27,11 @@ class ErrorController extends Controller
     /**
      * @Route("/error/lista", name="erroresLista")
      */
-    public function lista(Request $request, Request $requestForm)
+    public function lista(Request $request)
     {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $this->listarErrores($em);
 
         if ($session->get("filtro_cliente")) {
@@ -41,12 +42,12 @@ class ErrorController extends Controller
                 'placeholder' => 'Seleccione un cliente',
                 'required' => false,
                 'class' => 'App:Cliente',
-                'query_builder' => function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
-                              ->orderBy('c.nombreComercial', 'ASC');
+                        ->orderBy('c.nombreComercial', 'ASC');
                 },
                 'choice_label' => 'nombreComercial',
-                'data' => $cliente?? null,
+                'data' => $cliente ?? null,
             ])
             ->add('estadoAtendido', CheckboxType::class, [
                 'required' => false,
@@ -70,14 +71,38 @@ class ErrorController extends Controller
             $this->filtrar($formFiltro);
             $this->listarErrores($em);
         }
-        $query = $em->createQuery($this->strDqlLista);
-        $errores = $query->getResult();
-
+//        $dql = $em->createQuery($this->strDqlLista);
+//        $arErrores = $dql->getResult();
+        $arErrores = $paginator->paginate($em->createQuery($this->strDqlLista),$request->query->get('page',1), 100);
         return $this->render("Error/listar.html.twig", [
-            'errores' => $errores,
+            'errores' => $arErrores,
             'form' => $formFiltro->createView(),
+            'formFiltro' => $formFiltro->createView ()
         ]);
     }
+
+
+//    /**
+//     * @Route("/error/lista/atendidos", name="errorAtendidos")
+//     */
+//    public function listaAtendidos(Request $request)
+//    {
+//
+//        $em = $this->getDoctrine()->getManager();
+//        ini_set('memory_limit', -1);
+//        $this->listarErrores($em);
+//        $paginator = $this->get('knp_paginator');
+//
+//
+//        $arErroresAtendido = $paginator->paginate($em->createQuery($this->strDqlLista),$request->query->get('page',1), 100);
+//
+//        return $this->render('Error/listarAtendidos.html.twig', array(
+//            'arErroresAtendido' => $arErroresAtendido,
+//
+//
+//        ));
+//    }
+
 
     /**
      * @Route("/error/atender/{codigoError}", name="errorAtender")
@@ -88,7 +113,6 @@ class ErrorController extends Controller
          * @var $arError Error
          */
         $em = $this->getDoctrine()->getManager();
-        $arError = new Error();
 
         if ($codigoError != null) {
             $arError = $em->getRepository('App:Error')->find($codigoError);
@@ -110,46 +134,46 @@ class ErrorController extends Controller
          */
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $user = $this->getUser()->getCodigoUsuarioPk();
-	    $arError = $em->getRepository('App:Error')->find($codigoError);
+        $arError = $em->getRepository('App:Error')->find($codigoError);
         $form = $this->createFormBuilder()
-            ->add("mensaje", TextareaType::class, array('label'=>'Mensaje','required'=>false))
-	        ->add("ccJefe", CheckboxType::class, array('label'=>'Con copia jefe desarrollo','required'=>false))
-	        ->add("enviar", SubmitType::class, array('label'=>'ENVIAR'))
-		    ->getForm();
+            ->add("mensaje", TextareaType::class, array('label' => 'Mensaje', 'required' => false))
+            ->add("ccJefe", CheckboxType::class, array('label' => 'Con copia jefe desarrollo', 'required' => false))
+            ->add("enviar", SubmitType::class, array('label' => 'ENVIAR'))
+            ->getForm();
         $form->handleRequest($request);
 
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        	$mensaje = $form->get('mensaje')->getData();
-	        if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
-		        $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getCodigoErrorPk()))
-			        ->setFrom('sogainformacion@gmail.com')
-			        ->setTo($arError->getEmail())
-			        ->setBody(
-				        $this->renderView(
-				        // templates/emails/registration.html.twig
-					        'Correo/Error/errorSolucionado.html.twig',
-					        array('arError' => $arError,
-						        'mensaje'=>$mensaje,
-						        'user' => $user
-					        )
-				        ),
-				        'text/html'
-			        );
-		        if($form->get('ccJefe')->getData() == true){
-		        	$message->addCc('jefedesarrollo@appsoga.com');
-		        }
-		        $mailer->send($message);
-	        }
-	        echo "<script>window.opener.location.reload();window.close()</script>";
+            $mensaje = $form->get('mensaje')->getData();
+            if (filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                $message = (new \Swift_Message('Hemos solucionado un error encontrado en AppSoga' . ' - ' . $arError->getCodigoErrorPk()))
+                    ->setFrom('sogainformacion@gmail.com')
+                    ->setTo($arError->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                        // templates/emails/registration.html.twig
+                            'Correo/Error/errorSolucionado.html.twig',
+                            array('arError' => $arError,
+                                'mensaje' => $mensaje,
+                                'user' => $user
+                            )
+                        ),
+                        'text/html'
+                    );
+                if ($form->get('ccJefe')->getData() == true) {
+                    $message->addCc('jefedesarrollo@appsoga.com');
+                }
+                $mailer->send($message);
+            }
+            echo "<script>window.opener.location.reload();window.close()</script>";
 
         }
 
-	    return $this->render("Error/enviarCorreo.html.twig", array(
-	    	'form' => $form->createView()
-	    ));
-	}
+        return $this->render("Error/enviarCorreo.html.twig", array(
+            'form' => $form->createView()
+        ));
+    }
 
     private function filtrar($formFiltro)
     {
@@ -157,7 +181,7 @@ class ErrorController extends Controller
         $dataCliente = $formFiltro->get('clienteRel')->getData();
         $dataEstadoAtendido = $formFiltro->get('estadoAtendido')->getData();
         $dataEstadoSolucionado = $formFiltro->get('estadoSolucionado')->getData();
-        $codigoCliente = $dataCliente instanceof Cliente? $dataCliente->getCodigoClientePk() : null;
+        $codigoCliente = $dataCliente instanceof Cliente ? $dataCliente->getCodigoClientePk() : null;
         $session->set('filtroCliente', $codigoCliente);
         $session->set('filtroEstadoAtendido', $dataEstadoAtendido);
         $session->set('filtroEstadoSolucionado', $dataEstadoSolucionado);

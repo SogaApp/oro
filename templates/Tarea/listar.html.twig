@@ -1,226 +1,243 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
-        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
-                    {% block content %}
-<div class="main-body">
-    <div class="current-bar">
-        <h2>Tareas</h2>
-    </div>
-    <div class="main-content">
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="page-title-box">
-                                    <h4 class="page-title" style="padding-right: 10px;"><i
-                                                class="glyphicon glyphicon-th-list"></i> Tareas </h4>
-                                    <span class="label label-danger">Sin asignar: {{ sinAsignar }}</span>
-                                    <span class="label label-danger">Sin terminar: {{ sinTerminar }}</span>
-                                    <span class="label label-danger">Sin verificar: {{ sinVerificar }}</span>
-                                    <a href="{{ path('registrarTarea') }}">
-                                        <button class="btn btn-success btn-bordered waves-effect waves-light"
-                                                style="float: right;"><span class="mdi mdi-plus"></span> Nueva
-                                        </button>
-                                    </a>
-                                    <hr>
-                                    <div class="clearfix"></div>
+{% block content %}
+    <div class="placeholder" style="margin-top: 50px">&nbsp;</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box" style="margin-top: 50px">
+                <h4 class="page-title" style="padding-right: 10px;"><i class="glyphicon glyphicon-th-list"></i> Tareas
+                </h4>
+                <span class="label label-danger">Sin asignar: {{ sinAsignar }}</span>
+                <span class="label label-danger">Sin terminar: {{ sinTerminar }}</span>
+                <span class="label label-danger">Sin verificar: {{ sinVerificar }}</span>
+                <a href="{{ path('registrarTarea') }}">
+                    <button class="btn btn-success btn-bordered waves-effect waves-light"
+                            style="float: right;"><span class="mdi mdi-plus"></span> Nueva
+                    </button>
+                </a>
+                <hr>
+                <div class="clearfix"></div>
+
+
+                {{ form_start(formFiltro) }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Filtros de busqueda</div>
+                            <div class="card-box">
+                                <div class="form-group form-group-sm">
+                                    <div class="row">
+
+                                        <label class="col-sm-1">Resuelto</label>
+                                        <div class="col-sm-3">
+                                            {#{{ form_label(formFiltro.estado) }}#}
+                                            {{ form_widget(formFiltro.estado) }}
+                                        </div>
+                                        <label class="col-sm-1">Verificado</label>
+                                        <div class="col-sm-3">
+                                            {#{{ form_label(formFiltro.verificado) }}#}
+                                            {{ form_widget(formFiltro.verificado) }}
+                                        </div>
+                                        <label class="col-sm-1">Pausado</label>
+                                        <div class="col-sm-3">
+                                            {#{{ form_label(formFiltro.pausado) }}#}
+                                            {{ form_widget(formFiltro.pausado) }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="grid-container">
-                                    <div>
-                                        {{ form_start(formFiltro) }}
-                                        {{ form_label(formFiltro.estado) }}
-                                        {{ form_widget(formFiltro.estado) }}
-                                    </div>
-                                    <div>
-                                        {{ form_label(formFiltro.verificado) }}
-                                        {{ form_widget(formFiltro.verificado) }}
-                                    </div>
-                                    <div>
-                                        {{ form_label(formFiltro.pausado) }}
-                                        {{ form_widget(formFiltro.pausado) }}
-                                    </div>
-                                    <div>
-                                        {{ form_label(formFiltro.incomprensibles) }}
+
+                                <br>
+                                <div class="row">
+                                    <label class="col-sm-1">Incomprensible</label>
+                                    <div class="col-sm-3">
+                                        {#{{ form_label(formFiltro.incomprensibles) }}#}
                                         {{ form_widget(formFiltro.incomprensibles) }}
                                     </div>
-
-                                    <div>
-                                        {{ form_label(formFiltro.ejecucion) }}
+                                    <label class="col-sm-1">Ejecucion</label>
+                                    <div class="col-sm-3">
+                                        {#{{ form_label(formFiltro.ejecucion) }}#}
                                         {{ form_widget(formFiltro.ejecucion) }}
                                     </div>
+                                    <label class="col-sm-1">Caso</label>
+                                    <div class="col-sm-3">
+                                        {#{{ form_label(formFiltro.casoRel) }}#}
+                                        {{ form_widget(formFiltro.casoRel) }}
+                                    </div>
 
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label class="col-sm-1">Usuario Registra</label>
+                                    <div class="col-sm-3">
+                                        {{ form_widget(formFiltro.usuarioRegistraRel) }}
+                                    </div>
+                                    <label class="col-sm-1">Usuario Asignado</label>
+                                    <div class="col-sm-3">
+                                        {#{{ form_label(formFiltro.usuarioAsignaRel) }}#}
+                                        {{ form_widget(formFiltro.usuarioAsignaRel) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-6">
+                                        <div class="col-12 col-md-12" id="submit-filtro"
+                                             style="text-align: right;padding: 10px;">
+                                            {{ form_widget(formFiltro.BtnFiltrar) }}
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
-                            <div class="grid-container">
-                                <div>
-                                    {{ form_label(formFiltro.usuarioAsignaRel) }}
-                                    {{ form_widget(formFiltro.usuarioAsignaRel) }}
-                                </div>
-                                <div>
-                                    {{ form_label(formFiltro.casoRel) }}
-                                    {{ form_widget(formFiltro.casoRel) }}
-                                </div>
+                    </div>
+                </div>
+                {{ form_end(formFiltro) }}
 
-                            </div>
+                {#{{ form_start(form) }}#}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-box">
+                            <h4 class="page-title" style="padding-right: 10px;"><i
+                                        class="glyphicon glyphicon-th-list"></i>
+                                Tareas
+                            </h4>
+                            <div class="table-responsive">
+                                <table id="tarea-table" class="table table table-hover m-0">
 
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Registra</th>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>F.asignación</th>
+                                        <th>Asignado</th>
+                                        <th>F.solución</th>
+                                        <th>F.verificación</th>
+                                        <th>Descripción</th>
+                                        <th>Caso</th>
+                                        <th>Prioridad</th>
+                                        <th>Tiempo</th>
+                                        <th>EJE</th>
+                                        <th>INC</th>
+                                        <th>PAU</th>
+                                        <th>RES</th>
+                                        <th>VER</th>
 
-                            <div class="col-6 col-md-6">
+                                        <th></th>
+                                        <th></th>
 
-                                <div class="col-12 col-md-12" id="submit-filtro" style="text-align: right;padding: 10px;">
-                                    {{ form_widget(formFiltro.BtnFiltrar) }}
-                                </div>
-                                {{ form_end(formFiltro) }}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                            </div>
-                            <br>
-        <hr>
+                                    {% for tarea in tareas %}
+                                        <tr>
+                                            <td>{{ tarea.codigoTareaPk }} </td>
+                                            <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
 
-        {{ form_start(form) }}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card-box">
-                                    <div class="table-responsive">
-                                        <table id="tarea-table" class="table table table-hover m-0">
+                                            <td>{% if tarea.fechaRegistro != null %}
+                                                    {{ tarea.fechaRegistro|date('y-m-d') }}
+                                                {% endif %}
+                                            </td>
 
-                                            <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Registra</th>
-                                                <th>Fecha</th>
-                                                <th>Tipo</th>
-                                                <th>F.asignación</th>
-                                                <th>Asignado</th>
-                                                <th>F.solución</th>
-                                                <th>F.verificación</th>
-                                                <th>Descripción</th>
-                                                <th>Caso</th>
-                                                <th>Prioridad</th>
-                                                <th>Tiempo</th>
-                                                <th>EJE</th>
-                                                <th>INC</th>
-                                                <th>PAU</th>
-                                                <th>RES</th>
-                                                <th>VER</th>
+                                            <td>{% if tarea.tareaTipoRel != null %}
+                                                    <span class="label label-default">{{ tarea.tareaTipoRel.codigoTareaTipoPk }}</span>
+                                                {% endif %}
+                                            </td>
 
-                                                <th></th>
-                                                <th></th>
+                                            <td>
+                                                {% if tarea.fechaGestion != null %}
+                                                    {{ tarea.fechaGestion|date('y-m-d') }}
+                                                {% endif %}
+                                            </td>
 
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                            <td>{{ tarea.codigoUsuarioAsignaFk }}</td>
 
-                                            {% for tarea in tareas %}
-                                                <tr>
-                                                    <td>{{ tarea.codigoTareaPk }} </td>
-                                                    <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
+                                            <td>
+                                                {% if tarea.fechaSolucion != null %}
+                                                    {{ tarea.fechaSolucion|date('y-m-d') }}
+                                                {% endif %}
+                                            </td>
 
-                                                    <td>{% if tarea.fechaRegistro != null %}
-                                                            {{ tarea.fechaRegistro|date('y-m-d') }}
-                                                        {% endif %}
-                                                    </td>
+                                            <td>
+                                                {% if tarea.fechaVerificado != null %}
+                                                    {{ tarea.fechaVerificado|date('y-m-d') }}
+                                                {% endif %}
+                                            </td>
 
-                                                    <td>{% if tarea.tareaTipoRel != null %}
-                                                            <span class="label label-default">{{ tarea.tareaTipoRel.codigoTareaTipoPk }}</span>
-                                                        {% endif %}
-                                                    </td>
-
-                                                    <td>
-                                                        {% if tarea.fechaGestion != null %}
-                                                            {{ tarea.fechaGestion|date('y-m-d') }}
-                                                        {% endif %}
-                                                    </td>
-
-                                                    <td>{{ tarea.codigoUsuarioAsignaFk }}</td>
-
-                                                    <td>
-                                                        {% if tarea.fechaSolucion != null %}
-                                                            {{ tarea.fechaSolucion|date('y-m-d') }}
-                                                        {% endif %}
-                                                    </td>
-
-                                                    <td>
-                                                        {% if tarea.fechaVerificado != null %}
-                                                            {{ tarea.fechaVerificado|date('y-m-d') }}
-                                                        {% endif %}
-                                                    </td>
-
-                                                    <td>{{ tarea.descripcion }}</td>
-                                                    <td>{% if tarea.casoRel.codigoCasoPk is defined %}<a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>{% endif %}</td>
+                                            <td>{{ tarea.descripcion }}</td>
+                                            <td>{% if tarea.casoRel.codigoCasoPk is defined %}<a
+                                                    href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}"
+                                                    target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>{% endif %}
+                                            </td>
 
 
-                                                        {#{{  dump(tarea) }}#}
+                                            {#{{  dump(tarea) }}#}
 
 
-                                                    </td>
-                                                    <td>
-                                                    <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
+                                            </td>
+                                            <td>
+                                                    <span class="label"
+                                                          style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
                                                         {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}
                                                             {{ tarea.prioridadRel.nombre }}
                                                         {% else %}
                                                             Sin prioridad
                                                         {% endif %}
                                                     </span>
-                                                    </td>
-                                                    {% set tiempo = calcularTiempo(tarea.codigoTareaPk) %}
-                                                    <td>{{ tiempo }} mins</td>
+                                            </td>
+                                            {% set tiempo = calcularTiempo(tarea.codigoTareaPk) %}
+                                            <td>{{ tiempo }} mins</td>
 
 
-                                                    <td>{{ tarea.estadoEjecucion == 1 ? "SI":"NO" }}</td>
-                                                    <td>{{ tarea.estadoIncomprensible == 1 ? "SI":"NO" }}</td>
-                                                    <td>{{ tarea.estadoPausa == 1 ? "SI":"NO" }}</td>
-                                                    <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
-                                                    <td>{{ tarea.estadoVerificado == 1 ? "SI":"NO" }}</td>
+                                            <td>{{ tarea.estadoEjecucion == 1 ? "SI":"NO" }}</td>
+                                            <td>{{ tarea.estadoIncomprensible == 1 ? "SI":"NO" }}</td>
+                                            <td>{{ tarea.estadoPausa == 1 ? "SI":"NO" }}</td>
+                                            <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
+                                            <td>{{ tarea.estadoVerificado == 1 ? "SI":"NO" }}</td>
 
-                                                    {#<td>#}
-                                                        {#<a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"#}
-                                                           {#class="btn btn-purple waves-effect waves-light btn-xs"><i#}
-                                                                    {#class="glyphicon glyphicon-pencil"#}
-                                                                    {#style="padding: 3px;"></i>#}
-                                                        {#</a>#}
-                                                    {#</td>#}
-                                                    <td>
-                                                        <a href="{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
-                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
-                                                                    class="glyphicon glyphicon-new-window"
-                                                                    style="padding: 3px;">Editar</i>
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ path('verTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
-                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
-                                                                    class="glyphicon glyphicon-new-window"
-                                                                    style="padding: 3px;">Detalle</i>
-                                                        </a>
-                                                    </td>
+                                            {#<td>#}
+                                            {#<a href="javascript:abrirVentana('{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}','Agregar caso',900)"#}
+                                            {#class="btn btn-purple waves-effect waves-light btn-xs"><i#}
+                                            {#class="glyphicon glyphicon-pencil"#}
+                                            {#style="padding: 3px;"></i>#}
+                                            {#</a>#}
+                                            {#</td>#}
+                                            <td>
+                                                <a href="{{ path('registrarTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
+                                                   class="btn btn-purple waves-effect waves-light btn-xs"><i
+                                                            class="glyphicon glyphicon-new-window"
+                                                            style="padding: 3px;">Editar</i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('verTarea', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
+                                                   class="btn btn-purple waves-effect waves-light btn-xs"><i
+                                                            class="glyphicon glyphicon-new-window"
+                                                            style="padding: 3px;">Detalle</i>
+                                                </a>
+                                            </td>
 
-                                                </tr>
-                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
 
-                                            </tbody>
-                                        </table>
-                                    </div> <!-- table-responsive -->
-                                </div> <!-- end card -->
-                            </div>
-                            <!-- end col -->
-                        </div>
-                        {{ form_end(form) }}
-        <hr>
-
-        <div class="btn-group" style="float: left">
-                            <div class="btn btn-default ">Registros <span
-                                        class="badge">{{ tareas.getTotalItemCount }}</span></div>
-                            <div class="btn-group"
-                                 style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive -->
+                        </div> <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                {#{{ form_end(form) }}#}
+                <div class="btn-group" style="float: left">
+                    <div class="btn btn-default ">Registros <span
+                                class="badge">{{ tareas.getTotalItemCount }}</span></div>
+                </div>
+                    <div class="btn-group"
+                         style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
+{% endblock content %}
 
-
-                    {% endblock content %}
-
-        {{ include('bloquesGenerales/pie.html.twig') }}
-{% endblock %}
