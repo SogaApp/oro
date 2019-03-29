@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box" style="margin-top: 50px">
-
+                <a href="{{ path('registrarCaso') }}">
                 <h4 class="page-title" style="padding-right: 10px;"><i class="mdi mdi-phone-in-talk"></i> Casos
                     (Incidencias)</h4>
                 <span class="placeholder">&nbsp</span>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                {{ form_end(form) }}
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-box">
@@ -263,7 +263,7 @@
                         </div>
                     </div>
                 </div>
-
+                {{ form_end(form) }}
                 <div class="btn-group" style="float: left">
                     <div class="btn btn-default ">Registros <span
                                 class="badge">{{ casos.getTotalItemCount }}</span></div>
