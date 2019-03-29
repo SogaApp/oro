@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -274,8 +275,13 @@ class Caso
 	 *
 	 * @ORM\OneToMany(targetEntity="Comentario", mappedBy="casoRel")
 	 */
-
 	private $casosComentarioRel;
+
+    public function __construct()
+    {
+        $this->tareasCasoRel = new ArrayCollection();
+        $this->casosComentarioRel = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -963,6 +969,52 @@ class Caso
     public function setCasosComentarioRel($casosComentarioRel): void
     {
         $this->casosComentarioRel = $casosComentarioRel;
+    }
+
+    public function addTareasCasoRel(Tarea $tareasCasoRel): self
+    {
+        if (!$this->tareasCasoRel->contains($tareasCasoRel)) {
+            $this->tareasCasoRel[] = $tareasCasoRel;
+            $tareasCasoRel->setCasoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTareasCasoRel(Tarea $tareasCasoRel): self
+    {
+        if ($this->tareasCasoRel->contains($tareasCasoRel)) {
+            $this->tareasCasoRel->removeElement($tareasCasoRel);
+            // set the owning side to null (unless already changed)
+            if ($tareasCasoRel->getCasoRel() === $this) {
+                $tareasCasoRel->setCasoRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addCasosComentarioRel(Comentario $casosComentarioRel): self
+    {
+        if (!$this->casosComentarioRel->contains($casosComentarioRel)) {
+            $this->casosComentarioRel[] = $casosComentarioRel;
+            $casosComentarioRel->setCasoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCasosComentarioRel(Comentario $casosComentarioRel): self
+    {
+        if ($this->casosComentarioRel->contains($casosComentarioRel)) {
+            $this->casosComentarioRel->removeElement($casosComentarioRel);
+            // set the owning side to null (unless already changed)
+            if ($casosComentarioRel->getCasoRel() === $this) {
+                $casosComentarioRel->setCasoRel(null);
+            }
+        }
+
+        return $this;
     }
 
 }

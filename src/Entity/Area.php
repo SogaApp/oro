@@ -31,6 +31,7 @@ class Area
      * @ORM\OneToMany(targetEntity="Caso", mappedBy="areaRel")
      */
     private $casosAreaRel;
+
     /**
      * Constructor
      */

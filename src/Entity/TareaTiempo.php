@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,6 +51,11 @@ class TareaTiempo
      * @ORM\Column(name="minutos", type="integer", nullable=true)
      */
     private $minutos;
+
+    public function __construct()
+    {
+        $this->tareasTareaTiempoRel = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -161,6 +167,29 @@ class TareaTiempo
     public function setMinutos($minutos): void
     {
         $this->minutos = $minutos;
+    }
+
+    public function addTareasTareaTiempoRel(Tarea $tareasTareaTiempoRel): self
+    {
+        if (!$this->tareasTareaTiempoRel->contains($tareasTareaTiempoRel)) {
+            $this->tareasTareaTiempoRel[] = $tareasTareaTiempoRel;
+            $tareasTareaTiempoRel->setTareaTiempoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTareasTareaTiempoRel(Tarea $tareasTareaTiempoRel): self
+    {
+        if ($this->tareasTareaTiempoRel->contains($tareasTareaTiempoRel)) {
+            $this->tareasTareaTiempoRel->removeElement($tareasTareaTiempoRel);
+            // set the owning side to null (unless already changed)
+            if ($tareasTareaTiempoRel->getTareaTiempoRel() === $this) {
+                $tareasTareaTiempoRel->setTareaTiempoRel(null);
+            }
+        }
+
+        return $this;
     }
 
 }

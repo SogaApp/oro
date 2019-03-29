@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -37,6 +38,12 @@ class ImplementacionGrupo
      * @ORM\OneToMany(targetEntity="ImplementacionTema", mappedBy="implementacionGrupoRel")
      */
     private $implementacionesTemasImplementacionGrupoRel;
+
+    public function __construct()
+    {
+        $this->implementacionesDetallesImplementacionGrupoRel = new ArrayCollection();
+        $this->implementacionesTemasImplementacionGrupoRel = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -100,6 +107,52 @@ class ImplementacionGrupo
     public function setImplementacionesTemasImplementacionGrupoRel($implementacionesTemasImplementacionGrupoRel): void
     {
         $this->implementacionesTemasImplementacionGrupoRel = $implementacionesTemasImplementacionGrupoRel;
+    }
+
+    public function addImplementacionesDetallesImplementacionGrupoRel(ImplementacionDetalle $implementacionesDetallesImplementacionGrupoRel): self
+    {
+        if (!$this->implementacionesDetallesImplementacionGrupoRel->contains($implementacionesDetallesImplementacionGrupoRel)) {
+            $this->implementacionesDetallesImplementacionGrupoRel[] = $implementacionesDetallesImplementacionGrupoRel;
+            $implementacionesDetallesImplementacionGrupoRel->setImplementacionGrupoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImplementacionesDetallesImplementacionGrupoRel(ImplementacionDetalle $implementacionesDetallesImplementacionGrupoRel): self
+    {
+        if ($this->implementacionesDetallesImplementacionGrupoRel->contains($implementacionesDetallesImplementacionGrupoRel)) {
+            $this->implementacionesDetallesImplementacionGrupoRel->removeElement($implementacionesDetallesImplementacionGrupoRel);
+            // set the owning side to null (unless already changed)
+            if ($implementacionesDetallesImplementacionGrupoRel->getImplementacionGrupoRel() === $this) {
+                $implementacionesDetallesImplementacionGrupoRel->setImplementacionGrupoRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addImplementacionesTemasImplementacionGrupoRel(ImplementacionTema $implementacionesTemasImplementacionGrupoRel): self
+    {
+        if (!$this->implementacionesTemasImplementacionGrupoRel->contains($implementacionesTemasImplementacionGrupoRel)) {
+            $this->implementacionesTemasImplementacionGrupoRel[] = $implementacionesTemasImplementacionGrupoRel;
+            $implementacionesTemasImplementacionGrupoRel->setImplementacionGrupoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImplementacionesTemasImplementacionGrupoRel(ImplementacionTema $implementacionesTemasImplementacionGrupoRel): self
+    {
+        if ($this->implementacionesTemasImplementacionGrupoRel->contains($implementacionesTemasImplementacionGrupoRel)) {
+            $this->implementacionesTemasImplementacionGrupoRel->removeElement($implementacionesTemasImplementacionGrupoRel);
+            // set the owning side to null (unless already changed)
+            if ($implementacionesTemasImplementacionGrupoRel->getImplementacionGrupoRel() === $this) {
+                $implementacionesTemasImplementacionGrupoRel->setImplementacionGrupoRel(null);
+            }
+        }
+
+        return $this;
     }
 
 

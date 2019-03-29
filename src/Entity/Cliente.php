@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +49,7 @@ class Cliente
      */
     private $soporteInactivo = false;
 
+
     /**
      *
      * @ORM\OneToMany(targetEntity="Llamada", mappedBy="clienteRel")
@@ -85,6 +87,9 @@ class Cliente
     {
         $this->llamadasClienteRel = new \Doctrine\Common\Collections\ArrayCollection();
         $this->casosClienteRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->solicitudesClienteRel = new ArrayCollection();
+        $this->erroresClienteRel = new ArrayCollection();
+        $this->implementacionesClienteRel = new ArrayCollection();
     }
 
     /**
@@ -301,6 +306,75 @@ class Cliente
     public function setSoporteInactivo($soporteInactivo): void
     {
         $this->soporteInactivo = $soporteInactivo;
+    }
+
+    public function addSolicitudesClienteRel(Solicitud $solicitudesClienteRel): self
+    {
+        if (!$this->solicitudesClienteRel->contains($solicitudesClienteRel)) {
+            $this->solicitudesClienteRel[] = $solicitudesClienteRel;
+            $solicitudesClienteRel->setClienteRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitudesClienteRel(Solicitud $solicitudesClienteRel): self
+    {
+        if ($this->solicitudesClienteRel->contains($solicitudesClienteRel)) {
+            $this->solicitudesClienteRel->removeElement($solicitudesClienteRel);
+            // set the owning side to null (unless already changed)
+            if ($solicitudesClienteRel->getClienteRel() === $this) {
+                $solicitudesClienteRel->setClienteRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addErroresClienteRel(Error $erroresClienteRel): self
+    {
+        if (!$this->erroresClienteRel->contains($erroresClienteRel)) {
+            $this->erroresClienteRel[] = $erroresClienteRel;
+            $erroresClienteRel->setClienteRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeErroresClienteRel(Error $erroresClienteRel): self
+    {
+        if ($this->erroresClienteRel->contains($erroresClienteRel)) {
+            $this->erroresClienteRel->removeElement($erroresClienteRel);
+            // set the owning side to null (unless already changed)
+            if ($erroresClienteRel->getClienteRel() === $this) {
+                $erroresClienteRel->setClienteRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addImplementacionesClienteRel(Implementacion $implementacionesClienteRel): self
+    {
+        if (!$this->implementacionesClienteRel->contains($implementacionesClienteRel)) {
+            $this->implementacionesClienteRel[] = $implementacionesClienteRel;
+            $implementacionesClienteRel->setClienteRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImplementacionesClienteRel(Implementacion $implementacionesClienteRel): self
+    {
+        if ($this->implementacionesClienteRel->contains($implementacionesClienteRel)) {
+            $this->implementacionesClienteRel->removeElement($implementacionesClienteRel);
+            // set the owning side to null (unless already changed)
+            if ($implementacionesClienteRel->getClienteRel() === $this) {
+                $implementacionesClienteRel->setClienteRel(null);
+            }
+        }
+
+        return $this;
     }
 
 

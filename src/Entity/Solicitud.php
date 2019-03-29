@@ -7,6 +7,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -137,6 +138,11 @@ class Solicitud
      */
 
     private $solicitudesComentarioRel;
+
+    public function __construct()
+    {
+        $this->solicitudesComentarioRel = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -488,6 +494,29 @@ class Solicitud
     public function setDescripcionCierre($descripcionCierre): void
     {
         $this->descripcionCierre = $descripcionCierre;
+    }
+
+    public function addSolicitudesComentarioRel(Comentario $solicitudesComentarioRel): self
+    {
+        if (!$this->solicitudesComentarioRel->contains($solicitudesComentarioRel)) {
+            $this->solicitudesComentarioRel[] = $solicitudesComentarioRel;
+            $solicitudesComentarioRel->setSolicitudRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitudesComentarioRel(Comentario $solicitudesComentarioRel): self
+    {
+        if ($this->solicitudesComentarioRel->contains($solicitudesComentarioRel)) {
+            $this->solicitudesComentarioRel->removeElement($solicitudesComentarioRel);
+            // set the owning side to null (unless already changed)
+            if ($solicitudesComentarioRel->getSolicitudRel() === $this) {
+                $solicitudesComentarioRel->setSolicitudRel(null);
+            }
+        }
+
+        return $this;
     }
 
 }

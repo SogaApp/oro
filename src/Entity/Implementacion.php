@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -48,6 +49,11 @@ class Implementacion
      * @ORM\OneToMany(targetEntity="ImplementacionDetalle", mappedBy="implementacionRel")
      */
     private $implementacionesDetallesImplementacionRel;
+
+    public function __construct()
+    {
+        $this->implementacionesDetallesImplementacionRel = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -127,6 +133,29 @@ class Implementacion
     public function setImplementacionesDetallesImplementacionRel($implementacionesDetallesImplementacionRel): void
     {
         $this->implementacionesDetallesImplementacionRel = $implementacionesDetallesImplementacionRel;
+    }
+
+    public function addImplementacionesDetallesImplementacionRel(ImplementacionDetalle $implementacionesDetallesImplementacionRel): self
+    {
+        if (!$this->implementacionesDetallesImplementacionRel->contains($implementacionesDetallesImplementacionRel)) {
+            $this->implementacionesDetallesImplementacionRel[] = $implementacionesDetallesImplementacionRel;
+            $implementacionesDetallesImplementacionRel->setImplementacionRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImplementacionesDetallesImplementacionRel(ImplementacionDetalle $implementacionesDetallesImplementacionRel): self
+    {
+        if ($this->implementacionesDetallesImplementacionRel->contains($implementacionesDetallesImplementacionRel)) {
+            $this->implementacionesDetallesImplementacionRel->removeElement($implementacionesDetallesImplementacionRel);
+            // set the owning side to null (unless already changed)
+            if ($implementacionesDetallesImplementacionRel->getImplementacionRel() === $this) {
+                $implementacionesDetallesImplementacionRel->setImplementacionRel(null);
+            }
+        }
+
+        return $this;
     }
 
 }

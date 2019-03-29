@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,6 +59,7 @@ class Prioridad
     public function __construct()
     {
         $this->casosPrioridadRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tareaPrioridadRel = new ArrayCollection();
     }
 
     /**
@@ -170,13 +172,36 @@ class Prioridad
 	 * @return mixed
 	 */
 	public function getTareaPrioridadRel() {
-		return $this->tareaPrioridadRel;
-	}
+               		return $this->tareaPrioridadRel;
+               	}
 
 	/**
 	 * @param mixed $tareaPrioridadRel
 	 */
 	public function setTareaPrioridadRel( $tareaPrioridadRel ): void {
-		$this->tareaPrioridadRel = $tareaPrioridadRel;
-	}
+               		$this->tareaPrioridadRel = $tareaPrioridadRel;
+               	}
+
+    public function addTareaPrioridadRel(Tarea $tareaPrioridadRel): self
+    {
+        if (!$this->tareaPrioridadRel->contains($tareaPrioridadRel)) {
+            $this->tareaPrioridadRel[] = $tareaPrioridadRel;
+            $tareaPrioridadRel->setPrioridadRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTareaPrioridadRel(Tarea $tareaPrioridadRel): self
+    {
+        if ($this->tareaPrioridadRel->contains($tareaPrioridadRel)) {
+            $this->tareaPrioridadRel->removeElement($tareaPrioridadRel);
+            // set the owning side to null (unless already changed)
+            if ($tareaPrioridadRel->getPrioridadRel() === $this) {
+                $tareaPrioridadRel->setPrioridadRel(null);
+            }
+        }
+
+        return $this;
+    }
 }

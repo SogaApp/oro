@@ -7,6 +7,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +38,11 @@ class SolicitudTipo
      */
 
     private $solicitudesSolicitudTipoRel;
+
+    public function __construct()
+    {
+        $this->solicitudesSolicitudTipoRel = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -84,6 +90,29 @@ class SolicitudTipo
     public function setSolicitudesSolicitudTipoRel($solicitudesSolicitudTipoRel): void
     {
         $this->solicitudesSolicitudTipoRel = $solicitudesSolicitudTipoRel;
+    }
+
+    public function addSolicitudesSolicitudTipoRel(Solicitud $solicitudesSolicitudTipoRel): self
+    {
+        if (!$this->solicitudesSolicitudTipoRel->contains($solicitudesSolicitudTipoRel)) {
+            $this->solicitudesSolicitudTipoRel[] = $solicitudesSolicitudTipoRel;
+            $solicitudesSolicitudTipoRel->setSolicitudTipoRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitudesSolicitudTipoRel(Solicitud $solicitudesSolicitudTipoRel): self
+    {
+        if ($this->solicitudesSolicitudTipoRel->contains($solicitudesSolicitudTipoRel)) {
+            $this->solicitudesSolicitudTipoRel->removeElement($solicitudesSolicitudTipoRel);
+            // set the owning side to null (unless already changed)
+            if ($solicitudesSolicitudTipoRel->getSolicitudTipoRel() === $this) {
+                $solicitudesSolicitudTipoRel->setSolicitudTipoRel(null);
+            }
+        }
+
+        return $this;
     }
 
 }
