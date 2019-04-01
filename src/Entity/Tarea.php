@@ -173,398 +173,455 @@ class Tarea
 
 
 
-    public function __construct()
-    {
-        $this->tareasDevolucionRel = new ArrayCollection();
-        $this->usuariosTareaRel = new ArrayCollection();
-        $this->tareasComentarioRel = new ArrayCollection();
-    }
-
-    public function getCodigoTareaPk(): ?int
+    /**
+     * @return int
+     */
+    public function getCodigoTareaPk(): int
     {
         return $this->codigoTareaPk;
     }
 
-    public function getCodigoUsuarioRegistraFk(): ?string
+    /**
+     * @param int $codigoTareaPk
+     */
+    public function setCodigoTareaPk(int $codigoTareaPk): void
+    {
+        $this->codigoTareaPk = $codigoTareaPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoUsuarioRegistraFk()
     {
         return $this->codigoUsuarioRegistraFk;
     }
 
-    public function setCodigoUsuarioRegistraFk(string $codigoUsuarioRegistraFk): self
+    /**
+     * @param mixed $codigoUsuarioRegistraFk
+     */
+    public function setCodigoUsuarioRegistraFk($codigoUsuarioRegistraFk): void
     {
         $this->codigoUsuarioRegistraFk = $codigoUsuarioRegistraFk;
-
-        return $this;
     }
 
-    public function getCodigoPrioridadFk(): ?string
+    /**
+     * @return mixed
+     */
+    public function getCodigoPrioridadFk()
     {
         return $this->codigoPrioridadFk;
     }
 
-    public function setCodigoPrioridadFk(?string $codigoPrioridadFk): self
+    /**
+     * @param mixed $codigoPrioridadFk
+     */
+    public function setCodigoPrioridadFk($codigoPrioridadFk): void
     {
         $this->codigoPrioridadFk = $codigoPrioridadFk;
-
-        return $this;
     }
 
-    public function getCodigoTareaTipoFk(): ?string
+    /**
+     * @return mixed
+     */
+    public function getCodigoTareaTipoFk()
     {
         return $this->codigoTareaTipoFk;
     }
 
-    public function setCodigoTareaTipoFk(?string $codigoTareaTipoFk): self
+    /**
+     * @param mixed $codigoTareaTipoFk
+     */
+    public function setCodigoTareaTipoFk($codigoTareaTipoFk): void
     {
         $this->codigoTareaTipoFk = $codigoTareaTipoFk;
-
-        return $this;
     }
 
-    public function getFechaEjecucion(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getFechaEjecucion()
     {
         return $this->fechaEjecucion;
     }
 
-    public function setFechaEjecucion(?\DateTimeInterface $fechaEjecucion): self
+    /**
+     * @param mixed $fechaEjecucion
+     */
+    public function setFechaEjecucion($fechaEjecucion): void
     {
         $this->fechaEjecucion = $fechaEjecucion;
-
-        return $this;
     }
 
-    public function getFechaRegistro(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getFechaRegistro()
     {
         return $this->fechaRegistro;
     }
 
-    public function setFechaRegistro(?\DateTimeInterface $fechaRegistro): self
+    /**
+     * @param mixed $fechaRegistro
+     */
+    public function setFechaRegistro($fechaRegistro): void
     {
         $this->fechaRegistro = $fechaRegistro;
-
-        return $this;
     }
 
-    public function getFechaVerificado(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getFechaVerificado()
     {
         return $this->fechaVerificado;
     }
 
-    public function setFechaVerificado(?\DateTimeInterface $fechaVerificado): self
+    /**
+     * @param mixed $fechaVerificado
+     */
+    public function setFechaVerificado($fechaVerificado): void
     {
         $this->fechaVerificado = $fechaVerificado;
-
-        return $this;
     }
 
-    public function getEstadoEjecucion(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getEstadoEjecucion()
     {
         return $this->estadoEjecucion;
     }
 
-    public function setEstadoEjecucion(?bool $estadoEjecucion): self
+    /**
+     * @param mixed $estadoEjecucion
+     */
+    public function setEstadoEjecucion($estadoEjecucion): void
     {
         $this->estadoEjecucion = $estadoEjecucion;
-
-        return $this;
     }
 
-    public function getEstadoTerminado(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getEstadoTerminado()
     {
         return $this->estadoTerminado;
     }
 
-    public function setEstadoTerminado(?bool $estadoTerminado): self
+    /**
+     * @param mixed $estadoTerminado
+     */
+    public function setEstadoTerminado($estadoTerminado): void
     {
         $this->estadoTerminado = $estadoTerminado;
-
-        return $this;
     }
 
-    public function getEstadoVerificado(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getEstadoVerificado()
     {
         return $this->estadoVerificado;
     }
 
-    public function setEstadoVerificado(?bool $estadoVerificado): self
+    /**
+     * @param mixed $estadoVerificado
+     */
+    public function setEstadoVerificado($estadoVerificado): void
     {
         $this->estadoVerificado = $estadoVerificado;
-
-        return $this;
     }
 
-    public function getCodigoUsuarioAsignaFk(): ?string
+    /**
+     * @return mixed
+     */
+    public function getCodigoUsuarioAsignaFk()
     {
         return $this->codigoUsuarioAsignaFk;
     }
 
-    public function setCodigoUsuarioAsignaFk(?string $codigoUsuarioAsignaFk): self
+    /**
+     * @param mixed $codigoUsuarioAsignaFk
+     */
+    public function setCodigoUsuarioAsignaFk($codigoUsuarioAsignaFk): void
     {
         $this->codigoUsuarioAsignaFk = $codigoUsuarioAsignaFk;
-
-        return $this;
     }
 
-    public function getCodigoCasoFk(): ?int
+    /**
+     * @return mixed
+     */
+    public function getCodigoCasoFk()
     {
         return $this->codigoCasoFk;
     }
 
-    public function setCodigoCasoFk(?int $codigoCasoFk): self
+    /**
+     * @param mixed $codigoCasoFk
+     */
+    public function setCodigoCasoFk($codigoCasoFk): void
     {
         $this->codigoCasoFk = $codigoCasoFk;
-
-        return $this;
     }
 
-    public function getFechaGestion(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getFechaGestion()
     {
         return $this->fechaGestion;
     }
 
-    public function setFechaGestion(?\DateTimeInterface $fechaGestion): self
+    /**
+     * @param mixed $fechaGestion
+     */
+    public function setFechaGestion($fechaGestion): void
     {
         $this->fechaGestion = $fechaGestion;
-
-        return $this;
     }
 
-    public function getFechaSolucion(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getFechaSolucion()
     {
         return $this->fechaSolucion;
     }
 
-    public function setFechaSolucion(?\DateTimeInterface $fechaSolucion): self
+    /**
+     * @param mixed $fechaSolucion
+     */
+    public function setFechaSolucion($fechaSolucion): void
     {
         $this->fechaSolucion = $fechaSolucion;
-
-        return $this;
     }
 
-    public function getDescripcion(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDescripcion()
     {
         return $this->descripcion;
     }
 
-    public function setDescripcion(?string $descripcion): self
+    /**
+     * @param mixed $descripcion
+     */
+    public function setDescripcion($descripcion): void
     {
         $this->descripcion = $descripcion;
-
-        return $this;
     }
 
-    public function getComentario(): ?string
+    /**
+     * @return mixed
+     */
+    public function getComentario()
     {
         return $this->comentario;
     }
 
-    public function setComentario(?string $comentario): self
+    /**
+     * @param mixed $comentario
+     */
+    public function setComentario($comentario): void
     {
         $this->comentario = $comentario;
-
-        return $this;
     }
 
-    public function getCaso(): ?string
+    /**
+     * @return mixed
+     */
+    public function getCaso()
     {
         return $this->caso;
     }
 
-    public function setCaso(?string $caso): self
+    /**
+     * @param mixed $caso
+     */
+    public function setCaso($caso): void
     {
         $this->caso = $caso;
-
-        return $this;
     }
 
-    public function getEstadoIncomprensible(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getEstadoIncomprensible()
     {
         return $this->estadoIncomprensible;
     }
 
-    public function setEstadoIncomprensible(?bool $estadoIncomprensible): self
+    /**
+     * @param mixed $estadoIncomprensible
+     */
+    public function setEstadoIncomprensible($estadoIncomprensible): void
     {
         $this->estadoIncomprensible = $estadoIncomprensible;
-
-        return $this;
     }
 
-    public function getEstadoPausa(): ?bool
+    /**
+     * @return mixed
+     */
+    public function getEstadoPausa()
     {
         return $this->estadoPausa;
     }
 
-    public function setEstadoPausa(?bool $estadoPausa): self
+    /**
+     * @param mixed $estadoPausa
+     */
+    public function setEstadoPausa($estadoPausa): void
     {
         $this->estadoPausa = $estadoPausa;
-
-        return $this;
     }
 
-    public function getCodigoTareaTiempoFk(): ?int
+    /**
+     * @return mixed
+     */
+    public function getCodigoTareaTiempoFk()
     {
         return $this->codigoTareaTiempoFk;
     }
 
-    public function setCodigoTareaTiempoFk(?int $codigoTareaTiempoFk): self
+    /**
+     * @param mixed $codigoTareaTiempoFk
+     */
+    public function setCodigoTareaTiempoFk($codigoTareaTiempoFk): void
     {
         $this->codigoTareaTiempoFk = $codigoTareaTiempoFk;
-
-        return $this;
     }
 
-    public function getNumeroDevoluciones(): ?int
+    /**
+     * @return mixed
+     */
+    public function getNumeroDevoluciones()
     {
         return $this->numeroDevoluciones;
     }
 
-    public function setNumeroDevoluciones(?int $numeroDevoluciones): self
+    /**
+     * @param mixed $numeroDevoluciones
+     */
+    public function setNumeroDevoluciones($numeroDevoluciones): void
     {
         $this->numeroDevoluciones = $numeroDevoluciones;
-
-        return $this;
     }
 
-    public function getTareaTipoRel(): ?TareaTipo
+    /**
+     * @return mixed
+     */
+    public function getTareaTipoRel()
     {
         return $this->tareaTipoRel;
     }
 
-    public function setTareaTipoRel(?TareaTipo $tareaTipoRel): self
+    /**
+     * @param mixed $tareaTipoRel
+     */
+    public function setTareaTipoRel($tareaTipoRel): void
     {
         $this->tareaTipoRel = $tareaTipoRel;
-
-        return $this;
     }
 
-    public function getPrioridadRel(): ?Prioridad
+    /**
+     * @return mixed
+     */
+    public function getPrioridadRel()
     {
         return $this->prioridadRel;
     }
 
-    public function setPrioridadRel(?Prioridad $prioridadRel): self
+    /**
+     * @param mixed $prioridadRel
+     */
+    public function setPrioridadRel($prioridadRel): void
     {
         $this->prioridadRel = $prioridadRel;
-
-        return $this;
     }
 
-    public function getCasoRel(): ?Caso
+    /**
+     * @return mixed
+     */
+    public function getCasoRel()
     {
         return $this->casoRel;
     }
 
-    public function setCasoRel(?Caso $casoRel): self
+    /**
+     * @param mixed $casoRel
+     */
+    public function setCasoRel($casoRel): void
     {
         $this->casoRel = $casoRel;
-
-        return $this;
     }
 
-    public function getTareaTiempoRel(): ?TareaTiempo
+    /**
+     * @return mixed
+     */
+    public function getTareaTiempoRel()
     {
         return $this->tareaTiempoRel;
     }
 
-    public function setTareaTiempoRel(?TareaTiempo $tareaTiempoRel): self
+    /**
+     * @param mixed $tareaTiempoRel
+     */
+    public function setTareaTiempoRel($tareaTiempoRel): void
     {
         $this->tareaTiempoRel = $tareaTiempoRel;
-
-        return $this;
     }
 
     /**
-     * @return Collection|TareaDevolucion[]
+     * @return mixed
      */
-    public function getTareasDevolucionRel(): Collection
+    public function getTareasDevolucionRel()
     {
         return $this->tareasDevolucionRel;
     }
 
-    public function addTareasDevolucionRel(TareaDevolucion $tareasDevolucionRel): self
+    /**
+     * @param mixed $tareasDevolucionRel
+     */
+    public function setTareasDevolucionRel($tareasDevolucionRel): void
     {
-        if (!$this->tareasDevolucionRel->contains($tareasDevolucionRel)) {
-            $this->tareasDevolucionRel[] = $tareasDevolucionRel;
-            $tareasDevolucionRel->setDevolucionRel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTareasDevolucionRel(TareaDevolucion $tareasDevolucionRel): self
-    {
-        if ($this->tareasDevolucionRel->contains($tareasDevolucionRel)) {
-            $this->tareasDevolucionRel->removeElement($tareasDevolucionRel);
-            // set the owning side to null (unless already changed)
-            if ($tareasDevolucionRel->getDevolucionRel() === $this) {
-                $tareasDevolucionRel->setDevolucionRel(null);
-            }
-        }
-
-        return $this;
+        $this->tareasDevolucionRel = $tareasDevolucionRel;
     }
 
     /**
-     * @return Collection|Usuario[]
+     * @return mixed
      */
-    public function getUsuariosTareaRel(): Collection
+    public function getUsuariosTareaRel()
     {
         return $this->usuariosTareaRel;
     }
 
-    public function addUsuariosTareaRel(Usuario $usuariosTareaRel): self
+    /**
+     * @param mixed $usuariosTareaRel
+     */
+    public function setUsuariosTareaRel($usuariosTareaRel): void
     {
-        if (!$this->usuariosTareaRel->contains($usuariosTareaRel)) {
-            $this->usuariosTareaRel[] = $usuariosTareaRel;
-            $usuariosTareaRel->setTareaRel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUsuariosTareaRel(Usuario $usuariosTareaRel): self
-    {
-        if ($this->usuariosTareaRel->contains($usuariosTareaRel)) {
-            $this->usuariosTareaRel->removeElement($usuariosTareaRel);
-            // set the owning side to null (unless already changed)
-            if ($usuariosTareaRel->getTareaRel() === $this) {
-                $usuariosTareaRel->setTareaRel(null);
-            }
-        }
-
-        return $this;
+        $this->usuariosTareaRel = $usuariosTareaRel;
     }
 
     /**
-     * @return Collection|Comentario[]
+     * @return mixed
      */
-    public function getTareasComentarioRel(): Collection
+    public function getTareasComentarioRel()
     {
         return $this->tareasComentarioRel;
     }
 
-    public function addTareasComentarioRel(Comentario $tareasComentarioRel): self
+    /**
+     * @param mixed $tareasComentarioRel
+     */
+    public function setTareasComentarioRel($tareasComentarioRel): void
     {
-        if (!$this->tareasComentarioRel->contains($tareasComentarioRel)) {
-            $this->tareasComentarioRel[] = $tareasComentarioRel;
-            $tareasComentarioRel->setTareaRel($this);
-        }
-
-        return $this;
+        $this->tareasComentarioRel = $tareasComentarioRel;
     }
 
-    public function removeTareasComentarioRel(Comentario $tareasComentarioRel): self
-    {
-        if ($this->tareasComentarioRel->contains($tareasComentarioRel)) {
-            $this->tareasComentarioRel->removeElement($tareasComentarioRel);
-            // set the owning side to null (unless already changed)
-            if ($tareasComentarioRel->getTareaRel() === $this) {
-                $tareasComentarioRel->setTareaRel(null);
-            }
-        }
 
-        return $this;
-    }
 
 
 

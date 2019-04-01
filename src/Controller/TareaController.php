@@ -52,7 +52,10 @@ class TareaController extends Controller
 
         }
 
+
         $form = $this->createForm(FormTypeTarea::class, $arTarea); //create form
+//        dump($form);
+//        exit();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
