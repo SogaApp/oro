@@ -513,6 +513,13 @@ class TareaController extends Controller
                 $arTarea->setFechaSolucion(new \DateTime('now'));
                 $codigoTareaTiempo = $em->getRepository("App:TareaTiempo")->registroTiempoTareaFin($arTarea);
                 $em->persist($arTarea);
+                if ($arTarea->getCodigoCasoFk()) {
+                    $arCaso = $em->getRepository(Caso::class)->find($arTarea->getCodigoCasoFk());
+                    if($arCaso){
+                        $arCaso->setEstadoTareaTerminada(1);
+                        $em->persist($arCaso);
+                    }
+                }
                 $usuario = $em->getRepository("App:Usuario")->find($arTarea->getCodigoUsuarioRegistraFk());
                 $correo = $usuario->getCorreo();
                 if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
