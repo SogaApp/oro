@@ -76,6 +76,7 @@ class TareaController extends Controller
             } else {
                 return $this->redirect($this->generateUrl('listaTareaGeneral'));
             }
+            return $this->redirect($this->generateUrl('listaTareaGeneral'));
         }
 
         return $this->render('Tarea/crear.html.twig',
@@ -207,6 +208,8 @@ class TareaController extends Controller
                 echo "<script>window.opener.location.reload();window.close()</script>";
             } else {
                 echo "<script>alert('El caso debe estar atendido para asignar una tarea');window.close()</script>";
+
+
             }
 
 
