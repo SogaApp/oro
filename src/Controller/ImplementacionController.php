@@ -33,7 +33,7 @@ class ImplementacionController extends Controller
 
         }
         $this->listar();
-        $arImplementaciones = $paginator->paginate($em->createQuery($this->strLista), $request->query->get('page', 1),20);
+        $arImplementaciones = $paginator->paginate($em->createQuery($this->strLista), $request->query->get('page', 1), 20);
 
         return $this->render('Implementacion/lista.html.twig', [
             'arImplementaciones' => $arImplementaciones,
@@ -164,7 +164,7 @@ class ImplementacionController extends Controller
             if ($form->get('btnGuardar')->isClicked()) {
                 $objArchivo = $form['archivo']->getData();
                 if ($objArchivo->getClientSize()) {
-                    $strDestino = "/var/www/archivosoro/3/";
+                    $strDestino = "/almacenamiento/archivosoro/3/";
                     $strArchivo = md5(uniqid()) . '.' . $objArchivo->guessExtension();
 
                     $arArchivo = new Archivo();
@@ -204,7 +204,7 @@ class ImplementacionController extends Controller
         $em = $this->getDoctrine()->getManager(); // instancia el entity manager
         $arArchivo = $em->getRepository("App:Archivo")->find($codigoArchivo);
 
-        $strRuta = "/var/www/archivosoro/{$arArchivo->getCodigoDocumentoFk()}/" . $arArchivo->getNombreAlmacenamiento();
+        $strRuta = "/almacenamiento/archivosoro/{$arArchivo->getCodigoDocumentoFk()}/" . $arArchivo->getNombreAlmacenamiento();
         // Generate response
         $response = new Response();
         // Set headers
